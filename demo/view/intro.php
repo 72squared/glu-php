@@ -1,8 +1,16 @@
 <?
+// call the intro action so that we can build our page.
+// pass along the input we got from the demo page so those vars can be
+// used in the action.
+$data = new Grok( $this->dispatch('action/intro', $input ) );
 
-$input->import( $this->dispatch('action/intro', $input ) );
+// render the header
 $this->dispatch('layout/header', array('title'=>'Introduction') );
-$this->dispatch('layout/message', array('header'=>$input->title, 'body'=>$input->message) ); 
+
+// build the body of the page
+$this->dispatch('layout/message', array('header'=>$data->title, 'body'=>$data->message) ); 
+
+// render the footer
 $this->dispatch('layout/footer'); 
 
 // EOF
