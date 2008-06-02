@@ -34,37 +34,25 @@ $controller->app = dirname(__FILE__) . DIRECTORY_SEPARATOR .  'demo';
 // or any other set of useful tools that you might need in your app.
 $controller->start = $start;
 
-// set up the input ... we are gonna pre-populate a variable called route.
-// there is nothing special about the route variable.
-// i just decided to use that variable in the code below to trigger off some actions and
-// views that are paired together. Grok Controller knows nothing about the route variable in the
-// input. The code below tells actions and views to be triggered based on that, and i have set
-// up some appropriate files in my demo app to handle based on the schema i just made  up here.
-// you could bend the rules for how your app is run just by tweaking this entry point.
-$input = new Grok( array('route'=>'index') );
 
-// now i want to import the request, and while i am at it, sanitize all the variables inside.
+// now i want to gather all the request variables, and while i am at it, sanitize it all
 // using the built-in pecl filter_var function. i could just pass the request straight in, but
 // it is a bit safer to sanitize it all first as a precaution, and it is easy to do.
 // we could make up any number of sanitizers and filters. this was a quick and dirty one to 
 // illustrate the point more than actually indicate how it should be used in production.
-$request = $controller->dispatch('filter/sanitize', $_REQUEST);
+$input = $controller->dispatch('filter/sanitize', $_REQUEST);
 
-// now, overlay the request.
-// this quite possibly changed the route to something else. but at least we have
-// a default. We could also customize this by importing other arrays to
-// overlay on top of this. use your imagination.
-// you might parse the URL querystring coming in, and use that to populate
-// the route.
-$input->import( $request );
+// We are making a view-first controller, so let's determine our view, shall we? I am calling
+// a short snippet that tells me what the name of my view is based on the current url.
+$view = $controller->dispatch('filter/extract_view');
 
-// we are gonna wrap in a try catch block here.
+// we are gonna wrap in a try catch block.
 // the reason is that in case our route doesn't exist  or some other include doesn't work, 
 // we can easily catch the problem and go to an error view instead of just crashing in a
 // Fatal Error in the script. 
 try {
     // render the page
-    $controller->dispatch( 'controller/' . $controller->dispatch('filter/controller_url'), $input );
+    $controller->dispatch( 'view/' . $view, $input );
 
 // catch any exceptions
 } catch( Exception $e ){
@@ -75,7 +63,7 @@ try {
     
     // nothing much left to do.
     // render the error view
-    return $controller->dispatch('controller/error', $input );
+    return $controller->dispatch('view/error', $input );
 }
 
 // all done!
