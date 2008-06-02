@@ -46,6 +46,10 @@ $input = $controller->dispatch('filter/sanitize', $_REQUEST);
 // a short snippet that tells me what the name of my view is based on the current url.
 $view = $controller->dispatch('filter/extract_view');
 
+// i am gonna turn on an output buffer so in case something bad happens mid-view render, i can
+// discard it all and start over.
+ob_start();
+
 // we are gonna wrap in a try catch block.
 // the reason is that in case our route doesn't exist  or some other include doesn't work, 
 // we can easily catch the problem and go to an error view instead of just crashing in a
@@ -61,10 +65,22 @@ try {
     // we can use it in the error template.
     $input->exception = $e;
     
+    // let's grab everything so far in the output buffer
+    $input->debug = ob_get_contents();
+    
+    // now clear the output buffer so we have a clean slate
+    ob_end_clean();
+    
+    // start up the buffer again.
+    ob_start();
+    
     // nothing much left to do.
     // render the error view
     return $controller->dispatch('view/error', $input );
 }
+
+// all done rendering: flush it out!
+ob_flush();
 
 // all done!
 // as you can see, a pretty simplistic application framework, mostly run by convention. if you
