@@ -16,9 +16,6 @@ if( !db ){
     throw new Exception( sprintf("db connection failed: %s", $error_message) );
 }
 
-// cache the db object for later
-$this->db_key = $db;
-
 // return the db object for use
 return $db;
 
