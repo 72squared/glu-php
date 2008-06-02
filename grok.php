@@ -41,7 +41,7 @@ class Grok {
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
         
         // blow up if we can't find the path to this file.
-        if( ! file_exists( $__file ) ) throw new Exception('invalid-arg: ' . $__arg );
+        if( ! file_exists( $__file ) ) throw new Exception('invalid-dispatch: ' . $__arg );
         
         // make sure the input is a grok.
         if( ! $input instanceof Grok ) $input = new Grok( $input );
