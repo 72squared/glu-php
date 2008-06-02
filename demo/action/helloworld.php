@@ -1,12 +1,10 @@
 <?
+// if we got a name, build a greeting.
+// and set a flag saying we got a name
+if( $input->name ) return array( 'greeting'=>'Howdy, ' . $input->name, 'name_posted'=>TRUE );
 
-// we are gonna set up a new grok with some default data.
-$data = new Grok( array('name'=>'Stranger') );
+// or prompt to enter a name
+return array('greeting'=>'Enter your name below');
 
-// now we are gonna layer over the current input
-$data->import( $input );
-
-// now we run the greeting model with a new source of input.
-return $this->dispatch('model/greeting', $data );
 
 // EOF
