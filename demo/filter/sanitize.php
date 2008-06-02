@@ -6,9 +6,9 @@ if( ! function_exists('filter_var') ) return $input;
 $data = new Grok;
 
 // loop throug all the input
-foreach( $input->keys() as $key ) {
+foreach( $input->export() as $key=>$value) {
     // sanitize each variable and assign it to the new container.
-    $data->$key = filter_var( $input->$key, FILTER_UNSAFE_RAW, FILTER_REQUIRE_SCALAR | FILTER_FLAG_STRIP_LOW );
+    $data->$key = filter_var( $value, FILTER_UNSAFE_RAW, FILTER_REQUIRE_SCALAR | FILTER_FLAG_STRIP_LOW );
 }
 
 // return the container, all cleaned up!

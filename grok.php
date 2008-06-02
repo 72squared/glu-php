@@ -4,23 +4,19 @@
  * This is really just a container class with a pretty slick way of processing includes.
  * we can use the dispatch method to run actions, build views, render templates, include libraries,
  * fetch resources, and any number of other fun tricks.
- */
-class Grok {
-    
-   /**
-    * where all the data is stored internally.
-    */
-    private $__data = array();
-    
+ * @author John Loehrer <john@72squared.com>
+ * Here is the public interface.
+ * If you want to muck around and inject other types of Grok-like objects into the system,
+ * feel free.
+*/
+interface Grok_Interface {
    /**
     * Class constructor.
     * accepts an array or another Grok which is used to populate the internal data
     * @param mixed ...  array/iterator/grok  (optional)
     * @return void
     */
-    public function __construct( $input = NULL ){
-        $this->import( $input );
-    }
+    public function __construct( $input = NULL );
     
    /**
     * include a file according to the argument and return the result.
@@ -28,6 +24,43 @@ class Grok {
     * @param mixed      array/iterator/grok ... we always convert this into a grok.
     * @return mixed     returns whatever the include file decided to return. depends largely
     *                   on context.
+    */
+    public function dispatch( $__arg, $input = NULL );
+    
+   /**
+    * takes input and merges it over the top of the existing internal data.
+    * returns the same value you passed in.
+    * @param mixed ...  array/iterator/grok
+    * @return mixed
+    */
+    public function import( $input );
+    
+   /**
+    * export the internal data set
+    * @return array
+    */
+    public function export();
+}
+ 
+/**
+ * Here is the actual Grok Class. Enjoy!
+ */
+class Grok implements Grok_Interface {
+    
+   /**
+    * internal data storage
+    */
+    private $__data = array();
+    
+   /**
+    * @see Grok_Interface::__construct
+    */
+    public function __construct( $input = NULL ){
+        $this->import( $input );
+    }
+    
+   /**
+    * @see Grok_Interface::dispatch
     */
     public function dispatch($__arg, $input = NULL ){
         // i know it is an expensive preg, but i want to make sure nothing fishy is going on.
@@ -44,22 +77,19 @@ class Grok {
         if( ! file_exists( $__file ) ) throw new Exception('invalid-dispatch: ' . $__arg );
         
         // make sure the input is a grok.
-        if( ! $input instanceof Grok ) $input = new Grok( $input );
+        if( ! $input instanceof Grok_Interface ) $input = new Grok( $input );
         
         // include the file and return the result.
         return  include $__file;
     }
     
    /**
-    * takes input and merges it over the top of the existing internal data.
-    * returns the same value you passed in.
-    * @param mixed ...  array/iterator/grok
-    * @return mixed
+    * @see Grok_Interface::import
     */
     public function import( $input ){
         // if the input is an grok, we can convert the it to an array
         // so we can treat them all the same.
-        if( $input instanceof self ) $input = $input->export();
+        if( $input instanceof Grok_Interface ) $input = $input->export();
         
         // we can only loop through the data if it is an array
         if( is_array( $input ) || $input instanceof Iterator ) {
@@ -71,19 +101,10 @@ class Grok {
     }
     
    /**
-    * export the internal data set
-    * @return array
+    * @see Grok_Interface::export
     */
     public function export(){
         return $this->__data;
-    }
-    
-    /**
-    * return all the keys for the internal data structure
-    * @return array
-    */
-    public function keys(){
-        return array_keys( $this->__data );
     }
     
    /**
