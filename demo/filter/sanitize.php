@@ -1,4 +1,7 @@
 <?
+// make sure we can actually filter.
+if( ! function_exists('filter_var') ) return $input;
+
 // create a new container so we can put all the sanitized content inside
 $data = new Grok;
 
