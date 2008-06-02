@@ -12,9 +12,7 @@
    <li><a href="<?=$this->dispatch('format/selfurl', array('view'=>'index') ); ?>">Home</a></li>
    <li><a href="<?=$this->dispatch('format/selfurl', array('view'=>'helloworld') ); ?>">Hello World</a></li>
    <li><a href="<?=$this->dispatch('format/selfurl', array('view'=>'intro') ); ?>">Introduction</a></li>
-   <li><a href="<?=$this->dispatch('format/selfurl', array('view'=>'image_test') ); ?>">Image Test</a></li>
    <li><a href="<?=$this->dispatch('format/selfurl', array('view'=>'sqlite_test') ); ?>">SQLite Test</a></li>
-   <li><a href="<?=$this->dispatch('format/selfurl', array('view'=>'mysql_test') ); ?>">MySQL Test</a></li>
   <ul>
  </div>
 </div>
