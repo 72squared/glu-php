@@ -1,10 +1,7 @@
 <?
 
-// DSN
-$dsn = $this->dispatch('dsn/grok');
-
-// sqlite db
-$db = $this->dispatch('db/sqlite', $dsn );
+// get the db via dsn
+$db = $this->dispatch('dsn/grok');
 
 // statement
 $statement = 'SELECT * from plants';
