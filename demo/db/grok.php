@@ -6,9 +6,9 @@ if( ! class_exists( SQLiteDatabase ) ) {
 }
 
 // instantiate the db
-$db = new SQLiteDatabase(   $input->filename, 
-                    $input->mode,
-                    $error_message = NULL
+$db = new SQLiteDatabase( str_replace( '/', DIRECTORY_SEPARATOR, $this->app . '/db/grok.db'), 
+                          '0666',
+                          $error_message = NULL
                 );
 
 // if there was a problem, blow up

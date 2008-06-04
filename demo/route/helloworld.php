@@ -10,14 +10,14 @@ $title = 'Hello, World!';
 $this->dispatch('layout/header', array('title'=>$title) );
 
 // we can decide to filter our message before rendering it
-$message = $this->dispatch('filter/sanitize', array('header'=>$title, 'body'=>$data->greeting) );
+$message = $this->dispatch('util/sanitize', array('header'=>$title, 'body'=>$data->greeting) );
 
 // render our main content of the page, 
 // giving it a header and the greeting that came from our action.
 $this->dispatch('layout/message', $message );
 
 // build the action url
-$action = $this->dispatch('format/selfurl', array('view'=>'helloworld') );
+$action = $this->dispatch('util/selfurl', array('route'=>'helloworld') );
 
 
 // render the form only if the model says we didn't get a name

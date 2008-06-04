@@ -1,6 +1,17 @@
 <?
-// run the query.
-$rs = $this->dispatch('query/plants');
+// get the db via dsn
+$db = $this->dispatch('db/grok');
+
+// statement
+$statement = 'SELECT * from plants';
+
+// run the query
+$rs = $db->query($statement, SQLITE_BOTH, $error_msg = NULL );
+
+// make sure an error didn't happen.
+if( $error_msg ) {
+    throw new Exception('query-error: ' . $error_msg );
+}
  
 // initialize the list of plant names
 $plants = array();

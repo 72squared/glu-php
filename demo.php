@@ -40,11 +40,11 @@ $controller->start = $start;
 // it is a bit safer to sanitize it all first as a precaution, and it is easy to do.
 // we could make up any number of sanitizers and filters. this was a quick and dirty one to 
 // illustrate the point more than actually indicate how it should be used in production.
-$input = $controller->dispatch('filter/sanitize', $_REQUEST);
+$input = $controller->dispatch('util/sanitize', $_REQUEST);
 
 // We are making a view-first controller, so let's determine our view, shall we? I am calling
 // a short snippet that tells me what the name of my view is based on the current url.
-$view = $controller->dispatch('filter/extract_view');
+$route = $controller->dispatch('util/extract_route');
 
 // i am gonna turn on an output buffer so in case something bad happens mid-view render, i can
 // discard it all and start over.
@@ -56,7 +56,7 @@ ob_start();
 // Fatal Error in the script. 
 try {
     // render the page
-    $controller->dispatch( 'view/' . $view, $input );
+    $controller->dispatch( 'route/' . $route, $input );
 
 // catch any exceptions
 } catch( Exception $e ){
@@ -76,7 +76,7 @@ try {
     
     // nothing much left to do.
     // render the error view
-    return $controller->dispatch('view/error', $input );
+    return $controller->dispatch('route/error', $input );
 }
 
 // all done rendering: flush it out!
