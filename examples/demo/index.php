@@ -34,8 +34,8 @@ $runner->app = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'app';
 // or any other set of useful tools that you might need in your app.
 $runner->start = $start;
 
-// kick off the controller
-$runner->dispatch('mvc/main');
+// kick off the application runner.
+$runner->dispatch('main');
 
 // all done!
 // as you can see, a pretty simplistic application framework, mostly run by convention. if you

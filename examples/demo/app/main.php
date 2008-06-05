@@ -16,11 +16,10 @@ try {
     // illustrate the point more than actually indicate how it should be used in production.
     $input->import( $this->dispatch('util/sanitize', $_REQUEST) );
     
-    // We are making a view-first controller, so let's determine our view, shall we? I am calling
-    // a short snippet that tells me what the name of my view is based on the current url.
+    // determine which controller to call.
     $route = $this->dispatch('util/extract_route');
     
-    // render the page
+    // call the controller. 
     $this->dispatch( 'mvc/' . $route . '/controller', $input );
     
 // catch any exceptions
@@ -39,8 +38,7 @@ try {
     // start up the buffer again.
     ob_start();
     
-    // nothing much left to do.
-    // render the error view
+    // nothing much left to do but render an error page
     return $this->dispatch('layout/error', $input );
 }
 
