@@ -65,7 +65,8 @@ class Grok implements Grok_Interface {
         if( is_scalar( $input ) ){
             $input = rtrim($input, ' /');
             if( ! $input ) return;
-            $this->__app = preg_replace("/[^a-z0-9\/\_]/i", "", $input) . '/';
+            $this->__app = preg_replace("/[^a-z0-9\/\_\-]/i", "", $input) . '/';
+            return;
         }
         $this->import( $input );
     }
@@ -76,7 +77,7 @@ class Grok implements Grok_Interface {
     public function dispatch($__arg, $input = NULL ){
         // i know it is an expensive preg, but i want to make sure nothing fishy is going on.
         // this is really the only dangerous part of the code, so i gotta protect myself.
-        $__arg = preg_replace("/[^a-z0-9\/\_]/i", "", $__arg );
+        $__arg = preg_replace("/[^a-z0-9\/\_\-]/i", "", $__arg );
         
         // build the file path
         $__file = $this->__app . $__arg . '.php';
