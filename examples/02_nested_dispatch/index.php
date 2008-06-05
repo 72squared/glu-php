@@ -1,0 +1,22 @@
+<?
+// This demo shows how you can nest groks. 
+// in other words, one grok can instantiate an dispatch another.
+// which allows you to create a complex nested and encapsulated
+// components.
+
+// include the grok class
+include '../../grok.php';
+
+// instantiate the grok and set the app
+$grok = new Grok(dirname(__FILE__));
+
+// run a dispatch and send a greeting to the first level.
+// the first level hello will pass it further inward and return it back.
+$result = $grok->dispatch('level1/hello', array('greeting'=>'hello') );
+
+// print out the result.
+print( "\n" .  $result . "\n" );
+
+// all done. 
+
+// EOF
