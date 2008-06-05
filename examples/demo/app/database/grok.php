@@ -6,7 +6,7 @@ if( ! class_exists( SQLiteDatabase ) ) {
 }
 
 // instantiate the db
-$db = new SQLiteDatabase( str_replace( '/', DIRECTORY_SEPARATOR, $this->app . '/db/grok.db'), 
+$db = new SQLiteDatabase( str_replace( '/', DIRECTORY_SEPARATOR, $this->app . '/database/grok.db'), 
                           '0666',
                           $error_message = NULL
                 );

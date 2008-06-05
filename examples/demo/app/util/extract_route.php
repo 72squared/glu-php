@@ -1,5 +1,7 @@
 <?
 
+if( strpos( $_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'] ) === FALSE ) return 'index';
+
 // extract the route name from the request URI
 $route = trim( str_replace( $_SERVER['SCRIPT_NAME'], '', $_SERVER['REQUEST_URI']), ' /');
 

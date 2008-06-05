@@ -1,6 +1,6 @@
 <?
 // get the db via dsn
-$db = $this->dispatch('db/grok');
+$db = $this->dispatch('database/grok');
 
 // statement
 $statement = 'SELECT * from plants';

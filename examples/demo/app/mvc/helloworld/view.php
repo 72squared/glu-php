@@ -1,8 +1,4 @@
 <? 
-
-// let's call the helloworld action to get some data so we can build our page.
-$data = new Grok( $this->dispatch('action/helloworld', $input ) );
-
 // we know what we want the title to be.
 $title = 'Hello, World!';
 
@@ -10,7 +6,7 @@ $title = 'Hello, World!';
 $this->dispatch('layout/header', array('title'=>$title) );
 
 // we can decide to filter our message before rendering it
-$message = $this->dispatch('util/sanitize', array('header'=>$title, 'body'=>$data->greeting) );
+$message = $this->dispatch('util/sanitize', array('header'=>$title, 'body'=>$input->greeting) );
 
 // render our main content of the page, 
 // giving it a header and the greeting that came from our action.
