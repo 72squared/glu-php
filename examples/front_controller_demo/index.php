@@ -16,16 +16,12 @@ include '../../grok.php';
 
 // instantiate the grok.
 // pretty simple, eh?
-// if you wanted to prepopulate the controller with some variables you could pass those
-// in to the constructor as an array of key/value pairs.
-// i prefer to assign them as i go along so I can tell you what i am doing.
-$runner = new Grok;
 
 // set the application directory.
 // the app variable is the only 'magic' variable.
 // we use it to determine the path to the app directory.
 // i am using an absolute path, but you can use a relative one if you want
-$runner->app = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'app';
+$runner = new Grok( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'app');
 
 // i can put arbitrary data into the controller that can be consumed by the app.
 // the only other data in the controller is that 'app' path, and the rest is free to use.

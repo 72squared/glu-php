@@ -53,9 +53,20 @@ class Grok implements Grok_Interface {
     private $__data = array();
     
    /**
+    * set the internal app.
+    */
+    private $__app = '';
+    
+   /**
     * @see Grok_Interface::__construct
     */
     public function __construct( $input = NULL ){
+        
+        if( is_scalar( $input ) ){
+            $input = rtrim($input, ' /');
+            if( ! $input ) return;
+            $this->__app = $input . '/';
+        }
         $this->import( $input );
     }
     
@@ -68,7 +79,7 @@ class Grok implements Grok_Interface {
         $__arg = preg_replace("/[^a-z0-9\/\_]/i", "", $__arg );
         
         // build the file path
-        $__file = $this->app . '/' . $__arg . '.php';
+        $__file = $this->__app . $__arg . '.php';
         
         // make sure we are using the correct filepath delimiter here
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );

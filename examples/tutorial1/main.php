@@ -6,10 +6,8 @@
 include '../../grok.php';
 
 // instantiate the grok
-$grok = new Grok;
-
 // set the app
-$grok->app = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib';
+$grok = new Grok(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib');
 
 // run a dispatch and send a greeting to the file
 $result = $grok->dispatch('hello', array('greeting'=>'hello') );
