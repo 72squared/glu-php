@@ -23,7 +23,6 @@ $controller = new Grok(dirname(__FILE__) . DIRECTORY_SEPARATOR .  'app');
 
 
 // i can put arbitrary data into the controller that can be consumed by the app.
-// the only other data in the controller is that 'app' path, and the rest is free to be used.
 // let's put the start time into the controller as an example.
 // you could just as easily attach a url parsing object, a database object, 
 // or any other set of useful tools that you might need in your app.

@@ -6,7 +6,7 @@
 </header>
 <body>
 <div id="header">
- <h1>GROK DEMO</h1>
+ <h1>GROK Front-End Controller MVC DEMO</h1>
  <div id="nav">
   <ul>
    <li><a href="<?=$this->dispatch('util/selfurl', array('route'=>'index') ); ?>">Home</a></li>

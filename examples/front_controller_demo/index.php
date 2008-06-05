@@ -15,16 +15,12 @@ $start = microtime(TRUE );
 include '../../grok.php';
 
 // instantiate the grok.
-// pretty simple, eh?
-
-// set the application directory.
-// the app variable is the only 'magic' variable.
-// we use it to determine the path to the app directory.
+// we pass in the path to our application directory.
+// we use it in dispatch to locate the rest of the includes.
 // i am using an absolute path, but you can use a relative one if you want
 $runner = new Grok( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'app');
 
 // i can put arbitrary data into the controller that can be consumed by the app.
-// the only other data in the controller is that 'app' path, and the rest is free to use.
 // let's put the start time into the controller as an example.
 // you could just as easily attach a url parsing object, a database object, 
 // or any other set of useful tools that you might need in your app.
@@ -34,7 +30,7 @@ $runner->start = $start;
 $runner->dispatch('main');
 
 // all done!
-// as you can see, a pretty simplistic application framework, mostly run by convention. if you
+// as you can see, a pretty simplistic mvc front-end controller, mostly run by convention. if you
 // keep your code simple and think of innovative ways to use this, nothing can stop you!
 
 // EOF
