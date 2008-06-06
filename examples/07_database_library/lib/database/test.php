@@ -9,11 +9,11 @@ if( ! class_exists( SQLiteDatabase ) ) {
 $file =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'test.db';
 
 // instantiate the db
-$db = new SQLiteDatabase( $file, '0666', $error_message = NULL );
+$db = new SQLiteDatabase( $file, '0666', $err = NULL );
 
 // if there was a problem, blow up
-if( !db ){
-    throw new Exception( sprintf("db connection failed: %s", $error_message) );
+if( ! $err ){
+    throw new Exception( sprintf("db connection failed: %s", $err) );
 }
 
 // return the db object for use
