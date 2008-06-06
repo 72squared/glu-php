@@ -65,7 +65,7 @@ class Grok implements Grok_Interface {
         if( is_scalar( $input ) ){
             $input = rtrim($input, ' /');
             if( ! $input ) return;
-            $this->__app = preg_replace("/[^a-z0-9\/\_\-]/i", "", $input) . '/';
+            $this->__app = preg_replace("/[^a-z0-9\/\_\-\.]/i", "", $input) . '/';
             return;
         }
         $this->import( $input );
