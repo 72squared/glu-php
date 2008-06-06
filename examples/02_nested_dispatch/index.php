@@ -4,11 +4,14 @@
 // which allows you to create a complex nested and encapsulated
 // components.
 
+// set the working directory to this file's directory.
+chdir( dirname(__FILE__) );
+
 // include the grok class
 include '../../grok.php';
 
 // instantiate the grok and set the app
-$grok = new Grok(dirname(__FILE__));
+$grok = new Grok();
 
 // run a dispatch and send a greeting to the first level.
 // the first level hello will pass it further inward and return it back.

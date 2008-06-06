@@ -3,11 +3,14 @@
 // singleton instances of the object available. this example is not very useful but might give
 // ideas on how the pattern could be used for other real-life purposes.
 
+// set the working directory to this file's directory.
+chdir( dirname(__FILE__) );
+
 // include the grok class
 include '../../grok.php';
 
 // instantiate the grok and set the app
-$test = new Grok( dirname(__FILE__) . '/lib');
+$test = new Grok('lib');
 
 // get the object once
 $a = $test->dispatch('singleton', array('class'=>'stdclass') );

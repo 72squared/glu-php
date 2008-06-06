@@ -7,6 +7,10 @@
 // Yes, that means you have to spend slightly more time doing setup, but in the end, that means
 // you can easily change it later without having to change lots inside the core.
 
+
+// set the working directory to this file's directory.
+chdir( dirname(__FILE__) );
+
 // let's start timing so that later we can display how long it took to run our app.
 // this will include the amount of time it took to include the grok framework.
 $start = microtime(TRUE);
@@ -18,8 +22,7 @@ include '../../grok.php';
 // pretty simple, eh?
 // set the application directory.
 // we use it to determine the path to the app directory.
-// i am using an absolute path, but you can use a relative one if you want
-$controller = new Grok(dirname(__FILE__) . DIRECTORY_SEPARATOR .  'app');
+$controller = new Grok('app');
 
 
 // i can put arbitrary data into the controller that can be consumed by the app.

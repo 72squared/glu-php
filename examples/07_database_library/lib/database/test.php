@@ -12,7 +12,7 @@ $file =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'test.db';
 $db = new SQLiteDatabase( $file, '0666', $err = NULL );
 
 // if there was a problem, blow up
-if( ! $err ){
+if( $err ){
     throw new Exception( sprintf("db connection failed: %s", $err) );
 }
 
