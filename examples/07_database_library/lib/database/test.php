@@ -5,11 +5,11 @@ if( ! class_exists( SQLiteDatabase ) ) {
     throw new Exception('sqlite database extension not installed for php');
 }
 
+// build the file name.
+$file =  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'test.db';
+
 // instantiate the db
-$db = new SQLiteDatabase( str_replace( '/', DIRECTORY_SEPARATOR, $this->__app . '/database/grok.db'), 
-                          '0666',
-                          $error_message = NULL
-                );
+$db = new SQLiteDatabase( $file, '0666', $error_message = NULL );
 
 // if there was a problem, blow up
 if( !db ){
