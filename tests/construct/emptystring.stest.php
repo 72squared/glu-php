@@ -2,7 +2,7 @@
 
 include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 
-class Grok_Construct_EmptyString_Test extends Grok_Construct_Base_Test {
+class Grok_Construct_EmptyString_Test extends Grok_Construct_Test {
     
     public function test_ExportIsEmptyBeforeDispatch(){
         return $this->assertIdentical( $this->result_export_before_dispatch, array());

@@ -1,7 +1,7 @@
 <?
 include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 
-class Grok_Construct_AbsolutePathString_Test extends Grok_Construct_Base_Test {
+class Grok_Construct_AbsolutePathString_Test extends Grok_Construct_Test {
 
     public function setup() {
         $this->arg = dirname(__FILE__);

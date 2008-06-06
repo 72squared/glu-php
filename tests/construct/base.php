@@ -12,7 +12,7 @@ chdir( dirname(__FILE__)  );
 * For that reason, we control what gets passed to the dispatch method,
 * and then vary the different types of strings passed to the constructor.
 */
-class Grok_Construct_Base_Test extends Snap_UnitTestCase {
+class Grok_Construct_Test extends Snap_UnitTestCase {
    
    /**
     * The grok object that we are testing
@@ -25,14 +25,6 @@ class Grok_Construct_Base_Test extends Snap_UnitTestCase {
     * @type mixed
     */
     protected $result_dispatch;
-    
-    
-   /**
-    * the return value of the export method called in dispatch.
-    * @type mixed
-    */
-    protected $result_export;
-    
     
    /**
     * the return value of the export method called before dispatch.
@@ -75,9 +67,9 @@ class Grok_Construct_Base_Test extends Snap_UnitTestCase {
     public function setup() {
         try {
             $this->grok = new Grok( $this->arg );
-            $this->result_export = $this->result_export_before_dispatch = $this->grok->export();
+            $this->result_export_before_dispatch = $this->grok->export();
             $this->result_dispatch = $this->grok->dispatch('lib/string');
-            $this->result_export = $this->result_export_after_dispatch = $this->grok->export();
+            $this->result_export_after_dispatch = $this->grok->export();
         } catch( Exception $e ){
             $this->exception = $e;
             $this->exception_message = $e->getMessage();
@@ -88,7 +80,6 @@ class Grok_Construct_Base_Test extends Snap_UnitTestCase {
         unset( $this->grok );
         unset( $this->result_dispatch );
         unset( $this->arg);
-        unset( $this->result_export );
         unset( $this->result_export_before_dispatch );
         unset( $this->result_export_after_dispatch );
         unset( $this->exception );
