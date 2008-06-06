@@ -53,22 +53,37 @@ class Grok implements Grok_Interface {
     private $__data = array();
     
    /**
-    * set the internal app.
+    * set the internal current working directory.
     */
-    private $__app = '';
+    private $__cwd;
     
    /**
     * @see Grok_Interface::__construct
     */
     public function __construct( $input = NULL ){
+        // set the default current working directory for the grok.
+        $this->__cwd = getcwd() . DIRECTORY_SEPARATOR;
         
-        if( is_scalar( $input ) ){
-            $input = rtrim($input, ' /');
-            if( ! $input ) return;
-            $this->__app = preg_replace("/[^a-z0-9\/\_\-\.]/i", "", $input) . '/';
-            return;
-        }
-        $this->import( $input );
+        // if the input looks like something non-scalar, it is probably a data structure to import.
+        if( ! is_scalar( $input ) ) return $this->import( $input );
+        
+        // if it is a null value or an empty string or false, we're done.
+        if( ! $input ) return;
+        
+        // clean up stray slashes.
+        $input = rtrim($input, ' /\\');
+        
+        // get rid of any invalid characters.
+        $input = preg_replace("/[^a-z0-9\/\_\-\.]/i", "", $input);
+        
+        // if we don't have a path, we are all done.
+        if( ! $input ) return;
+        
+        // if this is a relative path, append it to the current working directory.
+        if( substr( $input, 0, 1) != DIRECTORY_SEPARATOR ) return $this->__cwd .= $input . DIRECTORY_SEPARATOR;
+        
+        // set the absolute path.
+        $this->__cwd = $input  . DIRECTORY_SEPARATOR;
     }
     
    /**
@@ -80,7 +95,7 @@ class Grok implements Grok_Interface {
         $__arg = preg_replace("/[^a-z0-9\/\_\-]/i", "", $__arg );
         
         // build the file path
-        $__file = $this->__app . $__arg . '.php';
+        $__file = $this->__cwd . $__arg . '.php';
         
         // make sure we are using the correct filepath delimiter here
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
@@ -91,8 +106,20 @@ class Grok implements Grok_Interface {
         // make sure the input is a grok.
         if( ! $input instanceof Grok_Interface ) $input = new Grok( $input );
         
+        // make sure whe know what the current directory is, so we can bounce back.
+        $__cwd = getcwd();
+        
+        // change the working directory to the same as the file we are gonna include.
+        chdir( dirname( $__file ) );
+        
         // include the file and return the result.
-        return  include $__file;
+        $ret = include $__file;
+        
+        // go back to the prev cwd
+        chdir( $__cwd );
+        
+        // return the result
+        return $ret;
     }
     
    /**

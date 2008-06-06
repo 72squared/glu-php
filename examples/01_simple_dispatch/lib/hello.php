@@ -1,4 +1,4 @@
 <?
-    return $input->greeting . ', from ' . get_class( $this ); 
+return $input->greeting . ', from ' . get_class( $this ); 
 
 // EOF
