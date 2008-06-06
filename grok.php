@@ -125,22 +125,19 @@ class Grok implements Grok_Interface {
    /**
     * @see Grok_Interface::import
     */
-    public function import( $arg ){
-        // make a quick copy, so we can return the original.
-        $input = $arg;
+    public function import( $input ){
+        // if the input is an grok, we loop through the export.
+        if( $input instanceof Grok_Interface ) {
+            foreach( $input->export() as $k=>$v ) $this->__set( $k, $v );
         
-        // if the input is an grok, we can convert the it to an array
-        // so we can treat them all the same.
-        if( $input instanceof Grok_Interface ) $input = $input->export();
-        
-        // we can only loop through the data if it is an array
-        if( is_array( $input ) || $input instanceof Iterator ) {
+        // loop through the data if it is an array or an iterator
+        } elseif( is_array( $input ) || $input instanceof Iterator ) {
             // not sanitizing the keys at all here, so you might only be able to consume
             // some of the data if you do $grok->export().
             foreach( $input as $k=>$v ) $this->__set( $k, $v);
         }
         // all done.
-        return $arg;
+        return $input;
     }
     
    /**
