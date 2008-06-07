@@ -61,12 +61,10 @@ class Grok implements Grok_Interface {
     * @see Grok_Interface::__construct
     */
     public function __construct( $input = NULL ){
-        // set the default current working directory for the grok.
-        $this->__cwd = getcwd() . DIRECTORY_SEPARATOR;
         
         // if the input looks like something non-scalar, it is probably a data structure to import.
         if( ! is_scalar( $input ) ) return $this->import( $input );
-        
+       
         // if it is a null value or an empty string or false, we're done.
         if( ! $input ) return;
         
@@ -79,23 +77,30 @@ class Grok implements Grok_Interface {
         // if we don't have a path, we are all done.
         if( ! $input ) return;
         
-        // if this is a relative path, append it to the current working directory.
-        if( substr( $input, 0, 1) != DIRECTORY_SEPARATOR ) return $this->__cwd .= $input . DIRECTORY_SEPARATOR;
+        // set the default current working directory for the grok.
+        $this->__cwd = getcwd();
         
-        // set the absolute path.
-        $this->__cwd = $input  . DIRECTORY_SEPARATOR;
+        // if this is an absolute path, we're done.
+        if( substr( $input, 0, 1) == DIRECTORY_SEPARATOR ) return $this->__cwd = $input;
+        
+        // set the absolute path based on the current working directory.
+        $this->__cwd = getcwd() . DIRECTORY_SEPARATOR . $input;
     }
     
    /**
     * @see Grok_Interface::dispatch
     */
     public function dispatch($__arg, $input = NULL ){
+    
+        // make sure the current working directory is set. if not, use the current working dir.
+        if( ! $this->__cwd ) $this->__cwd = getcwd();
+        
         // i know it is an expensive preg, but i want to make sure nothing fishy is going on.
         // this is really the only dangerous part of the code, so i gotta protect myself.
         $__arg = preg_replace("/[^a-z0-9\/\_\-]/i", "", $__arg );
         
         // build the file path
-        $__file = $this->__cwd . $__arg . '.php';
+        $__file = $this->__cwd . DIRECTORY_SEPARATOR . $__arg . '.php';
         
         // make sure we are using the correct filepath delimiter here
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
@@ -104,7 +109,7 @@ class Grok implements Grok_Interface {
         if( ! file_exists( $__file ) ) throw new Exception('invalid-dispatch: ' . $__arg );
         
         // make sure the input is a grok.
-        if( ! $input instanceof Grok_Interface ) $input = new Grok( $input );
+        if( ! $input instanceof Grok_Interface ) $input = new self( $input );
         
         // make sure whe know what the current directory is, so we can bounce back.
         $__cwd = getcwd();
