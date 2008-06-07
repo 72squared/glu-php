@@ -1,5 +1,5 @@
 <?
-$test = new self( dirname(__FILE__) );
-return $test->dispatch('level2/hello', $input );
+$test = new self('level2');
+return $test->dispatch('hello', $input );
 
 // EOF
