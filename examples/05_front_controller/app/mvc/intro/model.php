@@ -2,7 +2,7 @@
 // shows how the action return ties to the view.
 
 // build a data payload object.
-$data = new self;
+$data = $this->instance();
 
 // assign a title
 $data->title = 'Welcome to Grok';

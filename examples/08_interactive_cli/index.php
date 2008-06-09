@@ -14,7 +14,7 @@ chdir( dirname(__FILE__) );
 include '../../grok.php';
 
 // create the app runner.
-$runner = new Grok('app');
+$runner = Grok::instance('app');
 
 // print out the help screen.
 $runner->dispatch('help' );

@@ -21,7 +21,7 @@ include '../../grok.php';
 // we pass in the path to our application directory.
 // we use it in dispatch to locate the rest of the includes.
 // i am using an absolute path, but you can use a relative one if you want
-$runner = new Grok('app');
+$runner = Grok::instance('app');
 
 // i can put arbitrary data into the controller that can be consumed by the app.
 // let's put the start time into the controller as an example.

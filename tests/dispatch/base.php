@@ -72,7 +72,7 @@ class Grok_Dispatch_Test extends Snap_UnitTestCase {
     */
     public function setup() {
         try {
-            $this->grok = new Grok('lib');
+            $this->grok = Grok::instance('lib');
             $this->result_export_before_dispatch = $this->grok->export();
             $this->result_dispatch = $this->grok->dispatch($this->path, $this->input);
             $this->result_export_after_dispatch = $this->grok->export();

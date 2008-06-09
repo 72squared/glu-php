@@ -1,7 +1,7 @@
 <? 
 
 // let's call the helloworld action to get some data so we can build our page.
-$data = new Grok( $this->dispatch('model/helloworld', $input ) );
+$data = $this->instance( $this->dispatch('model/helloworld', $input ) );
 
 // we know what we want the title to be.
 $title = 'Hello, World!';

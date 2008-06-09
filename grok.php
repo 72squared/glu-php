@@ -19,6 +19,23 @@ interface Grok_Interface {
     public function __construct( $input = NULL );
     
    /**
+    * Simple factory method of instantiation.
+    * This is useful when writing unit tests for Grok and you need to punch out
+    * the insantiation of a new Grok.
+    * @param mixed      $input
+    * @return Grok_Interface
+    */
+    public static function instance( $input = NULL );
+    
+   /**
+    * Factory method of instantiating exception objects.
+    * @param string     $message
+    * @param int        $code
+    * @return Grok_Exception
+    */
+    public static function exception( $message = NULL, $code = 0 );
+    
+   /**
     * include a file according to the argument and return the result.
     * @param string     relative path to the include, minus the php file extension.
     * @param mixed      array/iterator/grok ... we always convert this into a grok.
@@ -88,6 +105,21 @@ class Grok implements Grok_Interface {
     }
     
    /**
+    * @see Grok_Interface::instance
+    */
+    public static function instance( $input = NULL ){
+        return new self( $input );
+    }
+    
+   /**
+    * @see Grok_Interface::exception
+    */
+    public static function exception( $message = NULL, $code = 0 ){
+        return new Grok_Exception( $message, $code );
+    }
+    
+    
+   /**
     * @see Grok_Interface::dispatch
     */
     public function dispatch($__arg, $input = NULL ){
@@ -106,10 +138,10 @@ class Grok implements Grok_Interface {
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
         
         // blow up if we can't find the path to this file.
-        if( ! file_exists( $__file ) ) throw new Exception('invalid-dispatch: ' . $__arg );
+        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__arg );
         
         // make sure the input is a grok.
-        if( ! $input instanceof Grok_Interface ) $input = new self( $input );
+        if( ! $input instanceof Grok_Interface ) $input = $this->instance( $input );
         
         // make sure whe know what the current directory is, so we can bounce back.
         $__cwd = getcwd();
@@ -180,4 +212,11 @@ class Grok implements Grok_Interface {
         return isset( $this->__data[ $k ] ) ? TRUE : FALSE;
     }
 }
+
+/**
+ * Stub class Grok_Exception
+ */
+ class Grok_Exception extends Exception {
+ 
+ }
 // EOF

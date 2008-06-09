@@ -4,7 +4,7 @@ include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 class Grok_ClassVars_Objects_Test extends Grok_ClassVars_Test {
 
     public function setup() {
-        $this->input = array('a'=>new Grok, 'b'=>new stdclass, 'c'=> new ArrayIterator( array(1,2,3) ) );
+        $this->input = array('a'=>Grok::instance(), 'b'=>new stdclass, 'c'=> new ArrayIterator( array(1,2,3) ) );
         parent::setup();
     }
     

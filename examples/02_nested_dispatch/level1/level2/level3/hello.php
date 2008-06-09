@@ -1,5 +1,5 @@
 <?
-$test = new self('level4');
+$test = $this->instance('level4');
 return $test->dispatch('hello', $input );
 
 // EOF

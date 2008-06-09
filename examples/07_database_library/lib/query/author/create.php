@@ -9,7 +9,7 @@ $db = $this->dispatch('database/test');
 $rs = $db->query($stmt, NULL, $err = NULL);
 
 // check for an error.
-if( $err ) throw new Exception('query error: ' . $err );
+if( $err ) throw $this->exception('query error: ' . $err );
 
 // DONE.
 return TRUE;

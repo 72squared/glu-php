@@ -4,7 +4,7 @@ include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 class Grok_Import_Grok_Test extends Grok_Import_Test {
 
     public function setup() {
-        $grok = new Grok;
+        $grok = Grok::instance();
         $grok->test = 'test string';
         $this->arg = $grok;
         parent::setup();

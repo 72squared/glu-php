@@ -10,7 +10,7 @@ chdir( dirname(__FILE__) );
 include '../../grok.php';
 
 // instantiate the grok and set the app
-$test = new Grok('lib');
+$test = Grok::instance('lib');
 
 // get the object once
 $a = $test->dispatch('singleton', array('class'=>'stdclass') );

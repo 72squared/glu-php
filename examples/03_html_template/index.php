@@ -9,7 +9,7 @@ chdir( dirname(__FILE__) );
 include '../../grok.php';
 
 // instantiate the grok and set the app
-$tpl = new Grok('tpl');
+$tpl = Grok::instance('tpl');
 
 // we have a choice to either pass all the information through input,
 // or simply assign the variables to the tpl itself. let's go with the

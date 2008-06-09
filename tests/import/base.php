@@ -56,7 +56,7 @@ class Grok_Import_Test extends Snap_UnitTestCase {
     */
     public function setup() {
         try {
-            $this->grok = new Grok;
+            $this->grok = Grok::instance();
             $this->result_import = $this->grok->import( $this->arg );
             $this->result_export = $this->grok->export();
         } catch( Exception $e ){

@@ -19,10 +19,9 @@ $start = microtime(TRUE);
 include '../../grok.php';
 
 // instantiate the grok.
-// pretty simple, eh?
 // set the application directory.
 // we use it to determine the path to the app directory.
-$controller = new Grok('app');
+$controller = Grok::instance('app');
 
 
 // i can put arbitrary data into the controller that can be consumed by the app.

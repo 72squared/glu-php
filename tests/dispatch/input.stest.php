@@ -5,7 +5,7 @@ class Grok_Dispatch_Input_Test extends Grok_Dispatch_Test {
 
     public function setup() {
         $this->path = 'input';
-        $this->input = new Grok( array('test'=>'fun') );
+        $this->input = Grok::instance( array('test'=>'fun') );
         parent::setup();
     }
     

@@ -60,7 +60,7 @@ class Grok_ClassVars_Test extends Snap_UnitTestCase {
     *
     */
     public function setup() {
-        $this->grok = new Grok;
+        $this->grok = Grok::instance();
         foreach( array('result_set', 'result_get', 'result_isset', 'result_unset') as $key ){
             $this->$key = array();
         }
