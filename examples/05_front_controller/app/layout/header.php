@@ -12,6 +12,7 @@
    <li><a href="<?=$this->dispatch('util/selfurl', array('route'=>'index') ); ?>">Home</a></li>
    <li><a href="<?=$this->dispatch('util/selfurl', array('route'=>'helloworld') ); ?>">Hello World</a></li>
    <li><a href="<?=$this->dispatch('util/selfurl', array('route'=>'intro') ); ?>">Introduction</a></li>
+   <li><a href="<?=$this->dispatch('util/selfurl', array('route'=>'ajaxdemo') ); ?>">Ajax Demo</a></li>
   <ul>
  </div>
 </div>

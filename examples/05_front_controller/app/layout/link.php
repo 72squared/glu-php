@@ -1,0 +1,1 @@
+<a href="<?=$input->href;?>"<?= $input->id ? ' id="' . $input->id . '"' : '';?><?= $input->class ? ' class="' . $input->class . '"' : '';?><?= $input->title ? ' title="' . $input->title . '"' : '';?>><?=$input->body ?></a>
