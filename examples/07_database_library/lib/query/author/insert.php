@@ -7,7 +7,7 @@ $tpl = "INSERT INTO author (first, last) VALUES ('%s', '%s')";
 $stmt = sprintf($tpl, sqlite_escape_string( $input->first ), sqlite_escape_string( $input->last ));
 
 // connect to the db
-$db = $this->dispatch('database/test');
+$db = $this->dispatch('/database/test');
 
 // run the query
 $rs = $db->query($stmt, NULL, $err = NULL);

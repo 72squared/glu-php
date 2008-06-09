@@ -6,7 +6,7 @@ $tpl = "UPDATE author SET first = '%s', last= '%s' WHERE id = %d";
 $stmt = sprintf($tpl, sqlite_escape_string( $input->first ), sqlite_escape_string( $input->last ), $input->id);
 
 // connect to the db.
-$db = $this->dispatch('database/test');
+$db = $this->dispatch('/database/test');
 
 // run the query
 $rs = $db->query($stmt, NULL, $err = NULL);

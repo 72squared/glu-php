@@ -30,7 +30,7 @@ $runner = Grok::instance('app');
 $runner->start = $start;
 
 // kick off the application runner.
-$runner->dispatch('main');
+$runner->dispatch('/main');
 
 // all done!
 // as you can see, a pretty simplistic mvc front-end controller, mostly run by convention. if you

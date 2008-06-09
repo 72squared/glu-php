@@ -7,12 +7,12 @@
 
 
 // render the header
-$this->dispatch('view/layout/header', array('title'=>'Home') ); 
+$this->dispatch('layout/header', array('title'=>'Home') ); 
 
 // display a message 
-$this->dispatch('view/layout/message', array('header'=>'Home Page', 'body'=>'This is a demo of how Grok can work') );
+$this->dispatch('layout/message', array('header'=>'Home Page', 'body'=>'This is a demo of how Grok can work') );
 
 // render the footer
-$this->dispatch('view/layout/footer');
+$this->dispatch('layout/footer');
 
 // EOF

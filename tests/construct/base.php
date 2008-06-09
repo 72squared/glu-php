@@ -68,7 +68,7 @@ class Grok_Construct_Test extends Snap_UnitTestCase {
         try {
             $this->grok = Grok::instance( $this->arg );
             $this->result_export_before_dispatch = $this->grok->export();
-            $this->result_dispatch = $this->grok->dispatch('lib/string');
+            $this->result_dispatch = $this->grok->dispatch('/lib/string');
             $this->result_export_after_dispatch = $this->grok->export();
         } catch( Exception $e ){
             $this->exception = $e;

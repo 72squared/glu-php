@@ -11,7 +11,7 @@ include '../../grok.php';
 // instantiate the grok with the current working directory pointing to the lib dir.
 // run a dispatch and send a greeting to the file.
 // capture the response.
-$result = Grok::instance('lib')->dispatch('hello', array('greeting'=>'hello') );
+$result = Grok::instance('lib')->dispatch('/hello', array('greeting'=>'hello') );
 
 // print out the result.
 print( "\n" .  $result . "\n" );

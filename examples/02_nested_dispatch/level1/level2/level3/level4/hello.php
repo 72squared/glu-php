@@ -1,4 +1,4 @@
 <?
-return $input->greeting . ', from ' . $this->__cwd;
+return $input->greeting . ', from ' . __FILE__;
 
 // EOF

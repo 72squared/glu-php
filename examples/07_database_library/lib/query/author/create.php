@@ -3,7 +3,7 @@
 $stmt = 'CREATE TABLE author( id INTEGER PRIMARY KEY, first TEXT(50), last TEXT(50) )';
 
 // get the db object.
-$db = $this->dispatch('database/test');
+$db = $this->dispatch('/database/test');
 
 // run the query
 $rs = $db->query($stmt, NULL, $err = NULL);

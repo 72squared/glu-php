@@ -1,5 +1,4 @@
 <?
-$test = $this->instance('level3');
-return $test->dispatch('hello', $input );
+return $this->dispatch('level3/hello', $input );
 
 // EOF

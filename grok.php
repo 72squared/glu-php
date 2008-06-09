@@ -123,16 +123,19 @@ class Grok implements Grok_Interface {
     * @see Grok_Interface::dispatch
     */
     public function dispatch($__arg, $input = NULL ){
-    
+        
+        // make sure whe know what the current directory is, so we can bounce back.
+        $__cwd = getcwd();
+        
         // make sure the current working directory is set. if not, use the current working dir.
-        if( ! $this->__cwd ) $this->__cwd = getcwd();
+        if( ! $this->__cwd ) $this->__cwd = $__cwd;
         
         // i know it is an expensive preg, but i want to make sure nothing fishy is going on.
         // this is really the only dangerous part of the code, so i gotta protect myself.
-        $__arg = preg_replace("/[^a-z0-9\/\_\-]/i", "", $__arg );
+        $__arg = preg_replace("/[^a-z0-9\/\_\-]/i", "", $__arg ) . '.php';
         
         // build the file path
-        $__file = $this->__cwd . DIRECTORY_SEPARATOR . $__arg . '.php';
+        $__file = ( substr($__arg, 0, 1) == '/') ? $this->__cwd . '/' . $__arg : $__cwd . '/' . $__arg;
         
         // make sure we are using the correct filepath delimiter here
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
@@ -142,9 +145,6 @@ class Grok implements Grok_Interface {
         
         // make sure the input is a grok.
         if( ! $input instanceof Grok_Interface ) $input = $this->instance( $input );
-        
-        // make sure whe know what the current directory is, so we can bounce back.
-        $__cwd = getcwd();
         
         // change the working directory to the same as the file we are gonna include.
         chdir( dirname( $__file ) );

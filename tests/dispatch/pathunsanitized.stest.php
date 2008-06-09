@@ -4,7 +4,7 @@ include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 class Grok_Dispatch_PathUnsanitized_Test extends Grok_Dispatch_Test {
 
     public function setup() {
-        $this->path = '$ # @ & * hello ^ ( )';
+        $this->path = '$ # @ & */ hello ^ ( )';
         parent::setup();
     }
     

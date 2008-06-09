@@ -4,7 +4,7 @@ include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 class Grok_Dispatch_Wrap_Test extends Grok_Dispatch_Test {
 
     public function setup() {
-        $this->path = 'wrap';
+        $this->path = '/wrap';
         $this->input = Grok::instance(array('test'=>'fun') );
         parent::setup();
     }
