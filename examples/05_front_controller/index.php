@@ -1,4 +1,6 @@
 <?
+// Example of a front-end controller
+
 // set the working directory to this file's directory.
 chdir( dirname(__FILE__) );
 
