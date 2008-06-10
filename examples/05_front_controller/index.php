@@ -10,6 +10,6 @@ $start = microtime(TRUE );
 include '../../grok.php';
 
 // kick it off.
-Grok::instance(array('start'=>$start))->dispatch('app/main');
+Grok::instance()->dispatch('app/main', array('start'=>$start));
 
 // EOF

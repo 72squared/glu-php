@@ -1,6 +1,6 @@
 <?
 // set up a new runner object
-$runner = $this->instance($this);
+$runner = $this->instance($input);
 
 
 // i am gonna turn on an output buffer so in case something bad happens mid-view render, i can

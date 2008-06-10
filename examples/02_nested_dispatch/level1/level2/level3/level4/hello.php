@@ -1,4 +1,4 @@
 <?
-return $input->greeting . ', from ' . __FILE__;
+return $this->dispatch('../level5/hello', $input );
 
 // EOF
