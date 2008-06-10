@@ -1,9 +1,9 @@
 <?
-// include grok.
-include dirname( dirname( dirname(__FILE__) ) ) . DIRECTORY_SEPARATOR . 'grok.php';
-
 // set the current working directory.
 chdir( dirname(__FILE__)  );
+
+// include grok.
+include 'grok.php';
 
 /**
 * Base class for testing the constructor method of Grok.

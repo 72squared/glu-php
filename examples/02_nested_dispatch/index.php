@@ -8,7 +8,7 @@
 chdir( dirname(__FILE__) );
 
 // include the grok class
-include '../../grok.php';
+include 'grok.php';
 
 // instantiate the grok and set the app
 // run a dispatch and send a greeting to the first level.

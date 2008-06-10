@@ -6,7 +6,7 @@
 chdir( dirname(__FILE__) );
 
 // include the grok class
-include '../../grok.php';
+include 'grok.php';
 
 // instantiate the grok with the current working directory pointing to the lib dir.
 // run a dispatch and send a greeting to the file.
