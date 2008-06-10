@@ -14,15 +14,11 @@ $message = $this->dispatch('/lib/sanitize', array('header'=>$title, 'body'=>$dat
 
 // render our main content of the page, 
 // giving it a header and the greeting that came from our action.
-$this->dispatch('/view/layout/message', $message );
-
-// build the action url
-$action = $this->dispatch('/lib/selfurl', array('view'=>'helloworld') );
-
+$this->dispatch('layout/message', $message );
 
 // render the form only if the model says we didn't get a name
 if( ! $data->name_posted )
-$this->dispatch('layout/hello_form', array('action'=>$action, 'method'=>'post') );
+$this->dispatch('layout/hello_form', array('action'=>'helloworld', 'method'=>'post') );
 
 // render the page footer.
 $this->dispatch('layout/footer'); 

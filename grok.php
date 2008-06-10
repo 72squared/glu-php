@@ -132,7 +132,7 @@ class Grok implements Grok_Interface {
         
         // i know it is an expensive preg, but i want to make sure nothing fishy is going on.
         // this is really the only dangerous part of the code, so i gotta protect myself.
-        $__arg = preg_replace("/[^a-z0-9\/\_\-]/i", "", $__arg ) . '.php';
+        $__arg = preg_replace("/[^a-z0-9\/\_\-\.]/i", "", $__arg ) . '.php';
         
         // build the file path
         $__file = ( substr($__arg, 0, 1) == '/') ? $this->__cwd . '/' . $__arg : $__cwd . '/' . $__arg;
