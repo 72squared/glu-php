@@ -4,6 +4,18 @@ NAME
     Grok - a lightweight application framework for PHP
 
 SYNOPSIS
+    Most applications can be summarized as some variation on: 
+        
+        INPUT -> PROCESS -> OUTPUT
+        
+    Grok allows us to package up our arguments and pass them to a php include file and 
+    retrieve the output. Some sample code might more easily to explain.
+        
+        $input = new Grok;
+        $input->arg1 = 'test';
+        $output = $processor->dispatch('file1');
+    
+DESCRIPTION
     Grok at its most simple is a just a way to pass arguments in a reliable way to a php include.
     The class is able to both act as a container and as a dispatcher. In this way, we can reduce
     an entire application down to this formula:
