@@ -47,6 +47,6 @@ try {
 }
 
 // all done rendering: flush it out!
-ob_flush();
+ob_end_flush();
 
 // EOF
