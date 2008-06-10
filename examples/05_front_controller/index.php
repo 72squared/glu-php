@@ -6,12 +6,15 @@ chdir( dirname(__FILE__) );
 // this will include the amount of time it took to include the grok framework.
 $start = microtime(TRUE );
 
-// include the grok class. 
-// in this case, we have a symlink to the actual class file. 
-// this makes it easier to demonstrate where to place the different files.
-include 'class' . DIRECTORY_SEPARATOR . 'grok.php';
+// include an auto-load function for classes, so that we can
+// put all of our related classes into this directory and they
+// will be automagically included for us.
+include 'class' . DIRECTORY_SEPARATOR . '__autoload.php';
 
-// kick it off.
+// kick off the app.
+// since grok is in the directory (as a symlink), when we start using the grok class here, the main
+// grok file is automatically included. later, when we call other classes in our mvc, those classes
+// will be automatically included for us as well on the fly.
 Grok::instance()->dispatch('app/main', array('start'=>$start));
 
 // EOF
