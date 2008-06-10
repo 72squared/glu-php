@@ -1,3 +1,34 @@
-WELCOME TO GROK.
-More to come soon.
-This file will explain how to setup Grok, and what you can do with it.
+GROK
+
+NAME
+    Grok - a lightweight application framework for PHP
+
+SYNOPSIS
+    Grok at its most simple is a just a way to pass arguments in a reliable way to a php include.
+    The class is able to both act as a container and as a dispatcher. In this way, we can reduce
+    an entire application down to this formula:
+        INPUT -> PROCESS -> OUTPUT
+    Because one grok can call another grok, you can simplify complex tree of decisions into a well
+    organized and reusable library of processing instructions.
+    here is a simple example:
+        
+        Grok::instance()->dispatch('test');
+        
+    This command would find a file in the current working directory named test.php and include it.
+    Each include becomes the body of an anonymous function. All the arguments to the include file 
+    are packaged up inside a Grok inside the magic variable of $input.
+        
+         Grok::instance()->dispatch('test', array('greeting'=>'hi') );
+         
+    inside the test.php file, i can access the greeting variable by doing:
+        
+        print $input->greeting;
+        
+    because dispatch also returns the response from the included file, the dispatch method can act
+    just like a function. In addition, because grok is also a container, i can assign stuff to a grok
+    and then dispatch it and access the assigned variables using syntax like: $this->myvar.
+    
+AUTHOR
+    John Loehrer <john@72squared.com>
+    Send bug reports or comments to the above address.
+    For more information, see the Grok homepage at http://github.com/72squared/grok-php/wikis
