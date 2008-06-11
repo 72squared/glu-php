@@ -73,7 +73,17 @@ class Grok implements Grok_Interface {
     * @see Grok_Interface::__construct
     */
     public function __construct( $input = NULL ){
-        $this->import( $input );
+        // optimize for the most common cases first. if null, do nothing.
+        if( is_null( $input ) ) return;
+        
+        // if we get an array, just write it in.
+        if( is_array( $input ) ) return $this->__data = $input;
+        
+        // if the input is an grok, use the export to write the current data.
+        if( $input instanceof Grok_Interface ) return $this->__data = $input->export();
+        
+        // dunno what this is. pass it off to import to figure out.
+        return $this->import( $input );
     }
     
    /**
@@ -102,7 +112,7 @@ class Grok implements Grok_Interface {
         // trim the filename
         $__file = trim( $__file );
         
-        // blow up if this file can't be found.
+        // the file passed in is an empty string. blow up.
         if( ! $__file ) throw $this->exception('invalid-dispatch: ' . $__file );
         
         // build the file path
@@ -118,16 +128,16 @@ class Grok implements Grok_Interface {
         if( ! chdir( dirname( $__file ) ) )  throw $this->exception('invalid-permissions: ' . $__file );
         
         // wrap in a try/catch block
-        try{
+        try {
             // include the file and return the result.
             $ret = include $__file;
         
         // catch the exception so we can briefly restore the current working dir.
         } catch( Exception $e ){
-            // change back.
+            // change back to the working directory we were using before the include.
             chdir( $__cwd );
             
-            // throw it again.
+            // throw the exception again.
             throw $e;
         }
         
