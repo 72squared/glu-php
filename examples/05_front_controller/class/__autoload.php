@@ -1,7 +1,7 @@
 <?
 // define the autoload function.
 function grok_class_autoloader($c) {
-    $file = dirname(__FILE__). DIRECTORY_SEPARATOR . $c . '.php';
+    $file = dirname(__FILE__). DIRECTORY_SEPARATOR . strtolower($c) . '.php';
     if(! file_exists($file) ) return FALSE;
     include($file);
 }
