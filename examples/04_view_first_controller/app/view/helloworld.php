@@ -1,26 +1,24 @@
 <? 
 
 // let's call the helloworld action to get some data so we can build our page.
-$data = $this->instance( $this->dispatch('/model/helloworld', $input ) );
+$data = $this->instance($this->request)->dispatch('../model/helloworld.php');
 
 // we know what we want the title to be.
 $title = 'Hello, World!';
 
 // render the header and pass our page title to the header layout
-$this->dispatch('layout/header', array('title'=>$title) );
+$this->instance(array('title'=>$title))->dispatch('layout/header.php');
 
-// we can decide to filter our message before rendering it
-$message = $this->dispatch('/lib/sanitize', array('header'=>$title, 'body'=>$data->greeting) );
 
 // render our main content of the page, 
 // giving it a header and the greeting that came from our action.
-$this->dispatch('layout/message', $message );
+$this->instance( array('header'=>$title, 'body'=>$data->greeting))->dispatch('layout/message.php');
 
 // render the form only if the model says we didn't get a name
 if( ! $data->name_posted )
-$this->dispatch('layout/hello_form', array('action'=>'helloworld', 'method'=>'post') );
+$this->instance( array('action'=>'helloworld', 'method'=>'post') )->dispatch('layout/hello_form.php');
 
 // render the page footer.
-$this->dispatch('layout/footer'); 
+$this->instance(array('start'=>$this->start))->dispatch('layout/footer.php'); 
 
 // EOF

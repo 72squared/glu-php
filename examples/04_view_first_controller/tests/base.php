@@ -12,9 +12,9 @@ class Grok_ViewFirstController_Test extends Snap_UnitTestCase {
     protected $dom;
     
     public function setup() {
-        $vars = array('view'=>$this->view, 'start'=>$this->start = microtime(TRUE));
+        $vars = array('view'=>$this->view, 'start'=>$this->start = microtime(TRUE), 'request'=>$this->input);
         ob_start();
-        Grok::instance( $vars )->dispatch('../app/main', $this->input);
+        Grok::instance( $vars )->dispatch('../app/main.php');
         $this->output = trim(ob_get_clean());
         $this->dom = new DOMDocument();
         $this->dom->loadHTML( $this->output );

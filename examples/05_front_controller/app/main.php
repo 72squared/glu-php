@@ -1,8 +1,4 @@
 <?
-// set up a new runner object
-$runner = $this->instance($input);
-
-
 // i am gonna turn on an output buffer so in case something bad happens mid-view render, i can
 // discard it all and start over.
 ob_start();
@@ -13,37 +9,33 @@ ob_start();
 // Fatal Error in the script. 
 try {
 
-    // gather all the request variables, and while i am at it, sanitize it all
-    // using the built-in pecl filter_var function. i could just pass the request straight in, but
-    // it is a bit safer to sanitize it all first as a precaution, and it is easy to do.
-    // we could make up any number of sanitizers and filters. this was a quick and dirty one to 
-    // illustrate the point more than actually indicate how it should be used in production.
-    $input->import( $runner->dispatch('util/sanitize', $_REQUEST) );
+    // set up the request
+    $this->request = $this->instance($_REQUEST);
+    
+    // sanitize it.
+    $this->request->dispatch('util/sanitize.php');
     
     // determine which controller to call.
-    $route = $runner->dispatch('util/extract_route');
+    $route = $this->dispatch('util/extract_route.php');
     
     // call the controller. 
-    $runner->dispatch( 'mvc/' . $route . '/controller', $input );
+    $this->dispatch( 'mvc/' . $route . '/controller.php');
     
 // catch any exceptions
 } catch( Exception $e ){
 
     // what happened? put the exception into the input
     // we can use it in the error template.
-    $input->exception = $e;
+    $this->exception = $e;
     
-    // let's grab everything so far in the output buffer
-    $input->debug = ob_get_contents();
-    
-    // now clear the output buffer so we have a clean slate
-    ob_end_clean();
+    // let's grab everything so far in the output buffer and clear it.
+    $this->debug = ob_get_clean();
     
     // start up the buffer again.
     ob_start();
     
     // nothing much left to do but render an error page
-    return $runner->dispatch('layout/error', $input );
+    return $this->dispatch('layout/error.php');
 }
 
 // all done rendering: flush it out!

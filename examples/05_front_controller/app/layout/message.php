@@ -1,4 +1,4 @@
-<div<?= $input->id ? ' id="' . $input->id . '"' : '';?>>
-<h2><?= $input->header; ?></h2>
-<p><?= $input->body; ?></p>
+<div<?= $this->id ? ' id="' . $this->id . '"' : '';?>>
+<h2><?= $this->header; ?></h2>
+<p><?= $this->body; ?></p>
 </div>

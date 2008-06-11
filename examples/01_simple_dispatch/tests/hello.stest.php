@@ -9,9 +9,8 @@ class Grok_SimpleDispatch_Hello_Test extends Snap_UnitTestCase {
     protected $exception_message;
     public function setup() {
         try {
-            $input = array('greeting'=>'welcome');
-            $o = new test_grokker();
-            $this->output = $o->dispatch('../lib/hello', $input );
+            $o = new test_grokker(array('greeting'=>'welcome'));
+            $this->output = $o->dispatch('../lib/hello.php' );
         } catch( Exception $e ){
             $this->exception = $e;
             $this->exception_message = $e->getMessage();

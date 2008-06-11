@@ -1,9 +1,9 @@
 <? 
 
 // let's call the helloworld model
-$data = $this->dispatch('model', $input );
+$this->data = $this->instance($this->request)->dispatch('model.php');
 
 // render the view
-return $this->dispatch('view', $data );
+$this->dispatch('view.php');
 
 // EOF

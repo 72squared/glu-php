@@ -9,7 +9,7 @@ chdir( dirname(__FILE__) );
 include 'grok.php';
 
 // run main.
-Grok::instance()->dispatch('lib/main');
+Grok::instance()->dispatch('lib/main.php');
 
 // all done. 
 

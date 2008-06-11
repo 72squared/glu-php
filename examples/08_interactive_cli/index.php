@@ -11,10 +11,10 @@ if( ! is_resource( STDIN ) ){
 chdir( dirname(__FILE__) );
 
 // include grok
-include 'class' . DIRECTORY_SEPARATOR . 'grok.php';
+include 'grok.php';
 
 // kick it off
-Grok::instance()->dispatch('app/main');
+Grok::instance()->dispatch('app/main.php');
 
 
 // EOF

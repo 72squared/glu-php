@@ -11,7 +11,7 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
     public function test_IsHtml(){
         return $this->assertRegex($this->output, '/<html>/' );
     }
-        
+    /*
     public function test_TitleSaysHello(){
         $title = $this->dom->getElementsByTagName('title')->item(0)->nodeValue;
         return $this->assertRegex($title, '/Hello, World/i' );
@@ -61,4 +61,5 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
         $obj = $this->dom->getElementsByTagName('form');
         return $this->assertIsA( $obj, 'DOMNodeList');
     }
+    */
 }

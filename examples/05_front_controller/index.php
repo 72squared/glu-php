@@ -17,6 +17,6 @@ include 'class' . DIRECTORY_SEPARATOR . '__autoload.php';
 // since grok is in the directory (as a symlink), when we start using the grok class here, the main
 // grok file is automatically included. later, when we call other classes in our mvc, those classes
 // will be automatically included for us as well on the fly.
-Grok::instance()->dispatch('app/main', array('start'=>$start));
+Grok::instance( array('start'=>$start) )->dispatch('app/main.php');
 
 // EOF

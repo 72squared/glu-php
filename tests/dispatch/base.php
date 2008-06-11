@@ -46,13 +46,6 @@ class Grok_Dispatch_Test extends Snap_UnitTestCase {
     */
     protected $path = '';
     
-    
-   /**
-    * the second argument we pass to dispatch
-    * @type mixed.
-    */
-    protected $input = NULL;
-    
    /**
     * if an exception gets thrown in the setup, it is attached here.
     * @type Exception / null
@@ -72,9 +65,9 @@ class Grok_Dispatch_Test extends Snap_UnitTestCase {
     */
     public function setup() {
         try {
-            $this->grok = Grok::instance('lib');
+            $this->grok = Grok::instance();
             $this->result_export_before_dispatch = $this->grok->export();
-            $this->result_dispatch = $this->grok->dispatch($this->path, $this->input);
+            $this->result_dispatch = $this->grok->dispatch($this->path);
             $this->result_export_after_dispatch = $this->grok->export();
         } catch( Exception $e ){
             $this->exception = $e;
@@ -86,7 +79,6 @@ class Grok_Dispatch_Test extends Snap_UnitTestCase {
         unset( $this->grok );
         unset( $this->result_dispatch );
         unset( $this->path);
-        unset( $this->input );
         unset( $this->result_export_before_dispatch );
         unset( $this->result_export_after_dispatch );
         unset( $this->exception );

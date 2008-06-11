@@ -9,18 +9,20 @@ chdir( dirname(__FILE__) );
 // include the grok class
 include 'grok.php';
 
-// instantiate the grok and set the app
+// instantiate the grok
 $test = Grok::instance();
 
+$test->class = 'stdclass';
+
 // get the object once
-$a = $test->dispatch('lib/singleton', array('class'=>'stdclass') );
+$a = $test->dispatch('lib/singleton.php');
 
 // print it out so we can inspect it.
 print "\nA: ";
 var_dump( $a );
 
 // now get the object again.
-$b = $test->dispatch('lib/singleton',  array('class'=>'stdclass'));
+$b = $test->dispatch('lib/singleton.php');
 
 // print it out so we can see it's exact object id and compare with the earlier one.
 print "\nB: ";

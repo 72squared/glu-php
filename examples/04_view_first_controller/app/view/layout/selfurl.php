@@ -1,18 +1,16 @@
 <?
 // extract the view
-$view = $input->view;
+$view = $this->view;
 
 // remove it from the parameter list
-unset( $input->view );
+unset( $this->view );
 
 $base_url = ( function_exists('filter_var') ) ? filter_var( $_SERVER['SCRIPT_NAME'] ) : $_SERVER['SCRIPT_NAME'];
 
 // build the url and return it.
-return $this->dispatch('url', 
-                array(  'url'=> $base_url . '/' . 
-                                preg_replace('/[^a-z0-9\/\_]/i', '', $view), 
-                        'parameters'=>$input->export(),
-                        ) 
-                );
-
+return $this->instance(
+                        array( 'url'=> $base_url . '/' . preg_replace('/[^a-z0-9\/\_]/i', '', $view), 
+                               'parameters'=>$this->export(),
+                            ) 
+                        )->dispatch('url.php');
 // EOF

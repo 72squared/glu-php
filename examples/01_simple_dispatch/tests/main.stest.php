@@ -9,7 +9,7 @@ class Grok_SimpleDispatch_Main_Test extends Snap_UnitTestCase {
     public function setup() {
         try {
             ob_start();
-            Grok::instance()->dispatch('../lib/main');
+            Grok::instance()->dispatch('../lib/main.php');
             $this->output = ob_get_contents();
             ob_end_clean();
         } catch( Exception $e ){

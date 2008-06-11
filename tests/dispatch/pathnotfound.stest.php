@@ -4,7 +4,7 @@ include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 class Grok_Dispatch_PathNotFound_Test extends Grok_Dispatch_Test {
 
     public function setup() {
-        $this->path = '/non_existent';
+        $this->path = 'lib/non_existent.php';
         parent::setup();
     }
     

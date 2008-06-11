@@ -3,10 +3,10 @@
 $tpl = "UPDATE author SET first = '%s', last= '%s' WHERE id = %d";
 
 // assemble the statement
-$stmt = sprintf($tpl, sqlite_escape_string( $input->first ), sqlite_escape_string( $input->last ), $input->id);
+$stmt = sprintf($tpl, sqlite_escape_string( $this->first ), sqlite_escape_string( $this->last ), $this->id);
 
 // connect to the db.
-$db = $this->dispatch('/database/test');
+$db = $this->dispatch('database/test.php');
 
 // run the query
 $rs = $db->query($stmt, NULL, $err = NULL);

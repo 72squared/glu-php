@@ -1,5 +1,5 @@
 <?
 
-print json_encode( $input->export() );
+print json_encode( $this->request->export() );
 
 // EOF;

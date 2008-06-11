@@ -3,7 +3,7 @@
 $stmt = 'DROP TABLE author';
 
 // connect to the db
-$db = $this->dispatch('/database/test');
+$db = $this->dispatch('database/test.php');
 
 // run the query
 $rs = $db->query($stmt, NULL, $err = NULL);

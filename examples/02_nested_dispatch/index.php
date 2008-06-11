@@ -11,7 +11,7 @@ chdir( dirname(__FILE__) );
 include 'grok.php';
 
 // kick off the main grok
-Grok::instance()->dispatch('lib/main');
+Grok::instance()->dispatch('lib/main.php');
 
 // all done. 
 

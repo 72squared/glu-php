@@ -42,7 +42,7 @@ interface Grok_Interface {
     * @return mixed     returns whatever the include file decided to return. depends largely
     *                   on context.
     */
-    public function dispatch( $__arg, $input = NULL );
+    public function dispatch( $__arg );
     
    /**
     * takes input and merges it over the top of the existing internal data.
@@ -70,38 +70,10 @@ class Grok implements Grok_Interface {
     private $__data = array();
     
    /**
-    * set the internal current working directory.
-    */
-    private $__cwd;
-    
-   /**
     * @see Grok_Interface::__construct
     */
     public function __construct( $input = NULL ){
-        
-        // if the input looks like something non-scalar, it is probably a data structure to import.
-        if( ! is_scalar( $input ) ) return $this->import( $input );
-       
-        // if it is a null value or an empty string or false, we're done.
-        if( ! $input ) return;
-        
-        // clean up stray slashes.
-        $input = rtrim($input, ' /\\');
-        
-        // get rid of any invalid characters.
-        $input = preg_replace("/[^a-z0-9\/\_\-\.]/i", "", $input);
-        
-        // if we don't have a path, we are all done.
-        if( ! $input ) return;
-        
-        // set the default current working directory for the grok.
-        $this->__cwd = getcwd();
-        
-        // if this is an absolute path, we're done.
-        if( substr( $input, 0, 1) == DIRECTORY_SEPARATOR ) return $this->__cwd = $input;
-        
-        // set the absolute path based on the current working directory.
-        $this->__cwd = getcwd() . DIRECTORY_SEPARATOR . $input;
+        $this->import( $input );
     }
     
    /**
@@ -122,32 +94,28 @@ class Grok implements Grok_Interface {
    /**
     * @see Grok_Interface::dispatch
     */
-    public function dispatch($__arg, $input = NULL ){
+    public function dispatch( $__file ){
         
         // make sure whe know what the current directory is, so we can bounce back.
         $__cwd = getcwd();
         
-        // make sure the current working directory is set. if not, use the current working dir.
-        if( ! $this->__cwd ) $this->__cwd = $__cwd;
+        // trim the filename
+        $__file = trim( $__file );
         
-        // i know it is an expensive preg, but i want to make sure nothing fishy is going on.
-        // this is really the only dangerous part of the code, so i gotta protect myself.
-        $__arg = preg_replace("/[^a-z0-9\/\_\-\.]/i", "", $__arg ) . '.php';
+        // blow up if this file can't be found.
+        if( ! $__file ) throw $this->exception('invalid-dispatch: ' . $__file );
         
         // build the file path
-        $__file = ( substr($__arg, 0, 1) == '/') ? $this->__cwd . '/' . $__arg : $__cwd . '/' . $__arg;
+        if( substr($__file, 0, 1) != DIRECTORY_SEPARATOR ) $__file = $__cwd . '/' . $__file;
         
         // make sure we are using the correct filepath delimiter here
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
         
         // blow up if we can't find the path to this file.
-        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
-        
-        // make sure the input is a grok.
-        if( ! $input instanceof Grok_Interface ) $input = $this->instance( $input );
+        if( ! is_readable( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
         
         // change the working directory to the same as the file we are gonna include.
-        chdir( dirname( $__file ) );
+        if( ! chdir( dirname( $__file ) ) )  throw $this->exception('invalid-permissions: ' . $__file );
         
         // wrap in a try/catch block
         try{

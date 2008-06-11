@@ -9,39 +9,7 @@ chdir( dirname(__FILE__) );
 // include the grok class
 include 'grok.php';
 
-// instantiate the grok and set the app
-$test = Grok::instance('lib');
+// run the main script
+Grok::instance()->dispatch('lib/main.php');
 
-try {
-    // create the table.
-    $test->dispatch('/query/author/create');
-    
-    // insert a row
-    $id = $test->dispatch('/query/author/insert', array('first'=>'mark', 'last'=>'twain') );
-    
-    // insert a row
-    $id = $test->dispatch('/query/author/insert', array('first'=>'william', 'last'=>'shakespeare') );
-    
-    // insert a row
-    $id = $test->dispatch('/query/author/insert', array('first'=>'john', 'last'=>'l0cke') );
-    
-    // correct a mistake with an update
-    $test->dispatch('/query/author/update',  array('id'=>$id, 'first'=>'john', 'last'=>'locke') );
-    
-    // run a query to find all the rows.
-    $iterator = $test->dispatch('/query/author/select');
-    
-    // display them all
-    for( $iterator->rewind(); $iterator->valid(); $iterator->next() ){
-        print_r( $iterator->current() );
-    }
-    
-    // drop the table.
-    $test->dispatch('/query/author/drop');
-    
-    // handle the exception.
-} catch( Exception $e ){
-    print "\n\n" . $e . "\n";
-}
-print "\nDONE\n";
 // EOF

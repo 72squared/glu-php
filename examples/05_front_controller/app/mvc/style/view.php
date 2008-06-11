@@ -1,5 +1,5 @@
 <?
 
-$this->dispatch('/layout/css');
+$this->dispatch('layout/css.php');
 
 // EOF

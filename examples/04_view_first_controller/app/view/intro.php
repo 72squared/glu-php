@@ -2,15 +2,15 @@
 // call the intro action so that we can build our page.
 // pass along the input we got from the demo page so those vars can be
 // used in the action.
-$data = $this->dispatch('/model/intro', $input );
+$data = $this->instance($this->request)->dispatch('../model/intro.php');
 
 // render the header
-$this->dispatch('layout/header', array('title'=>'Introduction') );
+$this->instance(array('title'=>'Introduction'))->dispatch('layout/header.php');
 
 // build the body of the page
-$this->dispatch('layout/message', array('header'=>$data->title, 'body'=>$data->message) ); 
+$this->instance( array('header'=>$data->title, 'body'=>$data->message))->dispatch('layout/message.php'); 
 
 // render the footer
-$this->dispatch('layout/footer'); 
+$this->instance(array('start'=>$this->start))->dispatch('layout/footer.php'); 
 
 // EOF

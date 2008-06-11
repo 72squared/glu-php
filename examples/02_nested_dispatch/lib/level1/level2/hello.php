@@ -1,4 +1,4 @@
 <?
-return $this->dispatch('level3/hello', $input );
+return $this->dispatch('level3/hello.php');
 
 // EOF

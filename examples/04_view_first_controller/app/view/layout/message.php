@@ -1,4 +1,4 @@
 
-<h2><?= $input->header; ?></h2>
-<p><?= $input->body; ?></p>
+<h2><?= $this->header; ?></h2>
+<p><?= $this->body; ?></p>
 

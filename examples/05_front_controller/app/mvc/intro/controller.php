@@ -1,5 +1,5 @@
 <?
-$data = $this->dispatch('model', $input );
-return $this->dispatch('view', $data );
+$this->data = $this->instance($this->request)->dispatch('model.php');
+return $this->dispatch('view.php');
 
 // EOF

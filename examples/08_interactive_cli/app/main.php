@@ -1,13 +1,9 @@
 <?
-
-// create the app runner.
-$runner = $this->instance();
-
 // print out the help screen.
-$runner->dispatch('help' );
+$this->dispatch('help.php');
 
 // print the prompt:
-$runner->dispatch('prompt');
+$this->dispatch('prompt.php');
 
 
 // sit in an endless loop.
@@ -18,7 +14,7 @@ while( TRUE ){
     // if we didn't get a command, go to the prompt.
     if( ! $line ) {
         // give a new prompt
-        $runner->dispatch('/prompt');
+        $this->dispatch('prompt.php');
         
         // loop back.
         continue;
@@ -27,22 +23,22 @@ while( TRUE ){
     // wrap in a try/catch block
     try {
         // run the line.
-        $runner->dispatch( $line );
+        $this->dispatch( $line . '.php' );
         
     // oops! looks like we hit a problem.
     } catch( Exception $e ){
         // attach the exception
-        $runner->exception = $e;
+        $this->exception = $e;
         
         // display the error.
-        $runner->dispatch('error');
+        $this->dispatch('error.php');
         
         // clean up the exception.
-        unset( $runner->exception );
+        unset( $this->exception );
     }
     
     // print out the prompt again.
-    $runner->dispatch('prompt');
+    $this->dispatch('prompt.php');
 }
 
 
