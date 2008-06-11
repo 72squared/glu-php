@@ -141,7 +141,7 @@ class Grok implements Grok_Interface {
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
         
         // blow up if we can't find the path to this file.
-        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__arg );
+        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
         
         // make sure the input is a grok.
         if( ! $input instanceof Grok_Interface ) $input = $this->instance( $input );
@@ -149,8 +149,19 @@ class Grok implements Grok_Interface {
         // change the working directory to the same as the file we are gonna include.
         chdir( dirname( $__file ) );
         
-        // include the file and return the result.
-        $ret = include $__file;
+        // wrap in a try/catch block
+        try{
+            // include the file and return the result.
+            $ret = include $__file;
+        
+        // catch the exception so we can briefly restore the current working dir.
+        } catch( Exception $e ){
+            // change back.
+            chdir( $__cwd );
+            
+            // throw it again.
+            throw $e;
+        }
         
         // go back to the prev cwd
         chdir( $__cwd );
