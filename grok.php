@@ -38,7 +38,6 @@ interface Grok_Interface {
    /**
     * include a file according to the argument and return the result.
     * @param string     relative path to the include, minus the php file extension.
-    * @param mixed      array/iterator/grok ... we always convert this into a grok.
     * @return mixed     returns whatever the include file decided to return. depends largely
     *                   on context.
     */
