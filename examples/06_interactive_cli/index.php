@@ -13,8 +13,7 @@ chdir( dirname(__FILE__) );
 // include grok
 include 'grok.php';
 
-// kick it off
-Grok::instance()->dispatch('app/main.php');
-
+// kick it off, reading from STDIN
+Grok::instance(array('STDIN'=>STDIN) )->dispatch('app/main.php');
 
 // EOF

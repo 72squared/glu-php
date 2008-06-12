@@ -1,3 +1,0 @@
-GOOD BYE
-
-<? exit(); ?>
