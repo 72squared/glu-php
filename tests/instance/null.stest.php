@@ -8,8 +8,8 @@ class Grok_Instance_Null_Test extends Grok_Instance_Test {
         parent::setup();
     }
     
-    public function test_ExportResultIsNull(){
-        return $this->assertIdentical( $this->export, array() );
+    public function test_ExportResultEmpty(){
+        return $this->assertIdentical( $this->result, array() );
     }
 }
 

@@ -15,7 +15,7 @@ class Grok_Instance_Grok_Test extends Grok_Instance_Test {
     }
     
     public function test_GrokDataExportedIntoNew(){
-        return $this->assertEqual( $this->result_export['test'], $this->arg->test );
+        return $this->assertEqual( $this->result['test'], $this->arg->test );
     }
 }
 
