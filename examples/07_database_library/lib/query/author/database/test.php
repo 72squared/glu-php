@@ -6,7 +6,7 @@ if( ! class_exists( SQLiteDatabase ) ) {
 }
 
 // instantiate the db
-$db = new SQLiteDatabase('test.db', '0666', $err = NULL );
+$db = new SQLiteDatabase(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'test.db', '0666', $err = NULL );
 
 // if there was a problem, blow up
 if( $err ){
