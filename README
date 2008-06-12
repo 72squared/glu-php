@@ -13,7 +13,7 @@ SYNOPSIS
         
         $input = new Grok;
         $input->arg1 = 'test';
-        $output = $processor->dispatch('file1');
+        $output = $input->dispatch('/path/to/file.php');
     
 DESCRIPTION
     Grok at its most simple is a just a way to pass arguments in a reliable way to a php include.
@@ -24,21 +24,37 @@ DESCRIPTION
     organized and reusable library of processing instructions.
     here is a simple example:
         
-        Grok::instance()->dispatch('test');
+        $output = Grok::instance()->dispatch('test');
         
     This command would find a file in the current working directory named test.php and include it.
-    Each include becomes the body of an anonymous function. All the arguments to the include file 
-    are packaged up inside a Grok inside the magic variable of $input.
+    Each include becomes the body of an anonymous function. 
+    
+    Because grok is a container, i can assign stuff to a grok. These become arguments to the include. 
+    When I dispatch it, I can access the assigned variables using syntax like: $this->myvar.
         
-         Grok::instance()->dispatch('test', array('greeting'=>'hi') );
+         Grok::instance(array('greeting'=>'hi'))->dispatch('test.php');
          
     inside the test.php file, i can access the greeting variable by doing:
         
-        print $input->greeting;
+        return $this->greeting;
         
     because dispatch also returns the response from the included file, the dispatch method can act
-    just like a function. In addition, because grok is also a container, i can assign stuff to a grok
-    and then dispatch it and access the assigned variables using syntax like: $this->myvar.
+    just like a function.
+    
+    
+    One important thing to note about dispatch. Grok allows you to always use relative paths to
+    files. It tracks what directory you are currently in according to the current working directory.
+    when you dispatch another grok, it changes the working directory of the grok framework to the
+    dispatched file, so that the included file can dispatch other groks as well using a relative 
+    path. 
+    
+    Take a look at some of the examples included in this project to see what I mean. 
+
+DEPENDENCIES
+    Grok was built for php5 or greater. To use Grok, just include the single grok.php file at the
+    root of this directory. The file can be copied to any location and used as is. It needs no 
+    customization. You don't need any other files. All the rest of the files in this project are 
+    either tests or examples. The entirety of grok is contained in one very tiny php file.
     
 AUTHOR
     John Loehrer <john@72squared.com>
