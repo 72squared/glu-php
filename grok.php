@@ -62,6 +62,11 @@ interface Grok_Interface {
  * Here is the actual Grok Class. Enjoy!
  */
 class Grok implements Grok_Interface {
+   
+   /**
+    * a variable to simulate php's getcwd.
+    */
+    private static $cwd = '';
     
    /**
     * internal data storage
@@ -73,7 +78,7 @@ class Grok implements Grok_Interface {
     */
     public function __construct( $input = NULL ){
         // optimize for the most common cases first. if null, do nothing.
-        if( is_null( $input ) ) return;
+        if( $input === NULL ) return;
         
         // if we get an array, just write it in.
         if( is_array( $input ) ) return $this->__data = $input;
@@ -99,17 +104,13 @@ class Grok implements Grok_Interface {
         return new Grok_Exception( $message, $code );
     }
     
-    
    /**
     * @see Grok_Interface::dispatch
     */
     public function dispatch( $__file ){
         
         // make sure whe know what the current directory is, so we can bounce back.
-        $__cwd = getcwd();
-        
-        // trim the filename
-        $__file = trim( $__file );
+        $__cwd = self::getcwd();
         
         // the file passed in is an empty string. blow up.
         if( ! $__file ) throw $this->exception('invalid-dispatch: ' . $__file );
@@ -121,10 +122,10 @@ class Grok implements Grok_Interface {
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
         
         // blow up if we can't find the path to this file.
-        if( ! is_readable( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
+        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
         
         // change the working directory to the same as the file we are gonna include.
-        if( ! chdir( dirname( $__file ) ) )  throw $this->exception('invalid-permissions: ' . $__file );
+        if( ! self::chdir( dirname( $__file ) ) )  throw $this->exception('invalid-permissions: ' . $__file );
         
         // wrap in a try/catch block
         try {
@@ -134,14 +135,14 @@ class Grok implements Grok_Interface {
         // catch the exception so we can briefly restore the current working dir.
         } catch( Exception $e ){
             // change back to the working directory we were using before the include.
-            chdir( $__cwd );
+            self::chdir( $__cwd );
             
             // throw the exception again.
             throw $e;
         }
         
         // go back to the prev cwd
-        chdir( $__cwd );
+        self::chdir( $__cwd );
         
         // return the result
         return $ret;
@@ -198,6 +199,24 @@ class Grok implements Grok_Interface {
     */
     protected function __isset( $k ){
         return isset( $this->__data[ $k ] ) ? TRUE : FALSE;
+    }
+    
+   /**
+    * get the current working directory.
+    * @return string
+    */
+    private static function getcwd(){
+        if( self::$cwd ) return self::$cwd;
+        return self::$cwd = getcwd();
+    }
+    
+   /**
+    * set the current working directory.
+    * @param string     $cwd
+    * @return string
+    */
+    private static function chdir( $cwd ){
+        return self::$cwd = $cwd;
     }
 }
 
