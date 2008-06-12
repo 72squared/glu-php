@@ -13,10 +13,13 @@ $start = microtime(TRUE );
 // will be automagically included for us.
 include 'class' . DIRECTORY_SEPARATOR . '__autoload.php';
 
+// determine which controller to call.
+$route = Grok::instance($_SERVER)->dispatch('app/util/extract_route.php');
+
 // kick off the app.
 // since grok is in the directory (as a symlink), when we start using the grok class here, the main
 // grok file is automatically included. later, when we call other classes in our mvc, those classes
 // will be automatically included for us as well on the fly.
-Grok::instance( array('start'=>$start) )->dispatch('app/main.php');
+Grok::instance( array('start'=>$start, 'route'=>$route, 'request'=>$_REQUEST) )->dispatch('app/main.php');
 
 // EOF

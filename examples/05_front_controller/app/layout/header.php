@@ -1,9 +1,9 @@
 
 <html>
-<header>
+<head>
 <title><?= $this->title ? $this->title : 'Welcome'; ?> :: Grok App</title>
 <link rel="stylesheet" href="<?=$this->instance(array('route'=>'style'))->dispatch('../util/selfurl.php'); ?>" type="text/css" />
-</header>
+</head>
 <body>
 <div id="header">
  <h1>GROK Front-End Controller MVC DEMO</h1>

@@ -2,9 +2,9 @@
 chdir( dirname(__FILE__)  );
 include 'base.php';
 
-class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_Test {
+class Grok_FrontEndController_HelloWorld_Test extends Grok_FrontEndController_Test {
     public function setup(){
-        $this->view = 'helloworld';
+        $this->route = 'helloworld';
         parent::setup();
     }
     
@@ -22,9 +22,9 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
         return $this->assertRegex($title, '/grok app/i' );
     }
     
-    public function test_h1SaysViewFirst(){
+    public function test_h1SaysFrontEnd(){
         $title = $this->dom->getElementsByTagName('h1')->item(0)->nodeValue;
-        return $this->assertRegex($title, '/view-first/i' );
+        return $this->assertRegex($title, '/front-end/i' );
     }
     
     public function test_h2SaysHello(){
@@ -54,6 +54,11 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
 
     public function test_navLink_Intro(){
         $pattern = "#<a href=\"((?:\\/[\\w\\.]+)+)\\/intro\">Introduction<\\/a>#";
+        return $this->assertRegex( $this->output, $pattern );
+    }
+    
+    public function test_navLink_AjaxDemo(){
+        $pattern = "#<a href=\"((?:\\/[\\w\\.]+)+)\\/ajaxdemo\">Ajax Demo<\\/a>#";
         return $this->assertRegex( $this->output, $pattern );
     }
     

@@ -2,9 +2,9 @@
 chdir( dirname(__FILE__)  );
 include 'base.php';
 
-class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_Test {
+class Grok_FrontEndController_AjaxDemo_Test extends Grok_FrontEndController_Test {
     public function setup(){
-        $this->view = 'helloworld';
+        $this->route = 'ajaxdemo';
         parent::setup();
     }
     
@@ -12,9 +12,9 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
         return $this->assertRegex($this->output, '/<html>/' );
     }
     
-    public function test_TitleSaysHello(){
+    public function test_TitleSaysAjaxDemo(){
         $title = $this->dom->getElementsByTagName('title')->item(0)->nodeValue;
-        return $this->assertRegex($title, '/Hello, World/i' );
+        return $this->assertRegex($title, '/Ajax Demo/i' );
     }
     
     public function test_TitleSaysGrokApp(){
@@ -22,18 +22,18 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
         return $this->assertRegex($title, '/grok app/i' );
     }
     
-    public function test_h1SaysViewFirst(){
+    public function test_h1SaysFrontEnd(){
         $title = $this->dom->getElementsByTagName('h1')->item(0)->nodeValue;
-        return $this->assertRegex($title, '/view-first/i' );
+        return $this->assertRegex($title, '/front-end/i' );
     }
     
-    public function test_h2SaysHello(){
+    public function test_h2SaysAjaxDemo(){
         $title = $this->dom->getElementsByTagName('h2')->item(0)->nodeValue;
-        return $this->assertRegex($title, '/Hello, World!/i' );
+        return $this->assertRegex($title, '/Ajax Demo/i' );
     }
     
-    public function test_Output_Says_EnterName(){
-        $pos = strpos( $this->output, 'Enter your name below');
+    public function test_Output_Says_TextWillBeReplaced(){
+        $pos = strpos( $this->output, 'this text will be replaced');
         return $this->assertTrue( $pos !== FALSE );
     }
     
@@ -57,8 +57,28 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
         return $this->assertRegex( $this->output, $pattern );
     }
     
-    public function test_formIsPresent(){
-        $obj = $this->dom->getElementsByTagName('form');
-        return $this->assertIsA( $obj, 'DOMNodeList');
+    public function test_navLink_AjaxDemo(){
+        $pattern = "#<a href=\"((?:\\/[\\w\\.]+)+)\\/ajaxdemo\">Ajax Demo<\\/a>#";
+        return $this->assertRegex( $this->output, $pattern );
+    }
+    
+    public function test_Link_RunTest(){
+        $pattern = "#<a href=\"((?:\\/[\\w\\.]+)+)\\/ajaxdemo\?response=1&amp;dummy=data(.+)\">run test<\\/a>#";
+        return $this->assertRegex( $this->output, $pattern );
+    }
+    
+    public function test_YUIMainScriptPresent(){
+        $pattern = "#yahoo-min.js#";
+        return $this->assertRegex( $this->output, $pattern );
+    }
+    
+    public function test_YUIEventScriptPresent(){
+        $pattern = "#event-min.js#";
+        return $this->assertRegex( $this->output, $pattern );
+    }
+    
+    public function test_ScriptAjaxDemo_Present(){
+        $pattern = "#ajaxdemo\?script=1#";
+        return $this->assertRegex( $this->output, $pattern );
     }
 }

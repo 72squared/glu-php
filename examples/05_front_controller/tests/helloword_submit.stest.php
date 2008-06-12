@@ -2,16 +2,17 @@
 chdir( dirname(__FILE__)  );
 include 'base.php';
 
-class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_Test {
+class Grok_FrontEndController_HelloWorld_Submitted_Test extends Grok_FrontEndController_Test {
     public function setup(){
-        $this->view = 'helloworld';
+        $this->route = 'helloworld';
+        $this->input = array('name'=>'stranger');
         parent::setup();
     }
     
     public function test_IsHtml(){
         return $this->assertRegex($this->output, '/<html>/' );
     }
-    
+        
     public function test_TitleSaysHello(){
         $title = $this->dom->getElementsByTagName('title')->item(0)->nodeValue;
         return $this->assertRegex($title, '/Hello, World/i' );
@@ -22,9 +23,9 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
         return $this->assertRegex($title, '/grok app/i' );
     }
     
-    public function test_h1SaysViewFirst(){
+    public function test_h1SaysFrontEnd(){
         $title = $this->dom->getElementsByTagName('h1')->item(0)->nodeValue;
-        return $this->assertRegex($title, '/view-first/i' );
+        return $this->assertRegex($title, '/front-end/i' );
     }
     
     public function test_h2SaysHello(){
@@ -32,8 +33,8 @@ class Grok_ViewFirstController_HelloWorld_Test extends Grok_ViewFirstController_
         return $this->assertRegex($title, '/Hello, World!/i' );
     }
     
-    public function test_Output_Says_EnterName(){
-        $pos = strpos( $this->output, 'Enter your name below');
+    public function test_Output_Says_Howdy(){
+        $pos = strpos( $this->output, 'Howdy, stranger');
         return $this->assertTrue( $pos !== FALSE );
     }
     

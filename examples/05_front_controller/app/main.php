@@ -10,16 +10,13 @@ ob_start();
 try {
 
     // set up the request
-    $this->request = $this->instance($_REQUEST);
+    $this->request = $this->instance($this->request);
     
     // sanitize it.
     $this->request->dispatch('util/sanitize.php');
     
-    // determine which controller to call.
-    $route = $this->dispatch('util/extract_route.php');
-    
     // call the controller. 
-    $this->dispatch( 'mvc/' . $route . '/controller.php');
+    $this->dispatch( 'mvc/' . $this->route . '/controller.php');
     
 // catch any exceptions
 } catch( Exception $e ){

@@ -7,7 +7,8 @@ $url = $e[0];
 $query = isset( $e[1] ) ? $e[1] : '';
 $parameters = $this->parameters;
 if( ! is_array( $parameters ) ) $parameters = array();
-
+$amp = $this->amp;
+if( ! $amp ) $amp = '&amp;';
 if( strlen( $query ) > 0 )
 {
     $string_params = explode( '&', $query);
@@ -22,6 +23,6 @@ foreach ($parameters as $k => $v) {
     $p[] = urlencode($k) . '=' . urlencode($v);
 }
 
-if( ! empty( $p ) ) $url .= '?' . implode('&', $p );
+if( ! empty( $p ) ) $url .= '?' . implode($amp, $p );
 
 return $url;
