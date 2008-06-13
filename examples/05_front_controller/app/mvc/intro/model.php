@@ -1,6 +1,5 @@
 <?
-//find the current dir
-$cwd = dirname(__FILE__);// shows how the action return ties to the view.
+// shows how the action return ties to the view.
 
 // build a data payload object.
 $data = $this->instance();

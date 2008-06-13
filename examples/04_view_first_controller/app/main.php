@@ -1,6 +1,4 @@
 <?
-//find the current dir
-$cwd = dirname(__FILE__);
 
 // i am gonna turn on an output buffer so in case something bad happens mid-view render, i can
 // discard it all and start over.
@@ -14,7 +12,7 @@ $this->request = $this->instance($this->request);
 // it is a bit safer to sanitize it all first as a precaution, and it is easy to do.
 // we could make up any number of sanitizers and filters. this was a quick and dirty one to 
 // illustrate the point more than actually indicate how it should be used in production.
-$this->request->dispatch($cwd . '/lib/sanitize.php');
+$this->request->dispatch(dir::lib . 'sanitize.php');
 
 // we are gonna wrap in a try catch block.
 // the reason is that in case our route doesn't exist  or some other include doesn't work, 
@@ -22,7 +20,7 @@ $this->request->dispatch($cwd . '/lib/sanitize.php');
 // Fatal Error in the script. 
 try {
     // render the page
-    $this->dispatch($cwd . '/view/' . $this->view .'.php');
+    $this->dispatch(dir::view . $this->view .'.php');
 
 // catch any exceptions
 } catch( Exception $e ){
@@ -39,7 +37,7 @@ try {
     
     // nothing much left to do.
     // render the error view
-    $this->dispatch($cwd . '/view/error.php');
+    $this->dispatch(dir::view . 'error.php');
 }
 
 // all done rendering: flush it out!

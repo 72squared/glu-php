@@ -1,7 +1,4 @@
 <?
-//find the current dir
-$cwd = dirname(__FILE__);
-
-$this->instance(array('title'=>'Error'))->dispatch($cwd . '/header.php');
-$this->instance(array('header'=>'An error occurred', 'body'=>$this->exception ))->dispatch($cwd . '/message.php');
-$this->instance(array('start'=>$this->start))->dispatch($cwd . '/footer.php');
+$this->instance(array('title'=>'Error'))->dispatch(dir::layout . 'header.php');
+$this->instance(array('header'=>'An error occurred', 'body'=>$this->exception ))->dispatch(dir::layout . 'message.php');
+$this->instance(array('start'=>$this->start))->dispatch(dir::layout . 'footer.php');

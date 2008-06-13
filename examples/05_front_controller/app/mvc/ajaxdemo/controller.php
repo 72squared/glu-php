@@ -6,7 +6,7 @@ $cwd = dirname(__FILE__);
 if( $this->request->response ) return $this->dispatch($cwd . '/ajaxview.php');
 
 // if it is the script, display the js
-if( $this->request->script ) return $this->dispatch($cwd . '/layout/js/script/callajax.php');
+if( $this->request->script ) return $this->dispatch(dir::layout . 'js/script/callajax.php');
 
 
 // render the view

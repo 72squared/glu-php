@@ -1,7 +1,4 @@
 <?
-//find the current dir
-$cwd = dirname(__FILE__);
-
 // i am gonna turn on an output buffer so in case something bad happens mid-view render, i can
 // discard it all and start over.
 ob_start();
@@ -16,10 +13,10 @@ try {
     $this->request = $this->instance($this->request);
     
     // sanitize it.
-    $this->request->dispatch($cwd . '/util/sanitize.php');
+    $this->request->dispatch( dir::util . 'sanitize.php');
     
     // call the controller. 
-    $this->dispatch($cwd . '/mvc/' . $this->route . '/controller.php');
+    $this->dispatch( dir::mvc . $this->route . '/controller.php');
     
 // catch any exceptions
 } catch( Exception $e ){
@@ -35,7 +32,7 @@ try {
     ob_start();
     
     // nothing much left to do but render an error page
-    return $this->dispatch($cwd . '/layout/error.php');
+    return $this->dispatch( dir::layout . 'error.php');
 }
 
 // all done rendering: flush it out!

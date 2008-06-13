@@ -1,7 +1,6 @@
 <?
-//find the current dir
-$cwd = dirname(__FILE__);// skip calling any models. 
+// skip calling any models. 
 // just show the view.
-return $this->dispatch($cwd . '/view.php');
+return $this->dispatch( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'view.php');
 
 // EOF
