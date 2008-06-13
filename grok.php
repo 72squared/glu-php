@@ -5,58 +5,7 @@
  * we can use the dispatch method to run actions, build views, render templates, include libraries,
  * fetch resources, and any number of other fun tricks.
  * @author John Loehrer <john@72squared.com>
- * Here is the public interface.
- * If you want to muck around and inject other types of Grok-like objects into the system,
- * feel free.
-*/
-interface Grok_Interface {
-   /**
-    * Class constructor.
-    * accepts an array or another Grok which is used to populate the internal data
-    * @param mixed ...  array/iterator/grok  (optional)
-    * @return void
-    */
-    public function __construct( $input = NULL );
-    
-   /**
-    * Simple factory method of instantiation.
-    * This is useful when writing unit tests for Grok and you need to punch out
-    * the insantiation of a new Grok.
-    * @param mixed      $input
-    * @return Grok_Interface
-    */
-    public static function instance( $input = NULL );
-    
-   /**
-    * Factory method of instantiating exception objects.
-    * @param string     $message
-    * @param int        $code
-    * @return Grok_Exception
-    */
-    public static function exception( $message = NULL, $code = 0 );
-    
-   /**
-    * include a file according to the argument and return the result.
-    * @param string     relative path to the include, minus the php file extension.
-    * @return mixed     returns whatever the include file decided to return. depends largely
-    *                   on context.
-    */
-    public function dispatch( $__arg );
-    
-   /**
-    * takes input and merges it over the top of the existing internal data.
-    * returns the same value you passed in.
-    * @param mixed ...  array/iterator/grok
-    * @return mixed
-    */
-    public function import( $input );
-    
-   /**
-    * export the internal data set
-    * @return array
-    */
-    public function export();
-}
+ */
 
 /**
  * Here is the underlying container class.
@@ -79,7 +28,7 @@ class Grok_Container {
         if( is_array( $input ) ) return $this->__data = $input;
         
         // if the input is an grok, use the export to write the current data.
-        if( $input instanceof Grok_Interface ) return $this->__data = $input->export();
+        if( $input instanceof self ) return $this->__data = $input->export();
         
         // dunno what this is. pass it off to import to figure out.
         return $this->import( $input );
@@ -90,7 +39,7 @@ class Grok_Container {
     */
     public function import( $input ){
         // if the input is an grok, we loop through the export.
-        if( $input instanceof Grok_Interface ) {
+        if( $input instanceof self ) {
             foreach( $input->export() as $k=>$v ) $this->__set( $k, $v );
         
         // loop through the data if it is an array or an iterator
@@ -142,7 +91,7 @@ class Grok_Container {
 /**
  * Here is the actual Grok Class. Enjoy!
  */
-class Grok extends Grok_Container implements Grok_Interface {
+class Grok extends Grok_Container {
     
    /**
     * @see Grok_Interface::instance
