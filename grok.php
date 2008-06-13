@@ -1,6 +1,7 @@
 <?
 /**
  * GROK :: lightweight app framework
+ *
  * This is really just a container class with a pretty slick way of processing includes.
  * we can use the dispatch method to run actions, build views, render templates, include libraries,
  * fetch resources, and any number of other fun tricks.
@@ -8,7 +9,11 @@
  */
 
 /**
- * Here is the underlying container class.
+ * Underlying container class of Grok.
+ *
+ * Not recommended to use this directly.
+ * Keeping the container class separate from Grok allows us to ensure that internal variables don't
+ * collide with the variables used in writing to a Grok in an include file.
  */
 class Grok_Container {
     
@@ -18,7 +23,7 @@ class Grok_Container {
     private $__data = array();
     
    /**
-    * Class constructor.
+    * Build a new grok object
     * accepts an array or another Grok which is used to populate the internal data
     * @param mixed ...  array/iterator/grok  (optional)
     * @return void
