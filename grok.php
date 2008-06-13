@@ -162,9 +162,6 @@ class Grok extends Grok_Container implements Grok_Interface {
     * @see Grok_Interface::dispatch
     */
     public function dispatch( $__file ){
-        // the file passed in is an empty string. blow up.
-        if( ! $__file ) throw $this->exception('invalid-dispatch: ' . $__file );
-        
         // make sure we are using the correct filepath delimiter here
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
         
