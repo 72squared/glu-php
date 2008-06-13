@@ -1,15 +1,15 @@
 <?
-chdir( dirname(__FILE__)  );
-include '../grok.php';
+// include the grok
+include dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'grok.php';
 
 class Grok_InteractiveCLI_Main_Test extends Snap_UnitTestCase {
     
     protected $output;
     
     public function setup() {
-        $file_pointer = fopen('stdin.mock.txt', 'r');
+        $file_pointer = fopen(dirname(__FILE__) . '/stdin.mock.txt', 'r');
         ob_start();
-        Grok::instance(array('STDIN'=>$file_pointer))->dispatch('../app/main.php' );
+        Grok::instance(array('STDIN'=>$file_pointer))->dispatch(dirname(dirname(__FILE__)) . '/app/main.php' );
         $this->output = ob_get_clean();
         fclose( $file_pointer );
     }

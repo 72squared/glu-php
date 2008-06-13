@@ -1,6 +1,6 @@
 <?
-chdir( dirname(__FILE__)  );
-include '../grok.php';
+// include the grok
+include dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'grok.php';
 
 class Grok_InteractiveCLI_Quit_Test extends Snap_UnitTestCase {
     
@@ -9,7 +9,7 @@ class Grok_InteractiveCLI_Quit_Test extends Snap_UnitTestCase {
     
     public function setup() {
         ob_start();
-        $this->response = Grok::instance()->dispatch('../app/action/quit.php' );
+        $this->response = Grok::instance()->dispatch(dirname(dirname(__FILE__)) . '/app/action/quit.php' );
         $this->output = ob_get_clean();
     }
     

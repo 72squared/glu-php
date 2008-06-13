@@ -1,8 +1,11 @@
 <?
+//find the current dir
+$cwd = dirname(__FILE__);
+
 // if we didn't get a command, go to the prompt.
 if( ! $this->line ) {
     // give a new prompt
-    $this->dispatch('prompt.php');
+    $this->dispatch($cwd . '/prompt.php');
     
     // loop back.
     return TRUE;
@@ -11,7 +14,7 @@ if( ! $this->line ) {
 // wrap in a try/catch block
 try {
     // convert the line to a file
-    $file = 'action/' .  preg_replace("/[^a-z0-9]/", "", strtolower($this->line)) . '.php';
+    $file = $cwd . '/action/' .  preg_replace("/[^a-z0-9]/", "", strtolower($this->line)) . '.php';
     
     // run the file.
     if( $this->dispatch( $file  ) === FALSE ) return FALSE;
@@ -23,14 +26,14 @@ try {
     $this->exception = $e;
     
     // display the error.
-    $this->dispatch('error.php');
+    $this->dispatch($cwd . '/error.php');
     
     // clean up the exception.
     unset( $this->exception );
 }
 
 // print out the prompt again.
-$this->dispatch('prompt.php');
+$this->dispatch($cwd . '/prompt.php');
 
 // all is well.
 return TRUE;

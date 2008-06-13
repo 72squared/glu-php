@@ -1,6 +1,6 @@
 <?
-chdir( dirname(__FILE__)  );
-include '../grok.php';
+// include the grok
+include dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'grok.php';
 
 class Grok_SimpleDispatch_Hello_Test extends Snap_UnitTestCase {
 
@@ -10,7 +10,7 @@ class Grok_SimpleDispatch_Hello_Test extends Snap_UnitTestCase {
     public function setup() {
         try {
             $o = new test_grokker(array('greeting'=>'welcome'));
-            $this->output = $o->dispatch('../lib/hello.php' );
+            $this->output = $o->dispatch(dirname(dirname(__FILE__)) . '/lib/hello.php' );
         } catch( Exception $e ){
             $this->exception = $e;
             $this->exception_message = $e->getMessage();

@@ -1,7 +1,8 @@
 <?
-
-$this->instance( array('title'=>'Error') )->dispatch('layout/header.php');
-$this->instance( array('header'=>'An error occurred', 'body'=>$this->exception ) )->dispatch('layout/message.php');
-$this->instance( array('start'=>$start) )->dispatch('layout/footer.php');
+//find the current dir
+$cwd = dirname(__FILE__);
+$this->instance( array('title'=>'Error') )->dispatch($cwd . '/layout/header.php');
+$this->instance( array('header'=>'An error occurred', 'body'=>$this->exception ) )->dispatch($cwd . '/layout/message.php');
+$this->instance( array('start'=>$start) )->dispatch($cwd . '/layout/footer.php');
 
 // EOF

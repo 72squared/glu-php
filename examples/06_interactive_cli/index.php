@@ -1,6 +1,9 @@
 <?
 // an example of a CLI app.
 
+//find the current dir
+$cwd = dirname(__FILE__);
+
 // make sure we are running from cli.
 if( ! is_resource( STDIN ) ){
     // exit with an error message for the web browser.
@@ -14,6 +17,6 @@ chdir( dirname(__FILE__) );
 include 'grok.php';
 
 // kick it off, reading from STDIN
-Grok::instance(array('STDIN'=>STDIN) )->dispatch('app/main.php');
+Grok::instance(array('STDIN'=>STDIN) )->dispatch($cwd . '/app/main.php');
 
 // EOF

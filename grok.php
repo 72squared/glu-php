@@ -57,16 +57,11 @@ interface Grok_Interface {
     */
     public function export();
 }
- 
+
 /**
- * Here is the actual Grok Class. Enjoy!
+ * Here is the underlying container class.
  */
-class Grok implements Grok_Interface {
-   
-   /**
-    * a variable to simulate php's getcwd.
-    */
-    private static $cwd = '';
+class Grok_Container {
     
    /**
     * internal data storage
@@ -88,64 +83,6 @@ class Grok implements Grok_Interface {
         
         // dunno what this is. pass it off to import to figure out.
         return $this->import( $input );
-    }
-    
-   /**
-    * @see Grok_Interface::instance
-    */
-    public static function instance( $input = NULL ){
-        return new self( $input );
-    }
-    
-   /**
-    * @see Grok_Interface::exception
-    */
-    public static function exception( $message = NULL, $code = 0 ){
-        return new Grok_Exception( $message, $code );
-    }
-    
-   /**
-    * @see Grok_Interface::dispatch
-    */
-    public function dispatch( $__file ){
-        
-        // make sure whe know what the current directory is, so we can bounce back.
-        $__cwd = self::getcwd();
-        
-        // the file passed in is an empty string. blow up.
-        if( ! $__file ) throw $this->exception('invalid-dispatch: ' . $__file );
-        
-        // build the file path
-        if( substr($__file, 0, 1) != DIRECTORY_SEPARATOR ) $__file = $__cwd . '/' . $__file;
-        
-        // make sure we are using the correct filepath delimiter here
-        if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
-        
-        // blow up if we can't find the path to this file.
-        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
-        
-        // change the working directory to the same as the file we are gonna include.
-        if( ! self::chdir( dirname( $__file ) ) )  throw $this->exception('invalid-permissions: ' . $__file );
-        
-        // wrap in a try/catch block
-        try {
-            // include the file and return the result.
-            $ret = include $__file;
-        
-        // catch the exception so we can briefly restore the current working dir.
-        } catch( Exception $e ){
-            // change back to the working directory we were using before the include.
-            self::chdir( $__cwd );
-            
-            // throw the exception again.
-            throw $e;
-        }
-        
-        // go back to the prev cwd
-        self::chdir( $__cwd );
-        
-        // return the result
-        return $ret;
     }
     
    /**
@@ -176,47 +113,66 @@ class Grok implements Grok_Interface {
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __set( $k, $v ){
+    private function __set( $k, $v ){
         return $this->__data[ $k ] = $v;
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __get( $k ){
+    private function __get( $k ){
         return isset( $this->__data[ $k ] ) ? $this->__data[ $k ] : NULL;
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __unset( $k ){
+    private function __unset( $k ){
         unset( $this->__data[ $k ] );
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __isset( $k ){
+    private function __isset( $k ){
         return isset( $this->__data[ $k ] ) ? TRUE : FALSE;
     }
+}
+ 
+/**
+ * Here is the actual Grok Class. Enjoy!
+ */
+class Grok extends Grok_Container implements Grok_Interface {
     
    /**
-    * get the current working directory.
-    * @return string
+    * @see Grok_Interface::instance
     */
-    private static function getcwd(){
-        if( self::$cwd ) return self::$cwd;
-        return self::$cwd = getcwd();
+    public static function instance( $input = NULL ){
+        return new self( $input );
     }
     
    /**
-    * set the current working directory.
-    * @param string     $cwd
-    * @return string
+    * @see Grok_Interface::exception
     */
-    private static function chdir( $cwd ){
-        return self::$cwd = $cwd;
+    public static function exception( $message = NULL, $code = 0 ){
+        return new Grok_Exception( $message, $code );
+    }
+    
+   /**
+    * @see Grok_Interface::dispatch
+    */
+    public function dispatch( $__file ){
+        // the file passed in is an empty string. blow up.
+        if( ! $__file ) throw $this->exception('invalid-dispatch: ' . $__file );
+        
+        // make sure we are using the correct filepath delimiter here
+        if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
+        
+        // blow up if we can't find the path to this file.
+        if( ! is_readable( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
+        
+        // include the file and return the result.
+        return include $__file;
     }
 }
 

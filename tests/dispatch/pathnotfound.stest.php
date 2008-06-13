@@ -1,10 +1,11 @@
 <?
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
+//find the current dir
+$cwd = dirname(__FILE__);include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 
 class Grok_Dispatch_PathNotFound_Test extends Grok_Dispatch_Test {
 
     public function setup() {
-        $this->path = 'lib/non_existent.php';
+        $this->path = dirname(__FILE__) . '/lib/non_existent.php';
         parent::setup();
     }
     

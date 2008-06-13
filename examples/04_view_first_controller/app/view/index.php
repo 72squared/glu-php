@@ -1,4 +1,7 @@
 <?
+//find the current dir
+$cwd = dirname(__FILE__);
+
 // Build the site index page.
 // right here you would call other actions or models to retrieve the information you need.
 // then you build the page.
@@ -7,12 +10,12 @@
 
 
 // render the header
-$this->instance( array('title'=>'Home') )->dispatch('layout/header.php'); 
+$this->instance( array('title'=>'Home') )->dispatch($cwd . '/layout/header.php'); 
 
 // display a message 
-$this->instance( array('header'=>'Home Page', 'body'=>'This is a demo of how Grok can work'))->dispatch('layout/message.php');
+$this->instance( array('header'=>'Home Page', 'body'=>'This is a demo of how Grok can work'))->dispatch($cwd . '/layout/message.php');
 
 // render the footer
-$this->instance( array('start'=>$this->start ) )->dispatch('layout/footer.php');
+$this->instance( array('start'=>$this->start ) )->dispatch($cwd . '/layout/footer.php');
 
 // EOF

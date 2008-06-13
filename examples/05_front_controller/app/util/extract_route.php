@@ -1,5 +1,6 @@
 <?
-
+//find the current dir
+$cwd = dirname(__FILE__);
 if( strpos( $this->REQUEST_URI, $this->SCRIPT_NAME ) === FALSE ) return 'index';
 
 // extract the route name from the request URI

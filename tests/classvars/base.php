@@ -1,9 +1,7 @@
 <?
-// set the current working directory.
-chdir( dirname(__FILE__)  );
 
 // include grok.
-include 'grok.php';
+include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'grok.php';
 
 /**
 * Base class for testing the import method of Grok.

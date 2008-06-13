@@ -1,6 +1,6 @@
 <?
-chdir( dirname(__FILE__)  );
-include '../grok.php';
+// include the grok
+include dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'grok.php';
 
 class Grok_InteractiveCLI_Hello_Test extends Snap_UnitTestCase {
     
@@ -8,7 +8,7 @@ class Grok_InteractiveCLI_Hello_Test extends Snap_UnitTestCase {
     
     public function setup() {
         ob_start();
-        Grok::instance()->dispatch('../app/action/hello.php' );
+        Grok::instance()->dispatch(dirname(dirname(__FILE__)) . '/app/action/hello.php' );
         $this->output = ob_get_clean();
     }
     

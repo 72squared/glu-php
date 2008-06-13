@@ -1,9 +1,6 @@
 <?
-// set the current working directory.
-chdir( dirname(__FILE__)  );
-
 // include grok.
-include 'grok.php';
+include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'grok.php';
 
 /**
 * Base class for testing the constructor method of Grok.
@@ -68,7 +65,7 @@ class Grok_Construct_Test extends Snap_UnitTestCase {
         try {
             $this->grok = Grok::instance( $this->arg );
             $this->result_export_before_dispatch = $this->grok->export();
-            $this->result_dispatch = $this->grok->dispatch('lib/string.php');
+            $this->result_dispatch = $this->grok->dispatch(dirname(__FILE__) . '/lib/string.php');
             $this->result_export_after_dispatch = $this->grok->export();
         } catch( Exception $e ){
             $this->exception = $e;

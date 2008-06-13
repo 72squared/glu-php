@@ -1,5 +1,6 @@
 <?
-
+//find the current dir
+$cwd = dirname(__FILE__);
 $p = array();
 
 $e = explode('?', $this->url, 2 );

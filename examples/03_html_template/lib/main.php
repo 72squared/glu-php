@@ -1,4 +1,7 @@
 <?
+//find the current dir
+$cwd = dirname(__FILE__);//find the current working dir
+$cwd = dirname(__FILE__);
 
 // instantiate the grok
 $tpl = $this->instance();
@@ -13,6 +16,6 @@ $tpl->header = 'template example';
 $tpl->message = 'shows how to build a templating system';
 
 // render the template.
-$tpl->dispatch('tpl/page.php');
+$tpl->dispatch($cwd . '/tpl/page.php');
 
 // EOF

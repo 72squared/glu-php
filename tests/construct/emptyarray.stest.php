@@ -1,5 +1,6 @@
 <?
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
+//find the current dir
+$cwd = dirname(__FILE__);include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 
 class Grok_Construct_EmptyArray_Test extends Grok_Construct_Test {
     

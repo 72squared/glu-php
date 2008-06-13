@@ -1,4 +1,7 @@
 <?
+//find the current dir
+$cwd = dirname(__FILE__);
+
 // extract the route
 $route = $this->route;
 
@@ -12,6 +15,6 @@ return $this->instance(
                         array( 'url'=> $base_url . '/' . preg_replace('/[^a-z0-9\/\_]/i', '', $route), 
                                'parameters'=>$this->export(),
                         ) 
-            )->dispatch('url.php'); 
+            )->dispatch($cwd . '/url.php'); 
 
 // EOF

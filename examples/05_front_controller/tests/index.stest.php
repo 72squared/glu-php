@@ -1,5 +1,6 @@
 <?
-chdir( dirname(__FILE__)  );
+//find the current dir
+$cwd = dirname(__FILE__);chdir( dirname(__FILE__)  );
 include 'base.php';
 
 class Grok_FrontEndController_Index_Test extends Grok_FrontEndController_Test {
