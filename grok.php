@@ -105,7 +105,7 @@ class Grok extends Grok_Container {
     * This is useful when writing unit tests for Grok and you need to punch out
     * the insantiation of a new Grok.
     * @param mixed      $input
-    * @return Grok_Interface
+    * @return Grok
     */
     public static function instance( $input = NULL ){
         return new self( $input );
