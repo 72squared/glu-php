@@ -169,7 +169,7 @@ class Grok extends Grok_Container implements Grok_Interface {
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
         
         // blow up if we can't find the path to this file.
-        if( ! is_readable( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
+        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
         
         // include the file and return the result.
         return include $__file;
