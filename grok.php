@@ -18,7 +18,10 @@ class Grok_Container {
     private $__data = array();
     
    /**
-    * @see Grok_Interface::__construct
+    * Class constructor.
+    * accepts an array or another Grok which is used to populate the internal data
+    * @param mixed ...  array/iterator/grok  (optional)
+    * @return void
     */
     public function __construct( $input = NULL ){
         // optimize for the most common cases first. if null, do nothing.
@@ -35,7 +38,10 @@ class Grok_Container {
     }
     
    /**
-    * @see Grok_Interface::import
+    * takes input and merges it over the top of the existing internal data.
+    * returns the same value you passed in.
+    * @param mixed ...  array/iterator/grok
+    * @return mixed
     */
     public function import( $input ){
         // if the input is an grok, we loop through the export.
@@ -53,7 +59,8 @@ class Grok_Container {
     }
     
    /**
-    * @see Grok_Interface::export
+    * export the internal data set
+    * @return array
     */
     public function export(){
         return $this->__data;
@@ -94,21 +101,31 @@ class Grok_Container {
 class Grok extends Grok_Container {
     
    /**
-    * @see Grok_Interface::instance
+    * Simple factory method of instantiation.
+    * This is useful when writing unit tests for Grok and you need to punch out
+    * the insantiation of a new Grok.
+    * @param mixed      $input
+    * @return Grok_Interface
     */
     public static function instance( $input = NULL ){
         return new self( $input );
     }
     
    /**
-    * @see Grok_Interface::exception
+    * Factory method of instantiating exception objects.
+    * @param string     $message
+    * @param int        $code
+    * @return Grok_Exception
     */
     public static function exception( $message = NULL, $code = 0 ){
         return new Grok_Exception( $message, $code );
     }
     
    /**
-    * @see Grok_Interface::dispatch
+    * include a file according to the argument and return the result.
+    * @param string     relative path to the include, minus the php file extension.
+    * @return mixed     returns whatever the include file decided to return. depends largely
+    *                   on context.
     */
     public function dispatch( $__file ){
         // make sure we are using the correct filepath delimiter here
