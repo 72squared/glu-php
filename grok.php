@@ -116,20 +116,19 @@ class Grok extends Grok_Container {
         return new self( $input );
     }
     
-    public static function dispatch( $file, $input = NULL ){
-        return self::instance()->process( $file, $input );
-    }
-    
    /**
-    * singleton of a grok instance.
-    * @param string      $file
-    * @return Grok
+    * Dispatch the file.
+    * @param string     $file
+    * @param mixed      $input
+    * @return mixed
     */
-    public static function singletonDispatch( $__file, $input = NULL ){
+    public static function dispatch( $file, $input = NULL ){
         static $groks;
         if( ! isset( $groks ) ) $groks = array();
-        if( ! isset( $groks[ $__file ] ) ) $groks[ $__file ] = self::instance();
-        return $groks[ $__file ]->process( $__file, $input );
+        if( ! isset( $groks[ $file ] ) ) $groks[ $file ] = self::instance();
+        $data = $groks[ $file ]->process( $file, $input );
+        if( ! $groks[ $file ]->stateful ) unset( $groks[ $file ] );
+        return $data;
     }
     
    /**
@@ -138,7 +137,7 @@ class Grok extends Grok_Container {
     * @param mixed
     * @return mixed
     */
-    private function process( $__file, $input = NULL){
+    protected function process( $__file, $input = NULL){
         
         // make sure we have proper input
         if( ! $input instanceof Grok_Container ) $input = self::container( $input );
