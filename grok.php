@@ -112,7 +112,7 @@ class Grok extends Grok_Container {
     * @param string      $file
     * @return Grok
     */
-    public static function instance($input = NULL ){
+    public static function instance( $input = NULL ){
         return new self( $input );
     }
     
@@ -137,7 +137,7 @@ class Grok extends Grok_Container {
     * @param mixed
     * @return mixed
     */
-    protected function process( $__file, $input = NULL){
+    protected function process( $__file, $input = NULL ){
         
         // make sure we have proper input
         if( ! $input instanceof Grok_Container ) $input = self::container( $input );
