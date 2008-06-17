@@ -1,1 +1,1 @@
-<a href="<?=$this->href;?>"<?= $this->id ? ' id="' . $this->id . '"' : '';?><?= $this->class ? ' class="' . $this->class . '"' : '';?><?= $this->title ? ' title="' . $this->title . '"' : '';?>><?=$this->body ?></a>
+<a href="<?=$input->href;?>"<?= $input->id ? ' id="' . $input->id . '"' : '';?><?= $input->class ? ' class="' . $input->class . '"' : '';?><?= $input->title ? ' title="' . $input->title . '"' : '';?>><?=$input->body ?></a>

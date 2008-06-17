@@ -17,6 +17,6 @@ chdir( dirname(__FILE__) );
 include 'grok.php';
 
 // kick it off, reading from STDIN
-Grok::instance(array('STDIN'=>STDIN) )->dispatch($cwd . '/app/main.php');
+Grok::dispatch($cwd . '/app/main.php', array('STDIN'=>STDIN) );
 
 // EOF

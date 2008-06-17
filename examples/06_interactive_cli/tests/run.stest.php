@@ -10,7 +10,7 @@ class Grok_InteractiveCLI_Run_Test extends Snap_UnitTestCase {
     
     public function setup() {
         ob_start();
-        $this->response = Grok::instance(array('line'=>$this->line))->dispatch(dirname(dirname(__FILE__)) . '/app/run.php' );
+        $this->response = Grok::dispatch(dirname(dirname(__FILE__)) . '/app/run.php', array('line'=>$this->line) );
         $this->output = ob_get_clean();
     }
     

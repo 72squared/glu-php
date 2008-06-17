@@ -10,29 +10,29 @@ ob_start();
 try {
 
     // set up the request
-    $this->request = $this->instance($this->request);
+    $input->request = self::instance($input->request);
     
     // sanitize it.
-    $this->request->dispatch( dir::util . 'sanitize.php');
+    self::dispatch( dir::util . 'sanitize.php', $input->request);
     
     // call the controller. 
-    $this->dispatch( dir::mvc . $this->route . '/controller.php');
+    self::dispatch( dir::mvc . $input->route . '/controller.php', $input);
     
 // catch any exceptions
 } catch( Exception $e ){
 
     // what happened? put the exception into the input
     // we can use it in the error template.
-    $this->exception = $e;
+    $input->exception = $e;
     
     // let's grab everything so far in the output buffer and clear it.
-    $this->debug = ob_get_clean();
+    $input->debug = ob_get_clean();
     
     // start up the buffer again.
     ob_start();
     
     // nothing much left to do but render an error page
-    return $this->dispatch( dir::layout . 'error.php');
+    return self::dispatch( dir::layout . 'error.php', $input );
 }
 
 // all done rendering: flush it out!

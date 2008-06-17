@@ -15,7 +15,7 @@ include $cwd . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . '__autoload
 
 // We are making a view-first controller, so let's determine our view, shall we? I am calling
 // a short snippet that tells me what the name of my view is based on the current url.
-$view = Grok::instance( $_SERVER )->dispatch(dir::lib . 'extract_view.php');
+$view = Grok::dispatch(dir::lib . 'extract_view.php', $_SERVER);
 
 // set up some arguments
 $args = array('view'=>$view, 'start'=>$start, 'request'=>$_REQUEST);
@@ -24,6 +24,6 @@ $args = array('view'=>$view, 'start'=>$start, 'request'=>$_REQUEST);
 // since grok is in the directory (as a symlink), when we start using the grok class here, the main
 // grok file is automatically included. later, when we call other classes in our mvc, those classes
 // will be automatically included for us as well on the fly.
-Grok::instance($args)->dispatch( dir::app .'main.php');
+Grok::dispatch(dir::app .'main.php', $args);
 
 // EOF

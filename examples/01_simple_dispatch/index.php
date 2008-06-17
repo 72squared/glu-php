@@ -8,7 +8,7 @@ $cwd = dirname(__FILE__);
 include $cwd . DIRECTORY_SEPARATOR . 'grok.php';
 
 // run main.
-Grok::instance()->dispatch( $cwd . '/lib/main.php');
+Grok::dispatch( $cwd . '/lib/main.php');
 
 // all done. 
 

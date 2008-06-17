@@ -12,7 +12,7 @@ class Grok_FrontendController_Test extends Snap_UnitTestCase {
     public function setup() {
         $vars = array('route'=>$this->route, 'start'=>$this->start = microtime(TRUE), 'request'=>$this->input);
         ob_start();
-        Grok::instance( $vars )->dispatch(dirname(dirname(__FILE__)) . '/app/main.php');
+        Grok::dispatch(dirname(dirname(__FILE__)) . '/app/main.php', $vars);
         $this->output = trim(ob_get_clean());
         $this->dom = new DOMDocument();
         $this->dom->loadHTML( $this->output );

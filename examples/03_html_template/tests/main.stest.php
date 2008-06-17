@@ -11,7 +11,7 @@ class Grok_HtmlTemplate_Main_Test extends Snap_UnitTestCase {
     public function setup() {
         try {
             ob_start();
-            Grok::instance()->dispatch(dirname(dirname(__FILE__)) . '/lib/main.php');
+            Grok::dispatch(dirname(dirname(__FILE__)) . '/lib/main.php');
             $this->output = trim( ob_get_contents() );
             ob_end_clean();
         } catch( Exception $e ){

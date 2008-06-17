@@ -2,19 +2,22 @@
 //find the current dir
 $cwd = dirname(__FILE__);
 
+// make a copy of input
+$input = self::instance( $input );
+
 // extract the route
-$route = $this->route;
+$route = $input->route;
 
 // remove it from the parameter list
-unset( $this->route );
+unset( $input->route );
 
 $base_url = ( function_exists('filter_var') ) ? filter_var( $_SERVER['SCRIPT_NAME'] ) : $_SERVER['SCRIPT_NAME'];
 
 // build the url and return it.
-return $this->instance(
+return self::dispatch($cwd . '/url.php',
                         array( 'url'=> $base_url . '/' . preg_replace('/[^a-z0-9\/\_]/i', '', $route), 
-                               'parameters'=>$this->export(),
+                               'parameters'=>$input->export(),
                         ) 
-            )->dispatch($cwd . '/url.php'); 
+            );
 
 // EOF

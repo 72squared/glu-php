@@ -1,10 +1,10 @@
 <?
 $p = array();
 
-$e = explode('?', $this->url, 2 );
+$e = explode('?', $input->url, 2 );
 $url = $e[0];
 $query = isset( $e[1] ) ? $e[1] : '';
-$parameters = $this->parameters;
+$parameters = $input->parameters;
 if( ! is_array( $parameters ) ) $parameters = array();
 $amp = $this->amp;
 if( ! $amp ) $amp = '&amp;';

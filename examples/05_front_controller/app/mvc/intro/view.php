@@ -1,13 +1,12 @@
 <?
 // render the header
-$this->instance( array('title'=>'Introduction') )->dispatch(dir::layout . 'header.php');
+self::dispatch(dir::layout . 'header.php', array('title'=>'Introduction'));
 
 // pull down the data
-$data = $this->instance( $this->data );
-
+$data = self::instance( $input->data );
 
 // build the body of the page
-$this->instance( array('header'=>$data->title, 'body'=>$data->message) )->dispatch(dir::layout . 'message.php'); 
+self::dispatch(dir::layout . 'message.php', array('header'=>$data->title, 'body'=>$data->message) ); 
 
 // render the footer
-$this->instance(array('start'=>$this->start))->dispatch(dir::layout . 'footer.php'); 
+self::dispatch(dir::layout . 'footer.php', array('start'=>$input->start)); 

@@ -3,13 +3,13 @@
 $cwd = dirname(__FILE__);
 
 // if we are running the ajax response, render the response
-if( $this->request->response ) return $this->dispatch($cwd . '/ajaxview.php');
+if( $input->request->response ) return self::dispatch($cwd . '/ajaxview.php', $input);
 
 // if it is the script, display the js
-if( $this->request->script ) return $this->dispatch(dir::layout . 'js/script/callajax.php');
+if( $input->request->script ) return self::dispatch(dir::layout . 'js/script/callajax.php', $input);
 
 
 // render the view
-return $this->dispatch($cwd . '/view.php');
+return self::dispatch($cwd . '/view.php', $input);
 
 // EOF

@@ -9,7 +9,7 @@ class Grok_InteractiveCLI_Main_Test extends Snap_UnitTestCase {
     public function setup() {
         $file_pointer = fopen(dirname(__FILE__) . '/stdin.mock.txt', 'r');
         ob_start();
-        Grok::instance(array('STDIN'=>$file_pointer))->dispatch(dirname(dirname(__FILE__)) . '/app/main.php' );
+        Grok::dispatch(dirname(dirname(__FILE__)) . '/app/main.php', array('STDIN'=>$file_pointer) );
         $this->output = ob_get_clean();
         fclose( $file_pointer );
     }

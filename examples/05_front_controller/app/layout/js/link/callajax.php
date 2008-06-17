@@ -1,1 +1,1 @@
-<script src="<?=$this->instance( array('route'=>'ajaxdemo', 'script'=>1) )->dispatch(dir::util . 'selfurl.php'); ?>" type="text/javascript"></script> 
+<script src="<?=self::dispatch(dir::util . 'selfurl.php', array('route'=>'ajaxdemo', 'script'=>1) ); ?>" type="text/javascript"></script> 

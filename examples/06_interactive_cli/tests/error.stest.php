@@ -8,7 +8,7 @@ class Grok_InteractiveCLI_Error_Test extends Snap_UnitTestCase {
     
     public function setup() {
         ob_start();
-        Grok::instance(array('exception'=>'exception_string'))->dispatch(dirname(dirname(__FILE__)) . '/app/error.php' );
+        Grok::dispatch(dirname(dirname(__FILE__)) . '/app/error.php', array('exception'=>'exception_string') );
         $this->output = ob_get_clean();
     }
     

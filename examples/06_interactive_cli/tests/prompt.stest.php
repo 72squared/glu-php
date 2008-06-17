@@ -8,7 +8,7 @@ class Grok_InteractiveCLI_Prompt_Test extends Snap_UnitTestCase {
     
     public function setup() {
         ob_start();
-        Grok::instance()->dispatch(dirname(dirname(__FILE__)) . '/app/prompt.php' );
+        Grok::dispatch(dirname(dirname(__FILE__)) . '/app/prompt.php' );
         $this->output = ob_get_clean();
     }
     

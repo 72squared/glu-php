@@ -3,22 +3,22 @@
 $title = 'Ajax Demo';
 
 // render the header and pass our page title to the header layout
-$this->instance(array('title'=>$title) )->dispatch(dir::layout . 'header.php');
+self::dispatch(dir::layout . 'header.php', array('title'=>$title));
 
-$this->instance(array('id'=>'mydiv', 'header'=>$title, 'body'=>'this text will be replaced'))->dispatch(dir::layout . 'message.php');
+self::dispatch(dir::layout . 'message.php', array('id'=>'mydiv', 'header'=>$title, 'body'=>'this text will be replaced'));
 
 // build the link.
-$link = $this->instance(array('route'=>'ajaxdemo', 'response'=>'1', 'dummy'=>'data'))->dispatch( dir::util . 'selfurl.php');
+$link = self::dispatch( dir::util . 'selfurl.php', array('route'=>'ajaxdemo', 'response'=>'1', 'dummy'=>'data'));
 
-$this->instance(array('id'=>'mylink', 'href'=>$link, 'title'=>'test now', 'body'=>'run test'))->dispatch(dir::layout . 'link.php');
+self::dispatch(dir::layout . 'link.php', array('id'=>'mylink', 'href'=>$link, 'title'=>'test now', 'body'=>'run test'));
 
 // include YUI libraries.
-$this->instance()->dispatch(dir::layout . 'js/link/yui.php');
+self::dispatch(dir::layout . 'js/link/yui.php');
 
 // include my own ajax caller script
-$this->instance()->dispatch(dir::layout . 'js/link/callajax.php');
+self::dispatch(dir::layout . 'js/link/callajax.php');
 
 // render the page footer.
-$this->instance(array('start'=>$this->start))->dispatch(dir::layout . 'footer.php'); 
+self::dispatch(dir::layout . 'footer.php', array('start'=>$input->start)); 
 
 // EOF

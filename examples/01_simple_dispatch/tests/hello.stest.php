@@ -9,8 +9,7 @@ class Grok_SimpleDispatch_Hello_Test extends Snap_UnitTestCase {
     protected $exception_message;
     public function setup() {
         try {
-            $o = new test_grokker(array('greeting'=>'welcome'));
-            $this->output = $o->dispatch(dirname(dirname(__FILE__)) . '/lib/hello.php' );
+            $this->output = Grok::dispatch( dirname(dirname(__FILE__)) . '/lib/hello.php', array('greeting'=>'welcome') );
         } catch( Exception $e ){
             $this->exception = $e;
             $this->exception_message = $e->getMessage();
@@ -28,16 +27,12 @@ class Grok_SimpleDispatch_Hello_Test extends Snap_UnitTestCase {
     }
     
     public function test_OutputSaysFromGrok(){
-        return $this->assertRegex( $this->output, '/from test_grokker/i');
+        return $this->assertRegex( $this->output, '/from grok/i');
     }
     
     public function test_noExceptionThrown(){
         return $this->assertNull( $this->exception );
     }
-}
-
-class test_grokker extends grok {
-
 }
 
 // EOF

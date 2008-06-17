@@ -1,9 +1,9 @@
 <?
 // make sure we are on the script.
-if( strpos( $this->REQUEST_URI, $this->SCRIPT_NAME ) === FALSE ) return 'index';
+if( strpos( $input->REQUEST_URI, $input->SCRIPT_NAME ) === FALSE ) return 'index';
 
 // extract the view name from the request URI
-$view = trim( str_replace( $this->SCRIPT_NAME, '', $this->REQUEST_URI), ' /');
+$view = trim( str_replace( $input->SCRIPT_NAME, '', $input->REQUEST_URI), ' /');
 
 // trim off the GET params
 if( $pos = strpos( $view, '?' ) ) $view = substr( $view, 0, $pos );

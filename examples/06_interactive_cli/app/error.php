@@ -1,3 +1,3 @@
 ERROR!
 
-<?= $this->exception; ?>
+<?= $input->exception; ?>

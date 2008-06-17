@@ -8,7 +8,7 @@ class Grok_InteractiveCLI_Now_Test extends Snap_UnitTestCase {
     protected $args;
     public function setup() {
         ob_start();
-        Grok::instance($this->args)->dispatch(dirname(dirname(__FILE__)) . '/app/action/now.php' );
+        Grok::dispatch(dirname(dirname(__FILE__)) . '/app/action/now.php', $this->args );
         $this->output = ob_get_clean();
     }
     

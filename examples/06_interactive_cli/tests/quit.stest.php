@@ -9,7 +9,7 @@ class Grok_InteractiveCLI_Quit_Test extends Snap_UnitTestCase {
     
     public function setup() {
         ob_start();
-        $this->response = Grok::instance()->dispatch(dirname(dirname(__FILE__)) . '/app/action/quit.php' );
+        $this->response = Grok::dispatch(dirname(dirname(__FILE__)) . '/app/action/quit.php' );
         $this->output = ob_get_clean();
     }
     

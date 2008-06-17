@@ -109,11 +109,57 @@ class Grok extends Grok_Container {
     * Simple factory method of instantiation.
     * This is useful when writing unit tests for Grok and you need to punch out
     * the insantiation of a new Grok.
-    * @param mixed      $input
+    * @param string      $file
     * @return Grok
     */
-    public static function instance( $input = NULL ){
+    public static function instance($input = NULL ){
         return new self( $input );
+    }
+    
+    public static function dispatch( $file, $input = NULL ){
+        return self::instance()->process( $file, $input );
+    }
+    
+   /**
+    * singleton of a grok instance.
+    * @param string      $file
+    * @return Grok
+    */
+    public static function singletonDispatch( $__file, $input = NULL ){
+        static $groks;
+        if( ! isset( $groks ) ) $groks = array();
+        if( ! isset( $groks[ $__file ] ) ) $groks[ $__file ] = self::instance();
+        return $groks[ $__file ]->process( $__file, $input );
+    }
+    
+   /**
+    * Do not call directly. use dispatch or singletonDispatch.
+    * @param string
+    * @param mixed
+    * @return mixed
+    */
+    private function process( $__file, $input = NULL){
+        
+        // make sure we have proper input
+        if( ! $input instanceof Grok_Container ) $input = self::container( $input );
+        
+        // make sure we are using the correct filepath delimiter here
+        if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
+        
+        // blow up if we can't find the path to this file.
+        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
+        
+        // include the file.
+        return include $__file;
+    }
+    
+   /**
+    * build a container instance.
+    * @param mixed
+    * @return Grok_Container
+    */
+    public static function container( $input = NULL ){
+        return new Grok_Container( $input );
     }
     
    /**
@@ -124,23 +170,6 @@ class Grok extends Grok_Container {
     */
     public static function exception( $message = NULL, $code = 0 ){
         return new Grok_Exception( $message, $code );
-    }
-    
-   /**
-    * include a file according to the argument and return the result.
-    * @param string     relative path to the include, minus the php file extension.
-    * @return mixed     returns whatever the include file decided to return. depends largely
-    *                   on context.
-    */
-    public function dispatch( $__file ){
-        // make sure we are using the correct filepath delimiter here
-        if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
-        
-        // blow up if we can't find the path to this file.
-        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
-        
-        // include the file and return the result.
-        return include $__file;
     }
 }
 

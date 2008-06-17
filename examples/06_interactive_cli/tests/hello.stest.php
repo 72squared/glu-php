@@ -8,7 +8,7 @@ class Grok_InteractiveCLI_Hello_Test extends Snap_UnitTestCase {
     
     public function setup() {
         ob_start();
-        Grok::instance()->dispatch(dirname(dirname(__FILE__)) . '/app/action/hello.php' );
+        Grok::dispatch(dirname(dirname(__FILE__)) . '/app/action/hello.php' );
         $this->output = ob_get_clean();
     }
     

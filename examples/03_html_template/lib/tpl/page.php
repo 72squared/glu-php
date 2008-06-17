@@ -1,9 +1,9 @@
 <html>
 <head>
-<title><?=$this->title;?></title>
+<title><?=$input->title;?></title>
 </head>
 <body>
-<h1><?=$this->header;?></h1>
-<p><?=$this->message; ?></p>
+<h1><?=$input->header;?></h1>
+<p><?=$input->message; ?></p>
 </body>
 </html>
