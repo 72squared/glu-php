@@ -97,31 +97,31 @@ class Grok_Container {
 
 /**
 * Internal class. do not use directly.
-* This class keeps a mapping of all the grok states per file.
+* This class keeps a mapping of all the grok states by keyname.
 */
-class Grok_FileState {
+class Grok_State {
     /**
     * Mapping of files to state classes.
     */
-    private static $__files = array();
+    private static $states = array();
     
     /**
-    * get the grok state for a file.
+    * get the grok state for a key.
     * if no state exists, create one.
     * @param string
     * @return Grok
     */
-    public static function get( $file ){
-        return isset( self::$__files[ $file ] ) ? self::$__files[ $file ] : self::$__files[ $file ] = new Grok;
+    public static function get( $key ){
+        return isset( self::$states[ $key ] ) ? self::$states[ $key ] : self::$states[ $key ] = new Grok;
     }
     
    /**
-    * remove a grok state for a file.
+    * remove a grok state for a key.
     * @param string
     * @return void
     */
-    public static function remove( $file ){
-        unset( self::$__files[ $file ] );
+    public static function remove( $key ){
+        unset( self::$states[ $key ] );
     }
     
     /**
@@ -129,7 +129,7 @@ class Grok_FileState {
     * @return void
     */
     public static function clear(){
-        self::$__files = array();
+        self::$states = array();
     }
 }
  
@@ -167,13 +167,13 @@ class Grok extends Grok_Container {
         if( ! $input instanceof Grok_Container ) $input = self::container( $input );
         
         // get the grok
-        $grok = Grok_FileState::get( $file );
+        $grok = Grok_State::get( $file );
         
         // run the process command
         $data = $grok->process( $input, $file);
         
         // if there is no state to save, remove the grok
-        if( count( $grok->export() ) < 1 ) Grok_FileState::remove( $file );
+        if( count( $grok->export() ) < 1 ) Grok_State::remove( $file );
         
         // all done.
         return $data;
