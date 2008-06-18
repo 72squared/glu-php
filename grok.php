@@ -29,17 +29,11 @@ class Grok_Container {
     * @return void
     */
     public function __construct( $input = NULL ){
-        // optimize for the most common cases first. if null, do nothing.
+        // if null, do nothing.
         if( $input === NULL ) return;
         
-        // if we get an array, just write it in.
-        if( is_array( $input ) ) return $this->__data = $input;
-        
-        // if the input is an grok, use the export to write the current data.
-        if( $input instanceof self ) return $this->__data = $input->export();
-        
-        // dunno what this is. pass it off to import to figure out.
-        return $this->import( $input );
+        // pass off to common.
+        $this->import( $input );
     }
     
    /**
@@ -49,16 +43,17 @@ class Grok_Container {
     * @return mixed
     */
     public function import( $input ){
-        // if the input is an grok, we loop through the export.
-        if( $input instanceof self ) {
-            foreach( $input->export() as $k=>$v ) $this->__set( $k, $v );
-        
         // loop through the data if it is an array or an iterator
-        } elseif( is_array( $input ) || $input instanceof Iterator ) {
+        if( is_array( $input ) || $input instanceof Iterator ) {
             // not sanitizing the keys at all here, so you might only be able to consume
             // some of the data if you do $grok->export().
             foreach( $input as $k=>$v ) $this->__set( $k, $v);
+        
+        // if the input is an grok, we loop through the export.
+        } elseif( $input instanceof self ) {
+            foreach( $input->export() as $k=>$v ) $this->__set( $k, $v );
         }
+        
         // all done.
         return $input;
     }
@@ -104,7 +99,7 @@ class Grok_Container {
 * Internal class. do not use directly.
 * This class keeps a mapping of all the grok states per file.
 */
-class Grok_Filer {
+class Grok_FileState {
     /**
     * Mapping of files to state classes.
     */
@@ -172,13 +167,13 @@ class Grok extends Grok_Container {
         if( ! $input instanceof Grok_Container ) $input = self::container( $input );
         
         // get the grok
-        $grok = Grok_Filer::get( $file );
+        $grok = Grok_FileState::get( $file );
         
         // run the process command
         $data = $grok->process( $input, $file);
         
         // if there is no state to save, remove the grok
-        if( count( $grok->export() ) < 1 ) Grok_Filer::remove( $file );
+        if( count( $grok->export() ) < 1 ) Grok_FileState::remove( $file );
         
         // all done.
         return $data;
