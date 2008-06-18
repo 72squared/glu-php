@@ -171,8 +171,17 @@ class Grok extends Grok_Container {
         // make sure we have proper input
         if( ! $input instanceof Grok_Container ) $input = self::container( $input );
         
-        // run the process command.
-        return Grok_Filer::get( $file )->process( $input, $file);
+        // get the grok
+        $grok = Grok_Filer::get( $file );
+        
+        // run the process command
+        $data = $grok->process( $input, $file);
+        
+        // if there is no state to save, remove the grok
+        if( count( $grok->export() ) < 1 ) Grok_Filer::remove( $file );
+        
+        // all done.
+        return $data;
     }
     
    /**
