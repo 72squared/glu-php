@@ -99,6 +99,44 @@ class Grok_Container {
         return isset( $this->__data[ $k ] ) ? TRUE : FALSE;
     }
 }
+
+/**
+* Internal class. do not use directly.
+* This class keeps a mapping of all the grok states per file.
+*/
+class Grok_Filer {
+    /**
+    * Mapping of files to state classes.
+    */
+    private static $__files = array();
+    
+    /**
+    * get the grok state for a file.
+    * if no state exists, create one.
+    * @param string
+    * @return Grok
+    */
+    public static function get( $file ){
+        return isset( self::$__files[ $file ] ) ? self::$__files[ $file ] : self::$__files[ $file ] = new Grok;
+    }
+    
+   /**
+    * remove a grok state for a file.
+    * @param string
+    * @return void
+    */
+    public static function remove( $file ){
+        unset( self::$__files[ $file ] );
+    }
+    
+    /**
+    * clear all the mappings.
+    * @return void
+    */
+    public static function clear(){
+        self::$__files = array();
+    }
+}
  
 /**
  * Here is the actual Grok Class. Enjoy!
@@ -117,18 +155,24 @@ class Grok extends Grok_Container {
     }
     
    /**
-    * Dispatch the file.
+    * Dispatch the file. the file always has its own scope limited to the current file.
     * @param string     $file
     * @param mixed      $input
     * @return mixed
     */
     public static function dispatch( $file, $input = NULL ){
-        static $groks;
-        if( ! isset( $groks ) ) $groks = array();
-        if( ! isset( $groks[ $file ] ) ) $groks[ $file ] = self::instance();
-        $data = $groks[ $file ]->process( $file, $input );
-        if( ! $groks[ $file ]->stateful ) unset( $groks[ $file ] );
-        return $data;
+        
+        // make sure we are using the correct filepath delimiter here
+        if( '/' != DIRECTORY_SEPARATOR ) $file = str_replace('/', DIRECTORY_SEPARATOR, $file );
+        
+        // blow up if we can't find the path to this file.
+        if( ! file_exists( $file ) ) throw self::exception('invalid-dispatch: ' . $file );
+        
+        // make sure we have proper input
+        if( ! $input instanceof Grok_Container ) $input = self::container( $input );
+        
+        // run the process command.
+        return Grok_Filer::get( $file )->process( $input, $file);
     }
     
    /**
@@ -137,18 +181,7 @@ class Grok extends Grok_Container {
     * @param mixed
     * @return mixed
     */
-    protected function process( $__file, $input = NULL ){
-        
-        // make sure we have proper input
-        if( ! $input instanceof Grok_Container ) $input = self::container( $input );
-        
-        // make sure we are using the correct filepath delimiter here
-        if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
-        
-        // blow up if we can't find the path to this file.
-        if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
-        
-        // include the file.
+    protected function process( Grok_Container $input, $__file ){
         return include $__file;
     }
     
