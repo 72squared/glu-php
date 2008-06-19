@@ -94,44 +94,6 @@ class Grok_Container {
         return isset( $this->__data[ $k ] ) ? TRUE : FALSE;
     }
 }
-
-/**
-* Internal class. do not use directly.
-* This class keeps a mapping of all the grok states by keyname.
-*/
-class Grok_State {
-    /**
-    * Mapping of files to state classes.
-    */
-    private static $states = array();
-    
-    /**
-    * get the grok state for a key.
-    * if no state exists, create one.
-    * @param string
-    * @return Grok
-    */
-    public static function get( $key ){
-        return isset( self::$states[ $key ] ) ? self::$states[ $key ] : self::$states[ $key ] = new Grok;
-    }
-    
-   /**
-    * remove a grok state for a key.
-    * @param string
-    * @return void
-    */
-    public static function remove( $key ){
-        unset( self::$states[ $key ] );
-    }
-    
-    /**
-    * clear all the mappings.
-    * @return void
-    */
-    public static function clear(){
-        self::$states = array();
-    }
-}
  
 /**
  * Here is the actual Grok Class. Enjoy!
@@ -156,36 +118,39 @@ class Grok extends Grok_Container {
     * @return mixed
     */
     public static function dispatch( $file, $input = NULL ){
+    
+        // static tracking of groks.
+        static $states = array();
         
         // make sure we are using the correct filepath delimiter here
         if( '/' != DIRECTORY_SEPARATOR ) $file = str_replace('/', DIRECTORY_SEPARATOR, $file );
         
-        // blow up if we can't find the path to this file.
-        if( ! file_exists( $file ) ) throw self::exception('invalid-dispatch: ' . $file );
+        // convert to a real path. blow up if we can't find the path to this file.
+        if( ! $file = realpath( $orig = $file ) ) throw self::exception('invalid-dispatch: ' . $orig );
         
         // make sure we have proper input
         if( ! $input instanceof Grok_Container ) $input = self::container( $input );
         
-        // get the grok
-        $grok = Grok_State::get( $file );
+        // instantiate the grok
+        $grok = isset( $states[ $file ] ) ? $states[ $file ] : $states[ $file ] = new Grok;
         
         // run the process command
-        $data = $grok->process( $input, $file);
+        $data = $grok->process( $file, $input );
         
         // if there is no state to save, remove the grok
-        if( count( $grok->export() ) < 1 ) Grok_State::remove( $file );
+        if( count( $grok->export() ) < 1 ) unset( $states[ $file ] );
         
         // all done.
         return $data;
     }
     
    /**
-    * Do not call directly. use dispatch or singletonDispatch.
+    * Do not call directly. use dispatch.
     * @param string
     * @param mixed
     * @return mixed
     */
-    protected function process( Grok_Container $input, $__file ){
+    protected function process( $__file, $input ){
         return include $__file;
     }
     
