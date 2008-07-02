@@ -5,7 +5,7 @@ $cwd = dirname(__FILE__);include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base
 class Grok_ClassVars_String_Test extends Grok_ClassVars_Test {
 
     public function setup() {
-        $this->input = array('a'=>'string1', 'coMpLexKey'=>'b', 'fun'=>'run', '__data'=>'test' );
+        $this->input = array('a'=>'string1', 'coMpLexKey'=>'b', 'fun'=>'run', '__data'=>'test', 'bad-key'=>'test' );
         parent::setup();
     }
     
