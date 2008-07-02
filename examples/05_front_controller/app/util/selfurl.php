@@ -13,7 +13,7 @@ $base_url = ( function_exists('filter_var') ) ? filter_var( $_SERVER['SCRIPT_NAM
 // build the url and return it.
 return $this->instance(
                         array( 'url'=> $base_url . '/' . preg_replace('/[^a-z0-9\/\_]/i', '', $route), 
-                               'parameters'=>$this->export(),
+                               'parameters'=>$this,
                         ) 
             )->dispatch($cwd . '/url.php'); 
 

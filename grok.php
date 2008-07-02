@@ -15,7 +15,7 @@
  * Keeping the container class separate from Grok allows us to ensure that internal variables don't
  * collide with the variables used in writing to a Grok in an include file.
  */
-class Grok_Container {
+class Grok_Container implements Iterator {
     
    /**
     * internal data storage
@@ -32,43 +32,48 @@ class Grok_Container {
         // optimize for the most common cases first. if null, do nothing.
         if( $input === NULL ) return;
         
-        // if we get an array, just write it in.
-        if( is_array( $input ) ) return $this->__data = $input;
-        
-        // if the input is an grok, use the export to write the current data.
-        if( $input instanceof self ) return $this->__data = $input->export();
-        
-        // dunno what this is. pass it off to import to figure out.
-        return $this->import( $input );
-    }
-    
-   /**
-    * takes input and merges it over the top of the existing internal data.
-    * returns the same value you passed in.
-    * @param mixed ...  array/iterator/grok
-    * @return mixed
-    */
-    public function import( $input ){
         // if the input is an grok, we loop through the export.
-        if( $input instanceof self ) {
-            foreach( $input->export() as $k=>$v ) $this->__set( $k, $v );
-        
-        // loop through the data if it is an array or an iterator
-        } elseif( is_array( $input ) || $input instanceof Iterator ) {
+        if( is_array( $input ) || $input instanceof Iterator ) {
             // not sanitizing the keys at all here, so you might only be able to consume
-            // some of the data if you do $grok->export().
+            // some of the data.
             foreach( $input as $k=>$v ) $this->__set( $k, $v);
         }
         // all done.
-        return $input;
     }
     
    /**
-    * export the internal data set
-    * @return array
-    */
-    public function export(){
-        return $this->__data;
+    * @see http://www.php.net/manual/en/language.oop5.iterations.php
+    **/
+    public function current() {
+        return current($this->__data);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/language.oop5.iterations.php
+    **/
+    public function key() {
+        return key($this->__data);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/language.oop5.iterations.php
+    **/
+    public function next() {
+        return next($this->__data);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/language.oop5.iterations.php
+    **/
+    public function valid() {
+        return ($this->current() !== false);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/language.oop5.iterations.php
+    **/
+    public function rewind() {
+        reset($this->__data);
     }
     
    /**

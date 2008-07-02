@@ -4,8 +4,10 @@ $p = array();
 $e = explode('?', $this->url, 2 );
 $url = $e[0];
 $query = isset( $e[1] ) ? $e[1] : '';
-$parameters = $this->parameters;
-if( ! is_array( $parameters ) ) $parameters = array();
+$parameters = array();
+if( is_array( $this->parameters ) || $this->parameters instanceof Iterator ){
+    foreach( $this->parameters as $k=>$v) $parameters[ $k ] = $v;
+}
 $amp = $this->amp;
 if( ! $amp ) $amp = '&amp;';
 if( strlen( $query ) > 0 )

@@ -32,7 +32,9 @@ class Grok_Instance_Test extends Snap_UnitTestCase {
     */
     public function setup() {
         $this->grok = Grok::instance($this->arg);
-        $this->result = $this->grok->export();
+        $export = array();
+        foreach( $this->grok as $k=>$v) $export[$k] = $v;
+        $this->result = $export;
     }
     
     public function teardown() {

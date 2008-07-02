@@ -12,7 +12,9 @@ class Grok_Instance_Grok_Test extends Grok_Instance_Test {
     }
     
     public function test_ExportReturnsArg(){
-        return $this->assertEqual( $this->result, $this->arg->export() );
+        $export = array();
+        foreach( $this->arg as $k=>$v) $export[$k] = $v;
+        return $this->assertEqual( $this->result, $export );
     }
     
     public function test_GrokDataExportedIntoNew(){
