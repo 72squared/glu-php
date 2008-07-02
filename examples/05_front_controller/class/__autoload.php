@@ -1,4 +1,4 @@
-<?
+<?php
 // define the autoload function.
 function grok_class_autoloader($c) {
     $file = dirname(__FILE__). DIRECTORY_SEPARATOR . strtolower($c) . '.php';

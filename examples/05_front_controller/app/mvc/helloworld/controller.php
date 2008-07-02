@@ -1,4 +1,4 @@
-<?
+<?php
 // find the current dir
 $cwd = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 

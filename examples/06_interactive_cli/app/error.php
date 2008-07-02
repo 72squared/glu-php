@@ -1,3 +1,3 @@
 ERROR!
 
-<?= $this->exception; ?>
+<?php echo  $this->exception; ?>

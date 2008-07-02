@@ -1,4 +1,4 @@
-<?
+<?php
 // call the intro action so that we can build our page.
 // pass along the input we got from the demo page so those vars can be
 // used in the action.

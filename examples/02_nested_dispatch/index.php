@@ -1,4 +1,4 @@
-<?
+<?php
 //find the current dir
 $cwd = dirname(__FILE__);// This demo shows how you can nest groks. 
 // in other words, one grok can instantiate an dispatch another.

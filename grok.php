@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * GROK :: lightweight app framework
  *

@@ -1,4 +1,4 @@
 
-<h2><?= $this->header; ?></h2>
-<p><?= $this->body; ?></p>
+<h2><?php echo  $this->header; ?></h2>
+<p><?php echo  $this->body; ?></p>
 

@@ -1,4 +1,4 @@
-<?
+<?php
 // setup the timezone
 $timezone = $this->timezone;
 if( ! $timezone ) $timezone = 'GMT';
@@ -12,4 +12,4 @@ if( ! $now ) $now = time();
 $format = $this->format;
 if( ! $format ) $format = 'Y/m/d H:i:s e';
 ?>
-The time is: <?= date($format, $now); ?>
+The time is: <?php echo  date($format, $now); ?>

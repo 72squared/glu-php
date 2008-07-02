@@ -1,4 +1,4 @@
-<?
+<?php
 // extract the view
 $view = $this->view;
 

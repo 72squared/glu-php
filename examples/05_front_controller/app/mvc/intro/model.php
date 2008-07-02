@@ -1,4 +1,4 @@
-<?
+<?php
 // shows how the action return ties to the view.
 
 // build a data payload object.

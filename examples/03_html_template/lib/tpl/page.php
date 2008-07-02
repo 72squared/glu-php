@@ -1,9 +1,9 @@
 <html>
 <head>
-<title><?=$this->title;?></title>
+<title><?php echo $this->title;?></title>
 </head>
 <body>
-<h1><?=$this->header;?></h1>
-<p><?=$this->message; ?></p>
+<h1><?php echo $this->header;?></h1>
+<p><?php echo $this->message; ?></p>
 </body>
 </html>

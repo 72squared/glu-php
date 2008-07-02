@@ -1,4 +1,4 @@
-<?
+<?php
 // make sure we can actually filter.
 if( ! function_exists('filter_var') ) return;
 

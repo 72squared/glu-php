@@ -1,4 +1,4 @@
-<?
+<?php
 // make sure we are on the script.
 if( strpos( $this->REQUEST_URI, $this->SCRIPT_NAME ) === FALSE ) return 'index';
 

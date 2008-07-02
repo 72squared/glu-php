@@ -1,4 +1,4 @@
-<?
+<?php
 // Build the site index page.
 // right here you would call other actions or models to retrieve the information you need.
 // then you build the page.

@@ -1,4 +1,4 @@
-<?
+<?php
 // render the header
 $this->instance( array('title'=>'Introduction') )->dispatch(dir::layout . 'header.php');
 

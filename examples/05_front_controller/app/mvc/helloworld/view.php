@@ -1,4 +1,4 @@
-<?
+<?php
 // we know what we want the title to be.
 $title = 'Hello, World!';
 

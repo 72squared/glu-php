@@ -1,4 +1,4 @@
-<?
+<?php
 
 $root = dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
 define('CLASS_DIR_APP', $root );

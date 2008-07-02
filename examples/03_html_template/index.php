@@ -1,4 +1,4 @@
-<?
+<?php
 //find the current dir
 $cwd = dirname(__FILE__);// This demo shows how to build a very simple html template
 

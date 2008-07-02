@@ -1,4 +1,4 @@
-<?
+<?php
 // Example of a view-first controller
 
 //find the current dir

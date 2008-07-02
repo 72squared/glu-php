@@ -1,4 +1,4 @@
-<?
+<?php
 //find the current dir
 $cwd = dirname(__FILE__);// make sure we can actually filter.
 if( ! function_exists('filter_var') ) return $this;

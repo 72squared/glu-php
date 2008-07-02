@@ -1,4 +1,4 @@
-<?
+<?php
 // an example of a CLI app.
 
 //find the current dir

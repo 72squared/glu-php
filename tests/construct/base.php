@@ -1,4 +1,4 @@
-<?
+<?php
 // include grok.
 include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'grok.php';
 

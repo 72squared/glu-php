@@ -1,4 +1,4 @@
-<?
+<?php
 // let's call the helloworld action to get some data so we can build our page.
 $data = $this->instance($this->request)->dispatch(dir::model . 'helloworld.php');
 

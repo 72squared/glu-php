@@ -1,4 +1,4 @@
-<?
+<?php
 // Example of a front-end controller
 
 //find the current dir

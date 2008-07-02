@@ -1,4 +1,4 @@
-<?
+<?php
 $p = array();
 
 $e = explode('?', $this->url, 2 );

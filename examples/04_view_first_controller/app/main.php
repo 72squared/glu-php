@@ -1,4 +1,4 @@
-<?
+<?php
 
 // i am gonna turn on an output buffer so in case something bad happens mid-view render, i can
 // discard it all and start over.

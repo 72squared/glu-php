@@ -1,4 +1,4 @@
-<?
+<?php
 include dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . '__autoload.php';
 
 class Grok_FrontendController_Test extends Snap_UnitTestCase {
