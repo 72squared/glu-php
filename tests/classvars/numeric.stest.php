@@ -1,6 +1,5 @@
 <?php
-//find the current dir
-$cwd = dirname(__FILE__);include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
+include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'base.php';
 
 class Grok_ClassVars_Numeric_Test extends Grok_ClassVars_Test {
 

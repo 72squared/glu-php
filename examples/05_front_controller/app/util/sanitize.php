@@ -1,6 +1,5 @@
 <?php
-//find the current dir
-$cwd = dirname(__FILE__);// make sure we can actually filter.
+// make sure we can actually filter.
 if( ! function_exists('filter_var') ) return $this;
 
 // create a new container so we can put all the sanitized content inside

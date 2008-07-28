@@ -1,6 +1,5 @@
 <?php
 //find the current dir
-$cwd = dirname(__FILE__);//find the current working dir
 $cwd = dirname(__FILE__);
 
 // run a dispatch and send a greeting to the first level.

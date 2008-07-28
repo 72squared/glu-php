@@ -1,6 +1,4 @@
 <?php
-//find the current dir
-$cwd = dirname(__FILE__);
 $vars = array();
 foreach( $this->request as $k=>$v ) $vars[$k] = $v;
 If( function_exists( 'json_encode') ){

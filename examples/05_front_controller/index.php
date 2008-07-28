@@ -1,9 +1,6 @@
 <?php
 // Example of a front-end controller
 
-//find the current dir
-$cwd = dirname(__FILE__);
-
 // let's start timing so that later we can display how long it took to run our app.
 // this will include the amount of time it took to include the grok framework.
 $start = microtime(TRUE );
