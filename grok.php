@@ -79,29 +79,36 @@ class Grok_Container implements Iterator {
    /**
     * @see http://www.php.net/oop5.magic
     */
-    private function __set( $k, $v ){
+    protected function __set( $k, $v ){
         return $this->__data[ $k ] = $v;
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    private function __get( $k ){
+    protected function __get( $k ){
         return isset( $this->__data[ $k ] ) ? $this->__data[ $k ] : NULL;
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    private function __unset( $k ){
+    protected function __unset( $k ){
         unset( $this->__data[ $k ] );
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    private function __isset( $k ){
+    protected function __isset( $k ){
         return isset( $this->__data[ $k ] ) ? TRUE : FALSE;
+    }
+    
+    public function __toString(){
+        $out = get_class( $this ) . ' { ';
+        foreach( $this as $k=>$v) $out .= $k . ': ' . $v . ', ';
+        $out = trim($out, ', ');
+        return $out . " }";
     }
 }
  
@@ -140,6 +147,9 @@ class Grok extends Grok_Container {
     public function dispatch( $__file ){
         // make sure we are using the correct filepath delimiter here
         if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
+        
+        // add a php extension if one can't be found.
+        if( substr($__file, -4) != '.php' ) $__file .= '.php';
         
         // blow up if we can't find the path to this file.
         if( ! file_exists( $__file ) ) throw $this->exception('invalid-dispatch: ' . $__file );
