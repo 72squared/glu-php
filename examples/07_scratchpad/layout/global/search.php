@@ -6,6 +6,6 @@ $term = $this->dispatch(ROOT_DIR . 'load/request')->term;
 <fieldset>
 <input type="text" name="term" value="<?php echo $term; ?>"/>
 <input type="submit" value="Search" />
-<input type="hidden" name="route" value="search"/>
+<input type="hidden" name="action" value="search"/>
 </fieldset>
 </form>

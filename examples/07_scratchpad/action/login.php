@@ -6,7 +6,7 @@ if( $request->login ){
     $user = new User( $request->login );
     if( $user->passhash == md5( $request->password . 'salty') ) {
         $session->user_id = $user->user_id;
-        return $this->dispatch(ROOT_DIR . 'route/display');
+        return $this->dispatch(ROOT_DIR . 'action/display');
     }
 }
 $this->dispatch(ROOT_DIR . 'load/header')->title = 'Sign In';

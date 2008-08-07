@@ -7,8 +7,8 @@ ob_start();
 $grok = new Grok;
 $request = $grok->dispatch(ROOT_DIR . 'load/request');
 try {
-    if( ! $request->route ) $request->route = 'display';
-    $grok->dispatch(ROOT_DIR . 'route/' . $request->route );
+    if( ! $request->action ) $request->action = 'display';
+    $grok->dispatch(ROOT_DIR . 'action/' . $request->action );
     foreach($grok->keys() as $k) unset( $grok->$k );
 } catch( Exception $e ){
     $grok->exception = $e;

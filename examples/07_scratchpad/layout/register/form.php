@@ -20,6 +20,6 @@ $action = $baseurl . $path;
 </fieldset>
 <fieldset>
 <input type="submit" value="Register!" />
-<input type="hidden" name="route" value="register"/>
+<input type="hidden" name="action" value="register"/>
 </fieldset>
 </form>

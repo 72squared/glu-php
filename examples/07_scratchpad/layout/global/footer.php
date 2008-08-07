@@ -12,16 +12,16 @@ $currenturl = $baseurl . $path;
 <?php
 if(! $user->user_id): 
 ?>
-<li><a href="<?php echo $currenturl . '?route=login'; ?>">Sign in</a></li>
-<li><a href="<?php echo $currenturl . '?route=register'; ?>">Register</a></li>
+<li><a href="<?php echo $currenturl . '?action=login'; ?>">Sign in</a></li>
+<li><a href="<?php echo $currenturl . '?action=register'; ?>">Register</a></li>
 <?php
 endif;
 ?>
-<li><a href="<?php echo $baseurl . '/?route=changes'; ?>">Recent Changes</a></li>
+<li><a href="<?php echo $baseurl . '/?action=changes'; ?>">Recent Changes</a></li>
 </ul>
 <?php
 if($user->user_id){
-    print "<div><em> Logged in as: " . $user->nickname . "</em> (<a href=\"" . $currenturl . '?route=login' . "\">log out</a>)</div>";
+    print "<div><em> Logged in as: " . $user->nickname . "</em> (<a href=\"" . $currenturl . '?action=login' . "\">log out</a>)</div>";
 }
 ?>
 <?php if( defined('SCRIPT_START_TIME') ): ?>

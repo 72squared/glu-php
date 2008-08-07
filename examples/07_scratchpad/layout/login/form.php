@@ -16,6 +16,6 @@ $action = $baseurl . $path;
 </fieldset>
 <fieldset>
 <input type="submit" value="Sign In!" />
-<input type="hidden" name="route" value="login"/>
+<input type="hidden" name="action" value="login"/>
 </fieldset>
 </form>
