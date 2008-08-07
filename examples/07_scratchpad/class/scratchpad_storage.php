@@ -35,10 +35,35 @@ class Scratchpad_Storage {
         return $paths;
     }
     
-    public function search( $term ){
+    public function find( Scratchpad $pad, $term = '' ){
+        $clauses = array( sprintf("path >= '%s' AND path <= '%s'", $pad->path, $pad->path . 'z') );
+        foreach( explode(' ', trim(preg_replace('/[^a-z0-9 ]/i', '', $term))) as $term ){
+            $term = trim($term);
+            if( strlen( $term ) < 1 ) continue;
+            $clauses[] = sprintf("path LIKE '%s'",  '%' . $term . '%');
+        }
+        $sql = "SELECT entry_id, path FROM directory WHERE " . implode(' AND ', $clauses);
         $db = $this->db();
-        $st = $db->prepare("SELECT directory.entry_id, directory.path FROM directory INNER JOIN entry ON directory.entry_id = entry.entry_id WHERE entry.body LIKE ?");
-        $st->execute(array($term));
+        $st = $db->query($sql);
+        $paths = array();
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
+            $paths[ $row['path'] ] = $row['entry_id'];
+        }
+        $st->closeCursor();
+        return $paths;
+    }
+    
+    
+    public function search( Scratchpad $pad, $term = '' ){
+        $clauses = array( sprintf("directory.path >= '%s' AND directory.path <= '%s'", $pad->path, $pad->path . 'z') );
+        foreach( explode(' ', trim(preg_replace('/[^a-z0-9 ]/i', '', $term))) as $term ){
+            $term = trim($term);
+            if( strlen( $term ) < 1 ) continue;
+            $clauses[] = sprintf("entry.body LIKE '%s'",  '%' . $term . '%');
+        }
+        $sql = "SELECT directory.entry_id, directory.path FROM directory INNER JOIN entry ON directory.entry_id = entry.entry_id WHERE " . implode(' AND ', $clauses);
+        $db = $this->db();
+        $st = $db->query($sql);
         $paths = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
             $paths[ $row['directory.path'] ] = $row['directory.entry_id'];
@@ -101,7 +126,9 @@ class Scratchpad_Storage {
         $st->execute(array($pad->path));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
-        foreach( $data as $k=>$v ) $pad->$k = $v;
+        foreach( $data as $k=>$v ) {
+            if( ! isset( $pad->$k ) ) $pad->$k = $v;
+        }
     }
     
     public function loadDirectoryByID( Scratchpad $pad ){
@@ -112,8 +139,9 @@ class Scratchpad_Storage {
         $st->execute(array($pad->dir_id));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
-        foreach( $data as $k=>$v ) $pad->$k = $v;
-        
+        foreach( $data as $k=>$v ) {
+            if( ! isset( $pad->$k ) ) $pad->$k = $v;
+        }
     }
     
     public function history( $dir_id ){
@@ -126,18 +154,28 @@ class Scratchpad_Storage {
         return $ids;
     }
     
-    public function recentIds(){
+    public function descendentsHistory( Scratchpad $pad ){
         $db = $this->db();
-        $st = $db->prepare("SELECT entry_id FROM entry ORDER BY entry_id DESC LIMIT 500");
-        $st->execute(array($dir_id));
+        $st = $db->prepare("SELECT entry.entry_id FROM directory INNER JOIN entry ON directory.dir_id = entry.dir_id WHERE directory.path >= ? AND directory.path <= ? ORDER BY entry.entry_id DESC LIMIT 500");
+        $st->execute(array($pad->path, $pad->path . 'z'));
         $ids = array();
-        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry_id'];
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry.entry_id'];
+        $st->closeCursor();
+        return $ids;
+    }
+    
+    public function childrenHistory( Scratchpad $pad ){
+        $db = $this->db();
+        $st = $db->prepare("SELECT entry.entry_id  FROM directory INNER JOIN entry ON directory.dir_id = entry.dir_id WHERE directory.parent ? ORDER BY entry.entry_id DESC LIMIT 500");
+        $st->execute(array($pad->dir_id));
+        $ids = array();
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry.entry_id'];
         $st->closeCursor();
         return $ids;
     }
     
     public function store( Scratchpad $pad ){
-        if( ! isset( $pad->path ) ) throw new Exception('invalid-path');
+        if( ! isset( $pad->path ) ) return;
         if( ! $this->init($pad) ) return;
         $pad->created = $this->now();
         if( ! $pad->author ) $pad->author = 0;

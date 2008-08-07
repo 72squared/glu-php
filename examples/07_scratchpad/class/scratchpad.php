@@ -20,12 +20,28 @@ class Scratchpad extends Persistent {
         return $this->storage()->history( $this->dir_id );
     }
     
+    public function search( $term = NULL ){
+        return $this->storage()->search($this, $term );
+    }
+    
+    public function find( $term = NULL ){
+        return $this->storage()->find( $this, $term );
+    }
+    
     public function children(){
         return $this->storage()->children( $this );
     }
     
+    public function childrenHistory(){
+        return $this->storage()->childrenHistory( $this );
+    }
+    
     public function descendents(){
         return $this->storage()->descendents( $this );
+    }
+    
+    public function descendentsHistory(){
+        return $this->storage()->descendentsHistory( $this );
     }
     
     /*** PROTECTED FUNCTIONS BELOW ***/

@@ -1,6 +1,7 @@
 <?php
 if( $this->dispatch(ROOT_DIR . 'layout/global/static') ) return;
 if( $this->dispatch(ROOT_DIR . 'layout/scratchpad/text') ) return;
+$pad = $this->dispatch(ROOT_DIR . 'load/scratchpad');
 $title =  $this->dispatch(ROOT_DIR . 'load/scratchpad')->title;
 $this->dispatch(ROOT_DIR . 'load/header')->title = $title;
 $this->dispatch(ROOT_DIR . 'layout/global/header');

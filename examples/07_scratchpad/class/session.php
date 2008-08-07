@@ -45,7 +45,7 @@ class Session extends Persistent {
     public function __destruct(){
         $now = $this->storage()->now();
         if( ($this->modified + 10 ) < $now ) $this->modified = $now;
-        parent::__destruct();
+        $this->checkAndStore();
     }
     
     protected function storage(){

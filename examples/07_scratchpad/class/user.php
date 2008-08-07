@@ -54,7 +54,7 @@ class User extends Persistent {
     
     public function __destruct(){
         if( ! $this->nickname || ! $this->email ) return;
-        return parent::__destruct();
+        return $this->checkAndStore();
     }
     
     protected function storage(){

@@ -41,7 +41,7 @@ font-size: 182%;
 
 .global-header {
     height: 25px;
-    background: #ccc url(spatter.jpg) no-repeat scroll right top;
+    background: #ccc;
     color: #333;
     border-bottom: #333 solid 8px;
     padding: 10px;
@@ -150,3 +150,6 @@ li:before {
     width: 85%;
 }
 
+dl dt {
+    font-weight: bold;
+}

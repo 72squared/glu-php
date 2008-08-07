@@ -19,7 +19,7 @@ class Persistent extends Grok {
         return $this->storage()->destroy($this);
     }
     
-    public function __destruct(){
+    public function checkAndStore(){
         if( $this->checksum == $this->checksum() ) return;
         $this->store();
     }

@@ -17,7 +17,7 @@ if(! $user->user_id):
 <?php
 endif;
 ?>
-<li><a href="<?php echo $baseurl . '/?action=changes'; ?>">Recent Changes</a></li>
+<li><a href="<?php echo $currenturl . '?action=changes'; ?>">Recent Changes</a></li>
 </ul>
 <?php
 if($user->user_id){
