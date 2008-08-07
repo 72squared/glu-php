@@ -77,6 +77,20 @@ class Grok_Container implements Iterator {
     }
     
    /**
+    * @see http://www.php.net/manual/en/function.count.php
+    **/
+    public function count() {
+        return count($this->__data);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.array-keys.php
+    **/
+    public function keys(){
+        return array_keys( $this->__data );
+    }
+    
+   /**
     * @see http://www.php.net/oop5.magic
     */
     protected function __set( $k, $v ){

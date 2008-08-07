@@ -1,0 +1,152 @@
+html{
+
+}
+body {
+font-size: 12px;
+line-height: 1.3;
+color: #000;
+font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+margin: 0;
+padding: 0;
+min-width: 500px;
+}
+
+a {
+text-decoration: none;
+color: #3B5998;
+}
+a:link,
+a:visited {
+text-decoration: none;
+}
+a:hover,
+a:active {
+border-bottom:1px dotted #000;
+color: #000;
+}
+p {
+padding-bottom: 12px;
+line-height: 18px;
+}
+strong {
+font-weight: bold;
+}
+em {
+font-style: italic;
+}
+
+h1 {
+font-size: 182%;
+}
+
+.global-header {
+    height: 25px;
+    background: #ccc url(spatter.jpg) no-repeat scroll right top;
+    color: #333;
+    border-bottom: #333 solid 8px;
+    padding: 10px;
+}
+
+.global-header a {
+color:#999;
+text-decoration: none;
+}
+
+.global-header a:hover,
+.global-header a:active {
+border-bottom:1px dotted #666;
+color:#666;
+
+}
+
+h2 {
+font-size: 140%;
+}
+
+h3 {
+font-size: 100%;
+}
+
+h4 {
+font-size: 80%;
+}
+
+
+textarea {
+    width: 100%;
+    height: 300px;
+}
+
+fieldset {
+    border: 0;
+}
+
+label,input {
+display: block;
+width: 150px;
+float: left;
+margin-bottom: 10px;
+}
+
+label {
+text-align: right;
+width: 75px;
+padding-right: 20px;
+}
+
+form br {
+clear: left;
+}
+
+.scratchpad-content img {
+  max-width:400px;
+  width: expression(this.width > 400 ? 400: true);
+}
+
+.global-footer {
+    
+}
+
+.global-sidebar {
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+    background: #ccc;
+    border: 0;
+}
+
+.global-sidebar form {
+    float: right;
+    display: none;
+    
+}
+
+.global-content {
+    padding: 20px;
+    width: 80%
+}
+
+.global-footer {
+    padding: 20px;
+}
+
+.scratchpad-nav {
+    padding: 0;
+    width: 80px;
+    float: right;
+}
+
+ul {
+    list-style: none;
+}
+
+li:before {
+    content: "\00BB \0020";
+}
+
+
+
+.scratchpad-content {
+    width: 85%;
+}
+
