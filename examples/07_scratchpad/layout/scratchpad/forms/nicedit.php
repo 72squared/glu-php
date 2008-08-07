@@ -6,8 +6,8 @@ $body = ( $pad->body ) ? $pad->body : '#Page does not exist yet';
 $body = $parser->transform($body);
 $body = preg_replace('#<a[\s]+href="([a-z0-9_\-\/\.]+)"#i', '<a href="' . $baseurl . '${1}"', $body);
 $body = htmlspecialchars($body);
-$iconpath = $baseurl . '/nicedit-icons.gif';
-$js_url = $baseurl . '/nicedit.js';
+$iconpath = $baseurl . '/nicedit/icons.gif';
+$js_url = $baseurl . '/nicedit/main.js';
 $action = '';
 ?>
 <div id="content">

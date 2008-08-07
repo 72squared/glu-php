@@ -67,6 +67,13 @@ class Scratchpad extends Persistent {
         return parent::__set($k, $v);
     }
     
+    protected function __get( $k ){
+        if( $k != 'title' ) return parent::__get($k);
+        $title = ucwords(trim(str_replace( array('/', '-', '_'), ' ', $this->path)));
+        if( ! $title ) $title = 'Home';
+        return $title;
+    }
+    
     public function storage(){
         return new Scratchpad_Storage();
     }
