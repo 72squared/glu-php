@@ -1,19 +1,9 @@
-<?
-$author = $this->dispatch(ROOT_DIR . 'load/author');
-$pad = $this->dispatch(ROOT_DIR . 'load/scratchpad');
-$nickname = ( $author->nickname ) ? $author->nickname : 'Anonymous'; 
-$baseurl = $this->dispatch( ROOT_DIR . 'load/baseurl');
-$parser = new Markdown_Parser;
-$body = $pad->body;
-if( ! $pad->entry_id ) $body = '#directory only';
-if( ! $pad->dir_id )  $body = '#Page does not exist yet';
-$body = $parser->transform($body);
-$body = preg_replace('#<a[\s]+href="([a-z0-9_\-\/\.]+)"#i', '<a href="' . $baseurl . '${1}"', $body);
-$modified = $pad->created ? 'last modified this page on ' . date('Y-m-d H:i:s', $pad->created) : '';
-?>
+<?php $details = $this->dispatch(ROOT_DIR . 'load/scratchpad_display'); ?>
 <div class="scratchpad-content">
-<?php echo $body; ?>
+<?php echo $details->body; ?>
 </div>
+<?php if( $details->entry_id ): ?>
 <div class="scratchpad-modified">
-<em><?php echo $nickname; </script> <script language="php"> echo $modified; ?></em>
+<em><?php echo $details->nickname . ' last modified this page on ' . $details->created; ?></em>
 </div>
+<?php endif; ?>
