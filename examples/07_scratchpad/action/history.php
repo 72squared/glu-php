@@ -1,7 +1,19 @@
 <?php
-$title =  $this->dispatch(ROOT_DIR . 'load/scratchpad')->title;
-$this->dispatch(ROOT_DIR . 'load/header')->title = $title . ' - History';
-$this->dispatch(ROOT_DIR . 'layout/global/header');
-$this->dispatch(ROOT_DIR . 'layout/scratchpad/history');
-$this->dispatch(ROOT_DIR . 'layout/global/footer');
+$d = $this->instance();
+$d->baseurl = $this->baseurl;
+
+$session = $d->session = $this->Session();
+$user = $d->user = $this->User( $session->user_id );
+$pad = $this->ScratchPad( $this->path );
+$lister = $this->Scratchpad_Lister( array_slice($pad->history(), 0, 20) );
+$authors = $this->Scratchpad_Authors( $lister );
+$title = 'Changes for [' . $pad->title . ']';
+$d->title = $title;
+$d->path = $pad->path;
+$d->entry_id = $pad->entry_id;
+$d->dir_id = $pad->dir_id;
+$d->lister = $lister;
+$d->authors = $authors;
+return $d;
+
 //EOF

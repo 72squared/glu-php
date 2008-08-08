@@ -1,18 +1,23 @@
 <?php
-$request = $this->dispatch(ROOT_DIR . 'load/request');
-
-if( $request->nickname ){
-    $user = $this->dispatch(ROOT_DIR . 'load/user');
-    $user->nickname = $request->nickname;
-    $user->email = $request->email;
-    $user->nickname = $request->nickname;
-    $user->passhash = md5( $request->password . 'salty');
-    $this->dispatch(ROOT_DIR . 'load/session')->user_id = $user->user_id;
+$d = $this->instance();
+$d->baseurl = $this->baseurl;
+$d->path = $this->path;
+$session = $d->session = $this->Session();
+$user = $d->user = $this->User( $session->user_id );
+if( $this->nickname ){
+    $user->nickname = $this->nickname;
+    $user->email = $this->email;
+    $user->nickname = $this->nickname;
+    $user->passhash = $user->secretHash( $this->password );
+    $session->user_id = $user->user_id;
     $user->store();
-    return $this->dispatch(ROOT_DIR . 'action/display');
 }
-$this->dispatch(ROOT_DIR . 'load/header')->title = 'Register';
-$this->dispatch(ROOT_DIR . 'layout/global/header');
-$this->dispatch(ROOT_DIR . 'layout/register/form');
-$this->dispatch(ROOT_DIR . 'layout/global/footer');
+$title = 'Register';
+
+$d->action = $this->baseurl . $this->path;
+$d->title = $title;
+return $d;
+
+
+
 //EOF

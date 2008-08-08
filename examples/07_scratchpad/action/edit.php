@@ -1,23 +1,44 @@
 <?php
-$title =  $this->dispatch(ROOT_DIR . 'load/scratchpad')->title .' - Edit';
-$request = $this->dispatch(ROOT_DIR . 'load/request');
-if( isset($request->scratchpad_body) ) {
-    if( ! $this->dispatch( ROOT_DIR . 'load/nonce' )->validate( $request->nonce ) ){
+$d = $this->instance();
+$d->baseurl = $this->baseurl;
+$session = $d->session = $this->Session();
+$user = $d->user = $this->User( $session->user_id );
+$pad = $this->ScratchPad( $this->path );
+$author =  new User( $pad->author );
+
+$title =  $pad->title .' - Edit';
+$nonce = $this->Nonce( $session->token . $session->session_id .  $pad->entry_id );
+
+if( isset($this->body) ) {
+    if( ! $nonce->validate( $this->nonce ) ){
         throw new Exception('invalid-nonce');
     }
-    $pad = $this->dispatch(ROOT_DIR . 'load/scratchpad');
-    $body = $this->dispatch(ROOT_DIR . 'load/markdownify')->parseString($request->scratchpad_body);
-    $baseurl = $this->dispatch(ROOT_DIR . 'load/baseurl');
-    $body = str_replace($baseurl, '', $body);
-    $pad->body = $body; filter_var($body,  FILTER_SANITIZE_STRING );
-    $pad->author = $this->dispatch(ROOT_DIR . 'load/session')->user_id;
+    $markdownify = $this->Markdownify();
+    $body = $markdownify->parseString($this->body);
+    $body = str_replace($this->baseurl, '', $body);
+    $pad->body = $body;
+    $pad->author = $session->user_id;
     $pad->store();
     $title .= ' ( success )';
 }
-$this->dispatch(ROOT_DIR . 'load/header')->title = $title;
-$this->dispatch(ROOT_DIR . 'layout/global/header');
-$this->dispatch(ROOT_DIR . 'layout/scratchpad/nav');
-$this->dispatch(ROOT_DIR . 'layout/scratchpad/forms/wmd');
-$this->dispatch(ROOT_DIR . 'layout/global/footer');
+$nickname = ( $author->nickname ) ? $author->nickname : 'Anonymous'; 
+$body = ( $pad->body ) ? $pad->body : '#Page does not exist yet';
+$action = $this->baseurl . $pad->path;
+$nonce = $this->Nonce( $session->token . $session->session_id .  $pad->entry_id );
+$noncekey = $nonce->create();
+
+
+$d->title = $title;
+$d->path = $pad->path;
+$d->entry_id = $pad->entry_id;
+$d->dir_id = $pad->dir_id;
+$d->body = $body;
+$d->created = $pad->created ? date('Y/m/d H:i:s', $pad->created ) : '';
+$d->action = $action;
+$d->nonce = $noncekey;
+$d->nickname = $nickname;
+return $d;
+
+
 
 //EOF

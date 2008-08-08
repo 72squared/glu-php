@@ -18,6 +18,9 @@ class User extends Persistent {
         $this->load();
     }
     
+    public function secretHash( $word ){
+        return md5( $word . $this->secret());
+    }
     
     /*** PROTECTED FUNCTIONS BELOW ***/
     
@@ -81,6 +84,10 @@ class User extends Persistent {
     protected function isPassHash($v){
         $v = strval($v);
         return preg_match('#^[a-f0-9]{32}$#', $v);
+    }
+    
+    protected function secret(){
+        return 'salty';
     }
 }
 

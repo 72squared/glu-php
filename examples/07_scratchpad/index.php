@@ -5,17 +5,18 @@ include ROOT_DIR . 'class' . DIRECTORY_SEPARATOR . '__autoload.php';
 
 ob_start();
 $grok = new Grok;
-$request = $grok->dispatch(ROOT_DIR . 'load/request');
+$grok->dispatch(ROOT_DIR . 'util/load');
+
 try {
-    if( ! $request->action ) $request->action = 'display';
-    $grok->dispatch(ROOT_DIR . 'action/' . $request->action );
-    foreach($grok->keys() as $k) unset( $grok->$k );
+    if( $grok->dispatch(ROOT_DIR . 'util/static') ) return;
+    $grok->dispatch(ROOT_DIR . 'route/view/' . $grok->route );
 } catch( Exception $e ){
     $grok->exception = $e;
     $grok->debug = ob_get_clean();
     ob_start();
-    return $grok->dispatch(ROOT_DIR . 'layout/global/error');
+    $grok->dispatch(ROOT_DIR . 'route/view/error');
 }
 unset( $grok );
-
 ob_end_flush();
+
+//EOF

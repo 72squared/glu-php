@@ -4,9 +4,10 @@ $d->baseurl = $this->baseurl;
 $session = $d->session = $this->Session();
 $user = $d->user = $this->User( $session->user_id );
 $pad = $this->ScratchPad( $this->path );
-$lister = $this->Scratchpad_Lister( array_slice($pad->descendentsHistory(), 0, 20) );
+$lister = $this->Scratchpad_Lister( array_slice($pad->descendents(), 0, 20) );
 $authors = $this->Scratchpad_Authors( $lister );
-$title = 'Recent Changes';
+$title = 'Descendents';
+
 $d->title = $title;
 $d->path = $pad->path;
 $d->entry_id = $pad->entry_id;

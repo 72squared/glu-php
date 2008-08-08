@@ -1,16 +1,25 @@
 <?php
-$request = $this->dispatch(ROOT_DIR . 'load/request');
-$session = $this->dispatch(ROOT_DIR . 'load/session');
-unset( $session->user_id );
-if( $request->login ){
-    $user = new User( $request->login );
-    if( $user->passhash == md5( $request->password . 'salty') ) {
-        $session->user_id = $user->user_id;
-        return $this->dispatch(ROOT_DIR . 'action/display');
-    }
-}
-$this->dispatch(ROOT_DIR . 'load/header')->title = 'Sign In';
-$this->dispatch(ROOT_DIR . 'layout/global/header');
-$this->dispatch(ROOT_DIR . 'layout/login/form');
-$this->dispatch(ROOT_DIR . 'layout/global/footer');
+$d = $this->instance();
+$d->baseurl = $this->baseurl;
+$d->path = $this->path;
+$session = $d->session = $this->Session();
+$user = $d->user = $this->User;
+$session = $d->session;
+unset( $session->user_id);
+$nonce = $this->Nonce( 'login' . $session->token . $session->session_id );
+
+if( $this->login ){
+    if( ! $nonce->validate( $this->nonce) ) throw new Exception('invalid-nonce');
+    $user = $this->User( $this->login );
+    if( $user->passhash != $user->secretHash( $this->password ) ) throw new Exception('invalid-login');
+    $d->user = $user;
+    $session->user_id = $user->user_id;
+    $session->store();
+} 
+$noncekey = $nonce->create();
+$d->title = 'Login';
+$d->action = $this->baseurl . $this->path;
+$d->nonce = $noncekey;
+return $d;
+
 //EOF
