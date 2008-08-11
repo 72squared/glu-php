@@ -1,15 +1,17 @@
 <?
 class ACL extends Grok {
 
+    private $area = '';
+    
+    private $checksum = '';
+    
     const filename = 'permission.db';
     
-    protected static $db;
-    
-    protected $area = '';
+    private static $db;
     
     public function __construct( $area ){
-        $this->area = $area = $this->__normalize( $area );
-        if( strlen( $area ) > 32 ) $area = md5(32);
+        $this->area = $this->__normalize( $area );
+        $area = ( strlen( $this->area ) > 32 ) ? md5($this->area) : $this->area;
         $db = $this->db();
         $st = $db->prepare("SELECT role, action FROM acl WHERE area = ?");
         $st->execute(array($area));
@@ -20,19 +22,16 @@ class ACL extends Grok {
         }
         $st->closeCursor();
         foreach( $roles as $role=>$actions ) $this->$role = $actions;
+        $this->checksum = $this->checksum();
     }
     
     public function __destruct(){
-    
-    }
-    
-    protected function store(){
-        $area = $this->area;
-        if( strlen( $area ) > 32 ) $area = md5(32);
+        if( $this->checksum == $this->checksum() ) return;
+        $area = ( strlen( $this->area ) > 32 ) ? md5($this->area) : $this->area;
         $db = $this->db();
         $db->beginTransaction();
         $st = $db->prepare('DELETE FROM acl WHERE area = ?');
-        $st->execute( array( $this->area ) );
+        $st->execute( array( $area ) );
         $st = $db->prepare('INSERT INTO acl (area, role, action) VALUES (:area, :role, :action)');
         foreach( $this as $role=>$actions ){
             foreach( $actions as $action ){
@@ -40,6 +39,7 @@ class ACL extends Grok {
             }
         }
         $db->commit();
+        $this->checksum = $this->checksum();
     }
     
     protected function __call( $action, $args ){
@@ -59,11 +59,15 @@ class ACL extends Grok {
         return parent::__set( $this->__normalize($k), $v );
     }
     
-    protected function __normalize( $str ){
+    private function __normalize( $str ){
         return preg_replace('/[^a-z0-9]/', '', strtolower($str));
     }
+
+    private function checksum(){
+        return md5(strval($this));
+    }
     
-    protected function db(){
+    private function db(){
         if( isset( self::$db ) ) return self::$db;
         $db = new PDO('sqlite2:' . ROOT_DIR . 'db' . DIRECTORY_SEPARATOR . self::filename, NULL, NULL, array(PDO::ATTR_PERSISTENT=>TRUE));
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

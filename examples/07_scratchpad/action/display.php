@@ -9,12 +9,6 @@ $user = $d->user = $this->User( $session->user_id );
 
 $pad = $this->ScratchPad( $this->path );
 
-if( $pad->acl ){
-    $acl = $this->ACL( $pad->acl );
-    if( ! $acl->read( $user ) ) throw new Exception('invalid-read');
-}
-
-
 $author =  new User( $pad->author );
 $nickname = ( $author->nickname ) ? $author->nickname : 'Anonymous'; 
 $parser = $this->Markdown_Parser();
