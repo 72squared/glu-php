@@ -8,6 +8,13 @@ $session = $d->session = $this->Session();
 $user = $d->user = $this->User( $session->user_id );
 
 $pad = $this->ScratchPad( $this->path );
+
+if( $pad->acl ){
+    $acl = $this->ACL( $pad->acl );
+    if( ! $acl->read( $user ) ) throw new Exception('invalid-read');
+}
+
+
 $author =  new User( $pad->author );
 $nickname = ( $author->nickname ) ? $author->nickname : 'Anonymous'; 
 $parser = $this->Markdown_Parser();
@@ -16,7 +23,7 @@ if( ! $pad->entry_id ) $body = '#directory only';
 if( ! $pad->dir_id )  $body = '#Page does not exist yet';
 $body = $parser->transform($body);
 $body = preg_replace('#<a[\s]+href="([a-z0-9_\-\/\.]+)"#i', '<a href="' . $this->baseurl . '${1}"', $body);
-
+$d->pad = $pad;
 $d->title = $pad->title;
 $d->path = $pad->path;
 $d->entry_id = $pad->entry_id;

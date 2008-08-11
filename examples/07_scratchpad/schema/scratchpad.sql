@@ -10,7 +10,8 @@ CREATE TABLE entry (
     dir_id INTEGER,
     author INTEGER,
     created INTEGER,
-    body TEXT(50000)
+    body TEXT,
+    data TEXT
 );
 
 CREATE INDEX directory_entry_id ON directory(entry_id);

@@ -7,6 +7,7 @@
 <input type="hidden" name="route" value="edit" />
 <input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>" />
 <input type="hidden" name="entry_id" value="<?php echo $this->entry_id; ?>" />
+<input type="hidden" name="acl" value="main" />
 <br/>
 <div class="wmd-preview"></div>
 </form>

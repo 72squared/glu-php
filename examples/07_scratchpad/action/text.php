@@ -10,6 +10,7 @@ $nickname = ( $author->nickname ) ? $author->nickname : 'Anonymous';
 $body = $pad->body;
 if( ! $pad->entry_id ) $body = '#directory only';
 if( ! $pad->dir_id )  $body = '#Page does not exist yet';
+$d->pad = $pad;
 $d->title = $pad->title;
 $d->path = $pad->path;
 $d->entry_id = $pad->entry_id;

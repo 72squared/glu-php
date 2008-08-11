@@ -12,6 +12,28 @@ class Scratchpad_Storage {
         $this->loadEntry( $pad );
     }
     
+    public function ancestry( Scratchpad $pad ){
+        $clauses = $paths = array();
+        foreach( $this->extractPaths( $pad )  as $path ){
+            $clauses[ $path ] = "'" . $path . "'";
+            $paths[ $path ] = NULL;
+        }
+        if( $pad->dir_id ){
+            $paths[ $pad->path ] = $pad->dir_id;
+            unset( $clauses[ $pad->path ] );
+        }
+        
+        if( count( $clauses ) < 1 ) return $paths;
+        
+        $sql = sprintf( "SELECT dir_id, path FROM directory WHERE path IN( %s )", implode(', ', $clauses));
+        
+        $db = $this->db();
+        $st = $db->query($sql);
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $paths[$row['path']] = $row['dir_id'];
+        $st->closeCursor();
+        return $paths;
+    }
+    
     public function children( Scratchpad $pad ){
         $db = $this->db();
         $st = $db->prepare("SELECT entry_id, path FROM directory WHERE parent = ?");
@@ -115,7 +137,7 @@ class Scratchpad_Storage {
             return;
         }
         $st->closeCursor();
-        foreach( $data as $k=>$v ) $pad->$k = $v;
+        $this->loadData($pad, $data);
     }
     
     public function loadDirectoryByPath( Scratchpad $pad ){
@@ -126,9 +148,7 @@ class Scratchpad_Storage {
         $st->execute(array($pad->path));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
-        foreach( $data as $k=>$v ) {
-            if( ! isset( $pad->$k ) ) $pad->$k = $v;
-        }
+        $this->loadData($pad, $data);
     }
     
     public function loadDirectoryByID( Scratchpad $pad ){
@@ -139,15 +159,13 @@ class Scratchpad_Storage {
         $st->execute(array($pad->dir_id));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
-        foreach( $data as $k=>$v ) {
-            if( ! isset( $pad->$k ) ) $pad->$k = $v;
-        }
+        $this->loadData($pad, $data);
     }
     
-    public function history( $dir_id ){
+    public function history( Scratchpad $pad ){
         $db = $this->db();
         $st = $db->prepare("SELECT entry_id FROM entry WHERE dir_id = ? ORDER BY dir_id DESC, entry_id DESC LIMIT 500");
-        $st->execute(array($dir_id));
+        $st->execute(array($pad->dir_id));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry_id'];
         $st->closeCursor();
@@ -176,43 +194,78 @@ class Scratchpad_Storage {
     
     public function store( Scratchpad $pad ){
         if( ! isset( $pad->path ) ) return;
-        if( ! $this->init($pad) ) return;
-        $pad->created = $this->now();
-        if( ! $pad->author ) $pad->author = 0;
+        if( ! $pad->dir_id ) $this->initializePaths( $pad );
+        $params = array();
+        $params['dir_id'] = $pad->dir_id;
+        $params['author'] = $pad->author;
+        $params['created'] = $pad->created = $this->now();
+        $params['body'] = $pad->body;
+        $data = array();
+        foreach($pad as $k=>$v){
+            if( in_array($k, array('dir_id', 'path', 'parent', 'entry_id', 'author', 'created', 'body') ) ) continue;
+            $data[$k] = $v;
+        }
+        $params['data'] = $this->encode($data);
         $db = $this->db();
-        $st = $db->prepare( "INSERT INTO entry (dir_id, author, created, body) VALUES (:dir_id, :author, :created, :body)");
-        $st->execute( array('dir_id'=>$pad->dir_id, 'author'=>$pad->author, 'created'=>$pad->created, 'body'=>$pad->body) );
+        $st = $db->prepare( "INSERT INTO entry (dir_id, author, created, body, data) VALUES (:dir_id, :author, :created, :body, :data)");
+        $st->execute( $params );
         $pad->entry_id = $db->lastInsertId();
         $st = $db->prepare("UPDATE directory SET entry_id = :entry_id WHERE dir_id = :dir_id");
         $st->execute(array('entry_id'=>$pad->entry_id, 'dir_id'=>$pad->dir_id) );
     }
     
     /*** PROTECTED FUNCTIONS BELOW ***/
-
-    protected function init( Scratchpad $pad ){
-        if( $pad->dir_id ) return $pad->dir_id;
+   
+    protected function initializePaths( Scratchpad $pad ){
+        $paths = $this->ancestry( $pad );
         $db = $this->db();
-        $st_select = $db->prepare("SELECT dir_id FROM directory WHERE path = ?");
-        $st_insert = $db->prepare("INSERT INTO directory (path, parent) VALUES (:path, :parent)");
-        $parent = 0;
-        $subdir = '';
-        $path = '';
+        $st = $db->prepare("INSERT INTO directory (path, parent) VALUES (:path, :parent)");
+        $parent = $pad->parent = 0;
+        foreach( $paths as $path=>$dir_id ){
+            if( $dir_id === NULL ){
+                $st->execute(array('path'=>$path, 'parent'=>$parent));
+                $dir_id = $paths[ $path ] = $db->lastInsertId();
+            }
+            $pad->parent = $parent;
+            $parent = $pad->dir_id = $dir_id;
+        }
+        return $paths;
+    }
+    
+    protected function extractPaths( Scratchpad $pad ){
+        $paths = array();
         foreach( explode('/', $pad->path) as $dir ){
             $path .= '/' . $dir;
             $path = '/' . trim($path, '/');
-            $st_select->execute(array($path));
-            $data = $st_select->fetch(PDO::FETCH_ASSOC);
-            $st_select->closeCursor();
-            if( $data ){
-                $parent = $data['dir_id'];
-            } else {
-                $st_insert->execute(array('path'=>$path, 'parent'=>$parent));
-                $parent = $db->lastInsertId();
-            }
+            $paths[] = $path;
         }
-        return $pad->dir_id = $parent;
+        return $paths;
     }
-   
+    
+    protected function loadData( Scratchpad $pad, $data ){
+        if( ! is_array( $data ) ) return;
+        $extra = $this->decode( $data['data']);
+        unset( $data['data']);
+        foreach( $data as $k=>$v) {
+            if( ! isset( $pad->$k ) ) $pad->$k = $v;
+        }
+        foreach( $extra as $k=>$v) {
+            if( ! isset( $pad->$k ) ) $pad->$k = $v;
+        }
+    }
+    
+    protected function encode($v){
+        if( ! is_array( $v ) ) $v = array();
+        if( empty( $v ) ) return '';
+        return @json_encode($v);
+    }
+    
+    protected function decode($v){
+        $v = json_decode($v);
+        if( ! is_array( $v ) && ! ($v instanceof stdclass) ) $v = array();
+        return $v;
+    }
+    
     protected function db(){
         if( isset( self::$db ) ) return self::$db;
         $db = new PDO('sqlite2:' . ROOT_DIR . 'db' . DIRECTORY_SEPARATOR . self::filename, NULL, NULL, array(PDO::ATTR_PERSISTENT=>TRUE));

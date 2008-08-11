@@ -17,7 +17,7 @@ class Scratchpad extends Persistent {
     }
     
     public function history(){
-        return $this->storage()->history( $this->dir_id );
+        return $this->storage()->history( $this );
     }
     
     public function search( $term = NULL ){
@@ -26,6 +26,10 @@ class Scratchpad extends Persistent {
     
     public function find( $term = NULL ){
         return $this->storage()->find( $this, $term );
+    }
+    
+    public function ancestry(){
+        return $this->storage()->ancestry( $this );
     }
     
     public function children(){
@@ -77,7 +81,8 @@ class Scratchpad extends Persistent {
             case 'body':            $v = strval($v);
                                     break;
             
-            default : return NULL;
+            default :               if( ! preg_match('#[a-z][a-z0-9_]+$#', $k) ) return NULL;
+                                    break;
         }
         
         return parent::__set($k, $v);

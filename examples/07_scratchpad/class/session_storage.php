@@ -102,6 +102,7 @@ class Session_Storage {
     
     protected function encode($v){
         if( ! is_array( $v ) ) $v = array();
+        if( empty( $v ) ) return '';
         return @json_encode($v);
     }
     

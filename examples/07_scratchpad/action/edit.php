@@ -18,6 +18,7 @@ if( isset($this->body) ) {
     $body = str_replace($this->baseurl, '', $body);
     $pad->body = $body;
     $pad->author = $session->user_id;
+    $pad->acl = ($this->acl ) ? $this->acl : NULL;
     $pad->store();
     $title .= ' ( success )';
 }
