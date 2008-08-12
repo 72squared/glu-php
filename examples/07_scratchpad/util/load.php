@@ -1,6 +1,5 @@
 <?php
-$this->request = $this->instance();
-foreach( $_REQUEST as $k=>$v) $this->request->$k = filter_var($v);
+$this->request = $this->instance(filter_var_array( $_REQUEST));
 $this->baseurl = rtrim( substr( dirname($_SERVER['SCRIPT_FILENAME']) . '/', 
                  strlen(realpath($_SERVER['DOCUMENT_ROOT']))), ' /');
 
@@ -18,15 +17,7 @@ $this->route = (  $this->request->route ) ? $this->request->route :'display';
 
 
 $pos = strrpos($this->path, '.');
-
 if($pos === FALSE ) return;
-
 $ext = substr($this->path, strrpos($this->path, '.') + 1);
-$extensions = 
-array(  'gif'=> 'image/gif',
-        'jpg'=> 'image/jpg',
-        'png'=> 'image/png',
-        'css'=> 'text/plain',
-        'js'=>  'text/plain',
-);
-if( isset( $extensions[$ext] ) ) $this->route = 'static';
+$extensions = array( 'gif', 'jpg', 'png', 'css','js');
+if( in_array( $ext, $extensions ) ) $this->route = 'static';

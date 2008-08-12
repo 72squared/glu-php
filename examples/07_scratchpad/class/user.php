@@ -216,7 +216,7 @@ class User extends Grok {
     
     protected function isNickname($v){
         $v = strval($v);
-        return preg_match('#^[a-z][a-z0-9_\-\ ]+$#i', $v);
+        return preg_match('#^[a-z][a-z0-9_\-\ ,]+$#i', $v);
     }
     
     protected function isEmail($v){
