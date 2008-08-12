@@ -7,10 +7,18 @@ $this->nonce = $nonce->create();
 
 if( ! $this->request->email ) return;
 
-if( ! $nonce->validate( $this->request->nonce) ) throw new Exception('invalid-nonce');
+if( ! $nonce->validate( $this->request->nonce) ) {
+    $this->exception = new Exception('invalid-nonce');
+    return;
+}
 $authclass = ( $this->request->authtype == 'imap' ) ? 'Imap_Auth' : 'Pop3_Auth';
-$auth = $this->$authclass(  $this->request->domain, $this->request->use_ssl );
-$auth->authenticate( $this->request->email, $this->request->password );
+try {
+    $auth = $this->$authclass(  $this->request->domain, $this->request->use_ssl );
+    $auth->authenticate( $this->request->email, $this->request->password );
+} catch( Exception $e ){
+    $this->exception = $e;
+    return;
+}
 $user = $this->User( $this->request->email );
 $user->email = $this->request->email;
 if( $this->request->nickname ) {

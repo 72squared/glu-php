@@ -1,4 +1,4 @@
-<h2>Sign in via POP3</h2>
+<h2>Sign in via email</h2>
 <form action="<?php echo $this->baseurl . $this->path;?>" method="POST" class="login-form" >
 
 <fieldset>
