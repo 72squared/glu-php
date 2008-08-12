@@ -1,6 +1,14 @@
 <?php
 
-class User extends Persistent {
+class User extends Grok {
+    
+    private $checksum;
+    
+    protected static $db;
+    
+    const filename = 'user.db';
+    
+    protected static $columns = array('user_id', 'nickname', 'email', 'passhash', 'created', 'modified');
     
     public function __construct( $data = NULL ){
         if( $data === NULL ) return;
@@ -15,7 +23,10 @@ class User extends Persistent {
         } else {
             parent::__construct($data);
         }
-        $this->load();
+        $this->loadByUserId();
+        $this->loadByNickname();
+        $this->loadByEmail();
+        $this->checksum = $this->checksum();
     }
     
     public function secretHash( $word ){
@@ -57,14 +68,137 @@ class User extends Persistent {
     
     public function __destruct(){
         if( ! $this->nickname || ! $this->email ) return;
-        return $this->checkAndStore();
+        if( $this->checksum == $this->checksum() ) return;
+        $this->store();
     }
     
-    protected function storage(){
-        return new User_Storage();
+    public function store(){
+        if( ! $this->nickname ) throw new Exception('invalid-nickname');
+        if( ! $this->passhash ) throw new Exception('invalid-passhash');
+        if( ! $this->email ) throw new Exception('invalid-email');
+        $this->modified = $this->now();
+        if( ! $this->created ) $this->created = $this->now();
+        $db = $this->db();
+        $params = array();
+        foreach(self::$columns as $k){
+            $params[$k] = $this->$k;
+        }
+        if( $this->user_id ) {
+            $st = $db->prepare("INSERT OR REPLACE INTO user (user_id, nickname, passhash, email, created, modified) VALUES (:user_id, :nickname, :passhash, :email, :created, :modified)");
+            $st->execute($params);
+        } else {
+            unset( $params['user_id'] );
+            $st = $db->prepare("INSERT INTO user (nickname, passhash, email, created, modified) VALUES (:nickname, :passhash, :email, :created, :modified)");
+            $st->execute( $params );
+            $this->user_id = $db->lastInsertId();
+        }
+        
+        if( ! $this->user_id ) throw Exception('invalid-user_id');
+        try {
+            $db->beginTransaction();
+            $st = $db->prepare("DELETE FROM user_attribute WHERE user_id = ?");
+            $st->execute(array($this->user_id ));
+            $st = $db->prepare("INSERT INTO user_attribute (user_id, label, data) VALUES (:user_id, :label, :data)");
+            foreach( $this as $k => $v ){
+                if( in_array($k, self::$columns) ) continue;
+                $st->execute(array('user_id'=>$this->user_id, 'label'=>$k, 'data'=>$v) );
+            }
+            $db->commit();
+        } catch( Exception $e ){
+            $db->rollback();
+            throw $e;
+        }
+        
+        $this->checksum = $this->checksum();
     }
     
-    protected function isUserId( $v ){
+    public function batch( User_Lister $iterator, $ids){
+        if( ! is_array($ids) || count($ids) < 1 ) return $iterator;
+        $clean_ids = array();
+        foreach($ids as $id ) {
+            $id = intval($id );
+            if( $id < 1 ) continue;
+            $clean_ids[] = $id;
+        }
+        if( count($clean_ids ) < 1 ) return $iterator;
+        $db = $this->db();
+        $st = $db->query(sprintf("SELECT * FROM user WHERE user_id IN( %s )", implode(',', $clean_ids) ) );
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
+            $k = $row['user_id'];
+            $iterator->$k = new User( $row );
+        }
+        $st->closeCursor();
+        return $iterator;
+    }
+    
+    
+    /*** PROTECTED FUNCTIONS BELOW ***/
+    
+    public function loadAttributes(){
+        if( ! $this->user_id ) return;
+        $db = $this->db();
+        $st = $db->prepare("SELECT label, data FROM user_attribute WHERE user_id = ?");
+        $st->execute( array($this->user_id) );
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
+            $k = $row['label'];
+            $v = $row['data'];
+            $this->$k = $v;
+        }
+        $st->closeCursor();
+    }
+    
+    protected function loadByUserId(){
+        if( ! isset( $this->user_id )) return;
+        if( isset( $this->nickname ) ) return;
+        $db = $this->db();
+        $st = $db->prepare('SELECT * FROM user WHERE user_id = ?');
+        $st->execute( array($this->user_id ) );
+        $data = $st->fetch(PDO::FETCH_ASSOC);
+        $st->closeCursor();
+        if( ! $data ) {
+            unset( $this->user_id );
+            return;
+        }
+        foreach( $data as $k=>$v) $this->$k = $v;
+        $this->loadAttributes();
+    }
+    
+    protected function loadByNickname(){
+        if( ! isset( $this->nickname )) return;
+        if( isset( $this->user_id ) ) return;
+        $db = $this->db();
+        $st = $db->prepare("SELECT * FROM user WHERE nickname = ?");
+        $st->execute( array( $this->nickname ) );
+        $data = $st->fetch(PDO::FETCH_ASSOC);
+        $st->closeCursor();
+        if( ! $data ){
+            unset( $this->nickname );
+            return;
+        }
+        foreach( $data as $k=>$v) $this->$k = $v;
+        $this->loadAttributes();
+    }
+    
+    protected function loadByEmail(){
+        if( ! isset( $this->email )) return;
+        if( isset( $this->user_id ) ) return;
+        $db = $this->db();
+        $st = $db->prepare("SELECT * FROM user WHERE email = ?");
+        $st->execute( array( $this->email ) );
+        $data = $st->fetch(PDO::FETCH_ASSOC);
+        $st->closeCursor();
+        if( ! $data ){
+            unset( $this->email );
+            return;
+        }
+        foreach( $data as $k=>$v) $this->$k = $v;
+        $this->loadAttributes();
+    }
+    
+    protected function now(){
+        return time();
+    }
+        protected function isUserId( $v ){
         $v = strval($v);
         if( ! preg_match("#^[0-9]+$#", $v ) ) return FALSE;
         if( $v < 0 ) return FALSE;
@@ -88,6 +222,17 @@ class User extends Persistent {
     
     protected function secret(){
         return 'salty';
+    }
+    
+    protected function checksum(){
+        return md5(strval($this));
+    }
+    
+    protected function db(){
+        if( isset( self::$db ) ) return self::$db;
+        $db = new PDO('sqlite2:' . ROOT_DIR . 'db' . DIRECTORY_SEPARATOR . self::filename, NULL, NULL, array(PDO::ATTR_PERSISTENT=>TRUE));
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return self::$db = $db;
     }
 }
 
