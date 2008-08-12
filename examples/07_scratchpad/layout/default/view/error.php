@@ -1,8 +1,7 @@
 <?php
-$d = $this->dispatch( ROOT_DIR . 'action/error');
-$d->baseurl = $this->baseurl;
+$this->dispatch( ROOT_DIR . 'action/error');
 $tpl = dirname(dirname(__FILE__)) . '/tpl/';
-$d->dispatch($tpl . 'header');
-$d->dispatch($tpl . 'message');
-$d->dispatch($tpl . 'footer'); 
+$this->dispatch($tpl . 'header');
+$this->dispatch($tpl . 'message');
+$this->dispatch($tpl . 'footer'); 
 // EOF

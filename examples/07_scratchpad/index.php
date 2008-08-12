@@ -8,13 +8,13 @@ $grok = new Grok;
 $grok->dispatch(ROOT_DIR . 'util/load');
 
 try {
-    if( $grok->dispatch(ROOT_DIR . 'util/static') ) return;
-    $grok->dispatch(ROOT_DIR . 'route/view/' . $grok->route );
+    $grok->dispatch(ROOT_DIR . 'route/' . $grok->route );
+    foreach( $grok->keys() as $k ) unset( $grok->$k );
 } catch( Exception $e ){
     $grok->exception = $e;
     $grok->debug = ob_get_clean();
     ob_start();
-    $grok->dispatch(ROOT_DIR . 'route/view/error');
+    $grok->dispatch(ROOT_DIR . 'route/error');
 }
 unset( $grok );
 ob_end_flush();

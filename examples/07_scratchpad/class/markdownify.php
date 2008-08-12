@@ -199,9 +199,6 @@ class Markdownify {
     protected $lastClosedTag = '';
     
     
-    
-    
-    
     protected static $initialized = FALSE;
     
     
@@ -216,12 +213,21 @@ class Markdownify {
      *             defaults to true (HTML will be kept)
      * @return void
      */
-    function __construct($linksAfterEachParagraph = MDFY_LINKS_EACH_PARAGRAPH, $bodyWidth = MDFY_BODYWIDTH, $keepHTML = MDFY_KEEPHTML) {
-        $this->linksAfterEachParagraph = $linksAfterEachParagraph;
-        $this->keepHTML = $keepHTML;
-        if ($bodyWidth > $this->minBodyWidth) {
-            $this->bodyWidth = intval($bodyWidth);
-        } else {
+    function __construct( $args = NULL ){
+        
+        $allowed = array('linksAfterEachParagraph', 'bodyWidth', 'keepHTML', 'relativeURLBase');
+        
+        $this->linksAfterEachParagraph = MDFY_LINKS_EACH_PARAGRAPH;
+        $this->bodyWidth = MDFY_BODYWIDTH;
+        $this->keepHTML = MDFY_KEEPHTML;
+        if( is_array( $args ) ){
+            foreach($args as $k=>$v){
+                if( ! in_array( $k ) ) continue;
+                $this->$k = $v;
+            }
+        }
+        
+        if ($this->bodyWidth < $this->minBodyWidth) {
             $this->bodyWidth = false;
         }
         self::initialize();

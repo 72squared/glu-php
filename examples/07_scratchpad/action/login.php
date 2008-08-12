@@ -1,25 +1,17 @@
 <?php
-$d = $this->instance();
-$d->baseurl = $this->baseurl;
-$d->path = $this->path;
-$session = $d->session = $this->Session();
-$user = $d->user = $this->User;
-$session = $d->session;
-unset( $session->user_id);
+$this->session = $this->Session();
+$this->user = $this->User();
+unset( $this->session->user_id);
 $nonce = $this->Nonce( 'login' . $session->token . $session->session_id );
 
-if( $this->login ){
-    if( ! $nonce->validate( $this->nonce) ) throw new Exception('invalid-nonce');
-    $user = $this->User( $this->login );
-    if( $user->passhash != $user->secretHash( $this->password ) ) throw new Exception('invalid-login');
-    $d->user = $user;
-    $session->user_id = $user->user_id;
-    $session->store();
+if( $this->request->login ){
+    if( ! $nonce->validate( $this->request->nonce) ) throw new Exception('invalid-nonce');
+    $user = $this->User( $this->request->login );
+    if( $user->passhash != $user->secretHash( $this->request->password ) ) throw new Exception('invalid-login');
+    $this->user = $user;
+    $this->session->user_id = $user->user_id;
+    $this->session->store();
 } 
-$noncekey = $nonce->create();
-$d->title = 'Login';
-$d->action = $this->baseurl . $this->path;
-$d->nonce = $noncekey;
-return $d;
+$this->nonce = $nonce->create();
 
 //EOF

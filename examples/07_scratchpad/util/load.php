@@ -1,6 +1,6 @@
 <?php
-
-foreach( $_REQUEST as $k=>$v) $this->$k = filter_var($v);
+$this->request = $this->instance();
+foreach( $_REQUEST as $k=>$v) $this->request->$k = filter_var($v);
 $this->baseurl = rtrim( substr( dirname($_SERVER['SCRIPT_FILENAME']) . '/', 
                  strlen(realpath($_SERVER['DOCUMENT_ROOT']))), ' /');
 
@@ -12,8 +12,21 @@ $this->path = '/' . $path;
 
 if( substr($this->path,-5) == '.text' ) {
     $this->path = substr($this->path, 0, -5);
-    $this->route = 'text';
-} elseif(preg_match('#^/[0-9]+$#', $this->path)){
-    $this->path = substr($this->path, 1);
+    $this->request->route = 'text';
 }
-if( ! $this->route ) $this->route = 'display';
+$this->route = (  $this->request->route ) ? $this->request->route :'display';
+
+
+$pos = strrpos($this->path, '.');
+
+if($pos === FALSE ) return;
+
+$ext = substr($this->path, strrpos($this->path, '.') + 1);
+$extensions = 
+array(  'gif'=> 'image/gif',
+        'jpg'=> 'image/jpg',
+        'png'=> 'image/png',
+        'css'=> 'text/plain',
+        'js'=>  'text/plain',
+);
+if( isset( $extensions[$ext] ) ) $this->route = 'static';

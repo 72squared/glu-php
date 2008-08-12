@@ -1,8 +1,9 @@
 <?php
-$d = $this->dispatch(ROOT_DIR . 'action/edit');
+$this->dispatch(ROOT_DIR . 'action/edit');
 $tpl = dirname(dirname(__FILE__)) . '/tpl/';
-$d->dispatch($tpl . 'header'); 
-$d->dispatch($tpl . 'nav');
-$d->dispatch($tpl . 'editform');
-$d->dispatch($tpl . 'footer');
+$this->title = $this->pad->title . ' - EDIT';
+$this->dispatch($tpl . 'header'); 
+$this->dispatch($tpl . 'nav');
+$this->dispatch($tpl . 'editform');
+$this->dispatch($tpl . 'footer');
 // EOF

@@ -124,10 +124,18 @@ class Markdown_Parser {
     
     protected $list_level = 0;
     
-    public function __construct() {
+    protected $relative_url_base = '';
+    
+    public function __construct( $args = null) {
     #
     # Constructor function. Initialize appropriate member variables.
     #
+        $allowed = array('relative_url_base');
+        if( is_array($args) ){
+            foreach( $args as $k=>$v) {
+                if( in_array( $k, $allowed ) ) $this->$k = $v;
+            }
+        }
         $this->_initDetab();
         self::init();
     }
@@ -230,6 +238,12 @@ class Markdown_Parser {
         # Run document gamut methods.
         foreach (self::$document_gamut as $method => $priority) {
             $text = $this->$method($text);
+        }
+        
+        # convert relative urls to be prepended with the base url.
+        if( $this->relative_url_base) {
+            $text = preg_replace('#<a[\s]+href="([a-z0-9_\-\/\.]+)"#i', 
+                                 '<a href="' . $this->relative_url_base . '${1}"', $text);
         }
         
         $this->teardown();

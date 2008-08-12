@@ -1,9 +1,10 @@
 <?php
-$d = $this->dispatch(ROOT_DIR . 'action/history');
+$this->dispatch(ROOT_DIR . 'action/history');
 $tpl = dirname(dirname(__FILE__)) . '/tpl/';
-$d->dispatch($tpl . 'header'); 
-$d->dispatch($tpl . 'nav');
-$d->dispatch($tpl . 'list');
-$d->dispatch($tpl . 'footer');
+$this->title = 'History for [' . $this->pad->title . ']';
+$this->dispatch($tpl . 'header'); 
+$this->dispatch($tpl . 'nav');
+$this->dispatch($tpl . 'list');
+$this->dispatch($tpl . 'footer');
 
 // EOF

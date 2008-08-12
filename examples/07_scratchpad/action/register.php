@@ -1,23 +1,13 @@
 <?php
-$d = $this->instance();
-$d->baseurl = $this->baseurl;
-$d->path = $this->path;
-$session = $d->session = $this->Session();
-$user = $d->user = $this->User( $session->user_id );
-if( $this->nickname ){
-    $user->nickname = $this->nickname;
-    $user->email = $this->email;
-    $user->nickname = $this->nickname;
-    $user->passhash = $user->secretHash( $this->password );
-    $session->user_id = $user->user_id;
-    $user->store();
-}
-$title = 'Register';
+$this->session = $this->Session();
+$this->user = $this->User( $this->session->user_id );
+if( ! $this->request->nickname ) return;
 
-$d->action = $this->baseurl . $this->path;
-$d->title = $title;
-return $d;
-
-
+$this->user->nickname = $this->request->nickname;
+$this->user->email = $this->request->email;
+$this->user->nickname = $this->request->nickname;
+$this->user->passhash = $user->secretHash( $this->request->password );
+$this->session->user_id = $user->user_id;
+$this->user->store();
 
 //EOF

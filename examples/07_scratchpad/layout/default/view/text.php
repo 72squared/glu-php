@@ -1,5 +1,6 @@
 <?
+$this->dispatch(ROOT_DIR . 'action/display');
 header('Content-Type: text/plain');
-echo $this->dispatch(ROOT_DIR . 'action/text')->body;
+echo $this->pad->body;
 
 // EOF

@@ -7,6 +7,8 @@ class Scratchpad extends Persistent {
          if( is_scalar($data) ){
             if( preg_match("#^[0-9]+$#", $data ) ){
                 $this->entry_id = $data;
+            } elseif(preg_match('#^/[0-9]+$#', $data)){
+                $this->entry_id = substr($data, 1);
             } else {
                 $this->path = $data;
             }

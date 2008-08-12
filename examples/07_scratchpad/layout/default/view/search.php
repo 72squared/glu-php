@@ -1,20 +1,20 @@
 <?php
 
-$d = $this->dispatch(ROOT_DIR . 'action/search');
+$this->dispatch(ROOT_DIR . 'action/search');
 
 $tpl = dirname(dirname(__FILE__)) . '/tpl/';
 
-$d->dispatch($tpl . 'header'); 
-$d->dispatch($tpl . 'nav');
+$this->dispatch($tpl . 'header'); 
+$this->dispatch($tpl . 'nav');
 
-$d->title = 'Title Search';
-$d->lister = $d->titles;
-$d->dispatch($tpl . 'list');
+$this->title = 'Title Search';
+$this->lister = $this->titles;
+$this->dispatch($tpl . 'list');
 
-$d->title = 'Keyword Search';
-$d->lister = $d->keywords;
-$d->dispatch($tpl . 'list');
+$this->title = 'Keyword Search';
+$this->lister = $this->keywords;
+$this->dispatch($tpl . 'list');
 
-$d->dispatch($tpl . 'footer');
+$this->dispatch($tpl . 'footer');
 
 // EOF
