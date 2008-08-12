@@ -108,6 +108,15 @@ class Session extends Grok {
         $st->execute( array( $expire ) );
     }
     
+    public function initialize(){
+        $db = $this->db();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+        $db->query('DROP TABLE session');
+        $db->query('CREATE TABLE session (session_id INTEGER PRIMARY KEY, token TEXT(32) UNIQUE, created INTEGER, modified INTEGER, data TEXT)');
+        $db->query('CREATE INDEX session_modified ON session(modified)');
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    
     /*** PROTECTED FUNCTIONS BELOW ***/
    
     protected function loadBySessionID(){

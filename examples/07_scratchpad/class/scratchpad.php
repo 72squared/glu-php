@@ -284,6 +284,20 @@ class Scratchpad extends Grok {
         $this->checksum = $this->checksum();
     }
     
+    public function initialize(){
+        $db = $this->db();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+        $db->query('DROP TABLE entry');
+        $db->query('DROP TABLE directory');
+        $db->query('CREATE TABLE entry ( entry_id  INTEGER PRIMARY KEY, dir_id INTEGER, author INTEGER, created INTEGER, body TEXT, data TEXT)');
+        $db->query('CREATE TABLE directory (dir_id INTEGER PRIMARY KEY, parent INTEGER, path TEXT(500) UNIQUE, entry_id INTEGER UNIQUE)');
+        $db->query('CREATE INDEX directory_entry_id ON directory(entry_id)');
+        $db->query('CREATE INDEX directory_parent ON directory(parent)');
+        $db->query('CREATE INDEX entry_dir_id ON entry(dir_id)');
+        $db->query('CREATE INDEX entry_author ON entry(author)');
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    
     /*** PROTECTED FUNCTIONS BELOW ***/
    
     protected function initializePaths(){

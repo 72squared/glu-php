@@ -67,6 +67,15 @@ class ACL extends Grok {
         return md5(strval($this));
     }
     
+    public function initialize(){
+        $db = $this->db();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+        $db->query('DROP TABLE acl');
+        $db->query('CREATE TABLE acl (area TEXT(32),role TEXT(32),action TEXT(32),PRIMARY KEY (area, role, action))');
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    
+    
     private function db(){
         if( isset( self::$db ) ) return self::$db;
         $db = new PDO('sqlite2:' . ROOT_DIR . 'db' . DIRECTORY_SEPARATOR . self::filename, NULL, NULL, array(PDO::ATTR_PERSISTENT=>TRUE));
