@@ -20,9 +20,9 @@ if(! $this->user->user_id):
 <?php else : ?>
 <div><em> Logged in as: <?php echo $this->user->nickname ?></em> (<a href="<?php echo $currenturl ?>?route=login">log out</a>)</div>
 <?php endif; ?>
-<?php if( defined('SCRIPT_START_TIME') ): ?>
+<?php if( $this->SCRIPT_START_TIME ): ?>
 <em>
-page generated in <?php echo  number_format( microtime(TRUE) - SCRIPT_START_TIME, 4); ?> seconds
+page generated in <?php echo  number_format( microtime(TRUE) - $this->SCRIPT_START_TIME, 5); ?> seconds
 </em>
 <?php endif; ?>
 </div>

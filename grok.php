@@ -179,7 +179,7 @@ class Grok extends Grok_Container {
         $__file = $this->resolve( $__file );
         
         // blow up if we can't find the path to this file.
-        if( ! $__file )  throw $this->exception('invalid-dispatch: ' . $__file );
+        if( ! file_exists( $__file ) )  throw $this->exception('invalid-dispatch: ' . $__file );
         
         // include the file and return the result.
         return include $__file;
@@ -196,9 +196,6 @@ class Grok extends Grok_Container {
         
         // add a php extension if one can't be found.
         if( substr($__file, -4) != '.php' ) $__file .= '.php';
-        
-        // if we can't find the path to this file, return null
-        if( ! file_exists( $__file ) ) return NULL;
         
         // return the file path.
         return $__file;

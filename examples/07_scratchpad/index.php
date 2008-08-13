@@ -1,22 +1,23 @@
 <?php
-define('SCRIPT_START_TIME', microtime(TRUE));
-define('ROOT_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR );
-include ROOT_DIR . 'class' . DIRECTORY_SEPARATOR . '__autoload.php';
-
-ob_start();
-$grok = new Grok;
-$grok->dispatch(ROOT_DIR . 'util/load');
+$start = microtime(TRUE);
+$sep = DIRECTORY_SEPARATOR;
+$dir = dirname(__FILE__) . $sep;
+include $dir . 'class' . $sep . '__autoload.php';
+$grok = Grok::instance(array('SCRIPT_START_TIME'=>$start));
 
 try {
-    $grok->dispatch(ROOT_DIR . 'route/' . $grok->route );
-    foreach( $grok->keys() as $k ) unset( $grok->$k );
+    $pattern = $dir . 'modules' . $sep . 'enabled' .$sep . '*.php';
+    $files = glob($pattern);
+    if( ! is_array( $files ) ) throw $this->Exception('invalid-config');
+    if( count( $files ) < 1 ) {
+        $grok->dispatch( $dir . 'modules' . $sep . 'initialize');
+        print "\n<h1>INITIALIZING</h1>";
+    } else {
+        foreach( glob($pattern) as $file) {
+            $grok->dispatch( $file );
+        }
+    }
 } catch( Exception $e ){
-    $grok->exception = $e;
-    $grok->debug = ob_get_clean();
-    ob_start();
-    $grok->dispatch(ROOT_DIR . 'route/error');
+    print $e;
 }
-unset( $grok );
-ob_end_flush();
-
 //EOF

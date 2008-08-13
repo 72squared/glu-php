@@ -1,7 +1,9 @@
 <?php
-$this->session = $this->Session();
-$this->user = $this->User();
-unset( $this->session->user_id);
+if( ! $this->user ) throw new Exception('invalid-user');
+if( ! $this->session ) throw new Exception('invalid-session');
+$session = $this->session;
+$user = $this->user;
+unset( $session->user_id);
 $nonce = $this->Nonce( 'login' . $session->token . $session->session_id );
 $this->nonce = $nonce->create();
 

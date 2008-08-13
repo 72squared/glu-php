@@ -1,6 +1,6 @@
 <?php
-$this->session = $this->Session();
-$this->user = $this->User( $this->session->user_id );
+if( ! $this->user ) throw new Exception('invalid-user');
+if( ! $this->session ) throw new Exception('invalid-session');
 if( ! $this->request->nickname ) return;
 
 $this->user->nickname = $this->request->nickname;
