@@ -1,3 +1,5 @@
 <?php
 $this->baseurl = rtrim( substr( $this->server->SCRIPT_FILENAME, 
-                 strlen(realpath($this->server->DOCUMENT_ROOT))), ' /');
+                 strlen($this->server->DOCUMENT_ROOT)), ' /');
+
+if( strpos($this->server->REQUEST_URI,  $this->baseurl) === FALSE ) return $this->path = '/';
