@@ -16,6 +16,7 @@ if( $this->route == 'display'){
 <li><a href="<?php echo $currenturl . '?route=history'; ?>">history</a></li>
 <li><a href="<?php echo $currenturl . '?route=descendents'; ?>">related</a></li>
 <li><a href="<?php echo $currenturl . '?route=changes'; ?>">changes</a></li>
+<li><a href="<?php echo $currenturl . '?route=recent'; ?>">recent</a></li>
 <li><a href="<?php echo $currenturl . '.text'; ?>" target="_blank">plain text</a></li>
 </ul>
 

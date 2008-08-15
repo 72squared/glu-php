@@ -100,32 +100,14 @@ form br {
 clear: left;
 }
 
-.scratchpad-content img {
+.global-content img {
   max-width:400px;
   width: expression(this.width > 400 ? 400: true);
 }
 
-.global-footer {
-    
-}
-
-.global-sidebar {
-    width: 100%;
-    padding: 10px;
-    margin: 0;
-    background: #ccc;
-    border: 0;
-}
-
-.global-sidebar form {
-    float: right;
-    display: none;
-    
-}
-
 .global-content {
     padding: 20px;
-    width: 80%
+    margin: 20px;
 }
 
 .global-footer {
@@ -133,9 +115,10 @@ clear: left;
 }
 
 .scratchpad-nav {
-    padding: 0;
-    width: 80px;
+    padding: 10px 30px 10px 10px;
+    margin: 10px;
     float: right;
+    border: #666 solid 1px;
 }
 
 ul {
@@ -147,11 +130,15 @@ li:before {
 }
 
 
-
-.scratchpad-content {
-    width: 85%;
-}
-
 dl dt {
     font-weight: bold;
+}
+
+.global-content form {
+   width: 80%;
+}
+
+.scratchpad-matches{
+    margin: 0pt 0pt 0pt 20px;
+    color: #C03;
 }

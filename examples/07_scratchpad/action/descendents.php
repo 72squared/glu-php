@@ -1,6 +1,6 @@
 <?php
 $this->dispatch( dirname(__FILE__) . '/display');
-$this->lister = $this->Scratchpad_Lister( array_slice($this->pad->descendents(), 0, 20) );
-$this->authors = $this->Scratchpad_Authors( $this->lister );
+$this->list = $this->instance( array('ids'=>$this->pad->descendents()) );
+$this->dispatch( dirname(__FILE__) . '/list');
 
 //EOF

@@ -3,6 +3,7 @@
 class Scratchpad_Lister extends Grok {
     
     public function __construct( $ids = NULL ){
+        if( $ids === NULL ) return;
         $this->Scratchpad()->batch( $this, $ids );
     }
     

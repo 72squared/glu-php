@@ -14,7 +14,7 @@ try {
         print "\n<h1>INITIALIZING</h1>";
     } else {
         foreach( glob($pattern) as $file) {
-            $grok->dispatch( $file );
+           if( $grok->dispatch( $file ) === FALSE ) break;
         }
     }
 } catch( Exception $e ){

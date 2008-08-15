@@ -9,7 +9,7 @@ wmd_options = {
 
     // toolbar buttons.  Undo and redo get appended automatically.
     buttons: "bold italic | link blockquote code image | ol ul heading hr",
-
+    
     // option to automatically add WMD to the first textarea found.  See apiExample.html for usage.
     autostart: true
 };

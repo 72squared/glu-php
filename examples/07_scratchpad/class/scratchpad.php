@@ -77,22 +77,20 @@ class Scratchpad extends Grok {
     }
     
     public function ancestry(){
-        $clauses = $paths = array();
+        $paths = array();
         foreach( $this->extractPaths()  as $path ){
-            $clauses[ $path ] = "'" . $path . "'";
             $paths[ $path ] = NULL;
         }
         if( $this->dir_id ){
             $paths[ $this->path ] = $this->dir_id;
-            unset( $clauses[ $this->path ] );
         }
         
+        $clauses = array_keys($paths, NULL);
         if( count( $clauses ) < 1 ) return $paths;
-        
-        $sql = sprintf( "SELECT dir_id, path FROM directory WHERE path IN( %s )", implode(', ', $clauses));
-        
+        $sql = sprintf( "SELECT dir_id, path FROM directory WHERE path IN( %s )", implode(', ', array_fill(0, count($clauses), '?')));
         $db = $this->db();
-        $st = $db->query($sql);
+        $st = $db->prepare($sql);
+        $st->execute( $clauses );
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $paths[$row['path']] = $row['dir_id'];
         $st->closeCursor();
         return $paths;
@@ -121,16 +119,16 @@ class Scratchpad extends Grok {
         return $paths;
     }
     
-    public function find( $term = '' ){
-        $clauses = array( sprintf("path >= '%s' AND path <= '%s'", $this->path, $this->path . 'z') );
-        foreach( explode(' ', trim(preg_replace('/[^a-z0-9 ]/i', '', $term))) as $term ){
-            $term = trim($term);
-            if( strlen( $term ) < 1 ) continue;
-            $clauses[] = sprintf("path LIKE '%s'",  '%' . $term . '%');
-        }
-        $sql = "SELECT entry_id, path FROM directory WHERE " . implode(' AND ', $clauses);
+    public function titleSearch( $term = '' ){
+        $words = $this->Keyword_Counter($term)->keys();
+        if( count( $words ) < 1 ) return array();
+        $clauses = array($this->path, $this->path . 'z');
+        foreach( $words as $word ) $clauses[] = '%' . $word . '%';
+        $sql = "SELECT entry_id, path FROM directory WHERE path >= ? AND path <= ? AND " . implode(' AND ', array_fill(0, count($words), 'path LIKE ?'));
+        var_dump( $sql );
         $db = $this->db();
-        $st = $db->query($sql);
+        $st = $db->prepare($sql);
+        $st->execute( $clauses );
         $paths = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
             $paths[ $row['path'] ] = $row['entry_id'];
@@ -139,20 +137,50 @@ class Scratchpad extends Grok {
         return $paths;
     }
     
-    
-    public function search( $term = '' ){
-        $clauses = array( sprintf("directory.path >= '%s' AND directory.path <= '%s'", $this->path, $this->path . 'z') );
-        foreach( explode(' ', trim(preg_replace('/[^a-z0-9 ]/i', '', $term))) as $term ){
-            $term = trim($term);
-            if( strlen( $term ) < 1 ) continue;
-            $clauses[] = sprintf("entry.body LIKE '%s'",  '%' . $term . '%');
-        }
-        $sql = "SELECT directory.entry_id, directory.path FROM directory INNER JOIN entry ON directory.entry_id = entry.entry_id WHERE " . implode(' AND ', $clauses);
+    public function recent(){
         $db = $this->db();
-        $st = $db->query($sql);
+        $st = $db->prepare("SELECT d.entry_id, d.path FROM directory d INNER JOIN entry e ON d.entry_id = e.entry_id WHERE d.path >= ? AND d.path <= ? ORDER BY e.created DESC");
+        $st->execute(array($this->path, $this->path . 'z'));
         $paths = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
-            $paths[ $row['directory.path'] ] = $row['directory.entry_id'];
+            $paths[ $row['d.path'] ] = $row['d.entry_id'];
+        }
+        $st->closeCursor();
+        return $paths;
+    }
+    
+    public function keywordSearch( $term = '' ){
+        $search = array();
+        foreach( $this->Keyword_Counter($term)->keys() as $word ) $search[] = $word . '%';
+        if( count( $search ) < 1 ) return array();
+        $sql = 'SELECT word_checksum FROM keywords WHERE ' . implode(' AND ', array_fill(0, count($search), 'word LIKE ?'));
+        $db = $this->db();
+        $st = $db->prepare( $sql );
+        $st->execute($search);
+        $checksums = array();
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ){
+            $checksums[] = $row['word_checksum'];
+        }
+        $st->closeCursor();
+        if( count( $checksums ) < 1 ) return array();
+        $clauses = array($this->path, $this->path . 'z');
+        foreach( $checksums as $checksum ) {
+            $clauses[] = $checksum;
+        }
+        
+        $sql = "SELECT d.entry_id, SUM(k.counter) as ct FROM directory d INNER JOIN " .
+                "entry e ON d.entry_id = e.entry_id INNER JOIN " .
+                "entry_keywords k ON e.entry_id = k.entry_id " . 
+                "WHERE d.path >= ? AND d.path <= ? AND k.word_checksum IN( %s ) " . 
+                "GROUP BY d.entry_id " . 
+                "ORDER BY ct DESC";
+        
+        $sql = sprintf( $sql, implode(', ', array_fill(0, count($checksums), '?')));
+        $st = $db->prepare($sql);
+        $st->execute( $clauses );
+        $paths = array();
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
+            $paths[ $row['d.entry_id'] ] = $row['ct'];
         }
         $st->closeCursor();
         return $paths;
@@ -160,8 +188,9 @@ class Scratchpad extends Grok {
     
     public function batch(Scratchpad_Lister $iterator, $entry_ids){
         if( ! is_array($entry_ids) || count($entry_ids) < 1 ) return $iterator;
-        $clean_ids = array();
+        $clean_ids = $entries = $dir_ids = array();
         foreach($entry_ids as $path=>$id ) {
+            $entries[ $id ] = array();
             $id = intval($id );
             if( $id < 1 ) continue;
             $clean_ids[] = $id;
@@ -169,7 +198,6 @@ class Scratchpad extends Grok {
         if( count($clean_ids ) < 1 ) return $iterator;
         $db = $this->db();
         $st = $db->query(sprintf("SELECT * FROM entry WHERE entry_id IN( %s ) ORDER BY entry_id DESC", implode(',', $clean_ids) ) );
-        $entries = $dir_ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
             $entries[$row['entry_id']] = $row;
             $dir_ids[ $row['dir_id']] = 1;
@@ -228,7 +256,7 @@ class Scratchpad extends Grok {
     
     public function history(){
         $db = $this->db();
-        $st = $db->prepare("SELECT entry_id FROM entry WHERE dir_id = ? ORDER BY dir_id DESC, entry_id DESC LIMIT 500");
+        $st = $db->prepare("SELECT entry_id FROM entry WHERE dir_id = ? ORDER BY entry_id DESC");
         $st->execute(array($this->dir_id));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry_id'];
@@ -238,7 +266,7 @@ class Scratchpad extends Grok {
     
     public function descendentsHistory(){
         $db = $this->db();
-        $st = $db->prepare("SELECT entry.entry_id FROM directory INNER JOIN entry ON directory.dir_id = entry.dir_id WHERE directory.path >= ? AND directory.path <= ? ORDER BY entry.entry_id DESC LIMIT 500");
+        $st = $db->prepare("SELECT entry.entry_id FROM directory INNER JOIN entry ON directory.dir_id = entry.dir_id WHERE directory.path >= ? AND directory.path <= ? ORDER BY entry.entry_id DESC");
         $st->execute(array($this->path, $this->path . 'z'));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry.entry_id'];
@@ -248,7 +276,7 @@ class Scratchpad extends Grok {
     
     public function childrenHistory(){
         $db = $this->db();
-        $st = $db->prepare("SELECT entry.entry_id  FROM directory INNER JOIN entry ON directory.dir_id = entry.dir_id WHERE directory.parent ? ORDER BY entry.entry_id DESC LIMIT 500");
+        $st = $db->prepare("SELECT entry.entry_id  FROM directory INNER JOIN entry ON directory.dir_id = entry.dir_id WHERE directory.parent ? ORDER BY entry.entry_id DESC");
         $st->execute(array($this->dir_id));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry.entry_id'];
@@ -281,6 +309,38 @@ class Scratchpad extends Grok {
         $this->entry_id = $db->lastInsertId();
         $st = $db->prepare("UPDATE directory SET entry_id = :entry_id WHERE dir_id = :dir_id");
         $st->execute(array('entry_id'=>$this->entry_id, 'dir_id'=>$this->dir_id) );
+        
+        $word_counter = $this->Keyword_Counter( $this->title . ' ' . $this->body );
+        
+        $word_map = array();
+        foreach( $word_counter->keys() as $word ){
+            $word_map[ $this->crc( $word ) ] = $word;
+        }
+        if( count( $word_map ) > 0 ){
+            $sql = sprintf( "SELECT word_checksum FROM keywords WHERE word_checksum IN(%s)", implode(', ', array_fill(0, count($word_map), '?') ));
+            $st = $db->prepare($sql);
+            $st->execute(array_keys($word_map));
+            while( $row = $st->fetch(PDO::FETCH_ASSOC) ){
+                if( isset( $word_map[ $row['word_checksum'] ] ) ) unset( $word_map[ $row['word_checksum'] ] );
+            }
+            $st->closeCursor();
+        }
+        
+        if( count( $word_map ) > 0 ){
+            $st = $db->prepare('INSERT INTO keywords (word_checksum, word) VALUES (:word_checksum, :word)');
+            foreach( $word_map as $word_checksum=>$word ){
+                $st->execute(array('word_checksum'=>$word_checksum, 'word'=>$word));
+            }
+        }
+        
+        
+        
+        
+        $st = $db->prepare("INSERT INTO entry_keywords (entry_id, word_checksum, counter) VALUES (:entry_id, :word_checksum, :counter)");
+        foreach( $word_counter as $word=>$counter ){
+            $st->execute(array('entry_id'=>$this->entry_id, 'word_checksum'=>$this->crc($word), 'counter'=>$counter ));
+        }
+        
         $this->checksum = $this->checksum();
     }
     
@@ -289,12 +349,16 @@ class Scratchpad extends Grok {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
         $db->query('DROP TABLE entry');
         $db->query('DROP TABLE directory');
+        $db->query('DROP TABLE keywords');
+        $db->query('DROP TABLE entry_keywords');
         $db->query('CREATE TABLE entry ( entry_id  INTEGER PRIMARY KEY, dir_id INTEGER, author INTEGER, created INTEGER, body TEXT, data TEXT)');
         $db->query('CREATE TABLE directory (dir_id INTEGER PRIMARY KEY, parent INTEGER, path TEXT(500) UNIQUE, entry_id INTEGER UNIQUE)');
         $db->query('CREATE INDEX directory_entry_id ON directory(entry_id)');
         $db->query('CREATE INDEX directory_parent ON directory(parent)');
         $db->query('CREATE INDEX entry_dir_id ON entry(dir_id)');
         $db->query('CREATE INDEX entry_author ON entry(author)');
+        $db->query('CREATE TABLE keywords (word_checksum INTEGER PRIMARY KEY,word TEXT(30))');
+        $db->query('CREATE TABLE entry_keywords (entry_id INTEGER, word_checksum INTEGER, counter INTEGER, PRIMARY KEY( entry_id, word_checksum ))');
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     
@@ -360,6 +424,10 @@ class Scratchpad extends Grok {
     
     protected function checksum(){
         return md5(strval($this));
+    }
+    
+    protected function crc($word){
+        return crc32($word);
     }
     
     protected function now(){
