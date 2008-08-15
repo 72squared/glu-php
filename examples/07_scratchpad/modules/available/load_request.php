@@ -1,2 +1,2 @@
 <?php
-$this->request = $this->instance(filter_var_array( $_REQUEST) );
+$this->request = $this->instance($_REQUEST);

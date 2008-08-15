@@ -13,7 +13,7 @@
 <input type="password" name="password"/>
 </fieldset>
 <fieldset>
-<input type="submit" value="Register!" />
-<input type="hidden" name="route" value="register"/>
+<button type="submit">Register</button>
 </fieldset>
+<input type="hidden" name="route" value="register"/>
 </form>

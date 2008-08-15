@@ -153,7 +153,7 @@ class Scratchpad extends Grok {
         $search = array();
         foreach( $this->Keyword_Counter($term)->keys() as $word ) $search[] = $word . '%';
         if( count( $search ) < 1 ) return array();
-        $sql = 'SELECT word_checksum FROM keywords WHERE ' . implode(' AND ', array_fill(0, count($search), 'word LIKE ?'));
+        $sql = 'SELECT word_checksum FROM keywords WHERE ' . implode(' OR ', array_fill(0, count($search), 'word LIKE ?'));
         $db = $this->db();
         $st = $db->prepare( $sql );
         $st->execute($search);
@@ -310,7 +310,7 @@ class Scratchpad extends Grok {
         $st = $db->prepare("UPDATE directory SET entry_id = :entry_id WHERE dir_id = :dir_id");
         $st->execute(array('entry_id'=>$this->entry_id, 'dir_id'=>$this->dir_id) );
         
-        $word_counter = $this->Keyword_Counter( $this->title . ' ' . $this->body );
+        $word_counter = $this->Keyword_Counter( $this );
         
         $word_map = array();
         foreach( $word_counter->keys() as $word ){

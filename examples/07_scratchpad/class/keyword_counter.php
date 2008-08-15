@@ -18,6 +18,10 @@ class Keyword_Counter extends Grok {
             if( strpos(self::$stopwords, $word . '|') !== FALSE ) continue;
             if( ! isset( $words[ $word ] ) ) $words[ $word ] = 0;
             $words[$word]++;
+            if( $len < 6) continue;
+            $word = soundex( $word );
+            if( ! isset( $words[ $word ] ) ) $words[ $word ] = 0;
+            $words[$word]++;
         }
         parent::__construct( $words );
     }

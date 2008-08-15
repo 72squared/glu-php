@@ -9,9 +9,8 @@
 <input type="password" name="password"/>
 </fieldset>
 <fieldset>
-<input type="submit" value="Sign In!" />
+<button type="submit">Sign In</button>
+</fieldset>
 <input type="hidden" name="route" value="login"/>
 <input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>"/>
-
-</fieldset>
 </form>

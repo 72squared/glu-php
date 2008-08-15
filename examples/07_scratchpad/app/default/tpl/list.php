@@ -5,15 +5,24 @@ if( ! $list instanceof Grok ) return;
 $lister = $list->iterator;
 $authors = $list->authors;
 $matches = $list->matches;
-$page = $list->page;
-$per_page = $list->per_page;
 if( ! $lister instanceof Scratchpad_Lister ) return;
 if( ! $authors instanceof User_Lister ) return;
 $matches = ( $list->matches instanceof Grok ) ? $list->matches : $this->Grok();
+
+$pagination = $this->instance();
+$pagination->url = $list->pagination_url;
+$pagination->current = $list->page;
+$pagination->max = $list->total_pages;
+$pagination->per = $list->per_page;
+$pagination->dispatch( dirname(__FILE__) . '/pagination');
+
 ?>
 <dl class="scratchpad-list <?php echo $this->class; ?>">
 <dt><?php echo $this->title; ?></dt>
+<?php if( $list->iterator->count() < 1 ):?>
+<dd><h2>No Results Found</h2></dd>
 <?php
+else:
 foreach($lister as $k=>$pad ):
 $author_id = $pad->author;
 $author = $authors->$author_id;
@@ -28,5 +37,6 @@ $author = $authors->$author_id;
 </dd>
 <?php
 endforeach;
+endif;
 ?>
 </dl>

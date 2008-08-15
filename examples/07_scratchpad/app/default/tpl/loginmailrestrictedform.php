@@ -17,9 +17,8 @@
 </fieldset>
 
 <fieldset>
-<input type="submit" value="Sign In!" />
+<button type="submit">Sign In</button>
+</fieldset>
 <input type="hidden" name="route" value="loginmailrestricted"/>
 <input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>"/>
-
-</fieldset>
 </form>
