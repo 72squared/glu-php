@@ -1,9 +1,14 @@
 <form action="<?php echo $this->baseurl . $this->pad->path;?>" method="POST"  class="scratchpad-content">
-<fieldset >
+<fieldset>
 <textarea name="body" id="scratchpad_body">
 <?php echo $this->pad->body; ?>
 </textarea>
 </fieldset>
+<fieldset>
+<label label-for"area">Area</label>
+<input name="area" id="area" value="<?php echo htmlentities($this->pad->area); ?>">
+</fieldset>
+
 <fieldset>
 <button type="submit">Save</button>
 </fieldset>

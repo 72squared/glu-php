@@ -90,7 +90,6 @@ fieldset textarea {
 }
 
 fieldset label, fieldset input {
-display: block;
 width: 150px;
 float: left;
 }
@@ -116,7 +115,7 @@ fieldset button {
  margin: 0 0 0 15px;
  border: #666 solid 1px;
  padding 2px;
- background: #fff;
+ background: #efefef;
  color: #666;
 }
 

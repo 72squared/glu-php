@@ -11,7 +11,8 @@ class ACL extends Grok {
     
     public function __construct( $area, $roles = NULL ){
         $this->area = $this->__normalize( $area );
-        if( strlen( $this->area ) < 1 ) return;
+        
+        if( strlen( $this->area ) < 1 ) $this->area = 'default';
         $area = ( strlen( $this->area ) > 32 ) ? md5($this->area) : $this->area;
         if( ! is_array( $roles ) ) {
             $db = $this->db();
