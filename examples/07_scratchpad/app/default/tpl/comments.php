@@ -7,22 +7,24 @@ $page = $list->page;
 $per_page = $list->per_page;
 if( ! $lister instanceof Scratchpad_Lister || ! $authors instanceof User_Lister) return;
 ?>
-
+<div class="scratchpad-comments">
+<h2>Comments</h2>
 
 <?php foreach( $lister as $pad ): ?>
 <?php
 
 $body = $pad->body;
-if( ! $pad->entry_id ) $body = '#directory only';
-if( ! $pad->dir_id )  $body = '#Page does not exist yet';
-$pos = strlen( $body ) > 1000 ? strpos( $body, "\n", 1000) : FALSE;
-if( $pos ) $body = substr( $body, 0, $pos ) . ' ... [read more](' . $pad->path . ')';
+if( ! $pad->entry_id ) continue;
+if( ! $pad->dir_id )  continue;
+$pos = strlen( $body ) > 500 ? strpos( $body, "\n", 500) : FALSE;
+if( $pos ) $body = substr( $body, 0, $pos ) . ' ... [read more](/' . $pad->entry_id . ')';
 $author_id = $pad->author;
 $author = $authors->$author_id;
 ?>
 <HR/>
 <?php echo $this->Markdown_Parser(array('relative_url_base'=>$this->baseurl))->transform($body); ?>
 <?php if( $pad->entry_id ): ?>
-<em><?php echo $author->nickname . ' last modified on ' . date('Y/m/d H:i:s', $pad->created); ?></em>
+<em><?php echo $author->nickname . ' on ' . date('Y/m/d H:i:s', $pad->created); ?></em>
 <?php endif; ?>
 <?php endforeach; ?>
+</div>

@@ -123,10 +123,9 @@ class User extends Grok {
     public function initialize(){
         $db = $this->db();
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-        $db->query('DROP TABLE user');
-        $db->query('DROP TABLE user_attribute');
-        $db->query('CREATE TABLE user (user_id INTEGER PRIMARY KEY,email TEXT(250) UNIQUE,nickname TEXT(25) UNIQUE,passhash TEXT(32),created INTEGER,modified INTEGER)');
-        $db->query('CREATE TABLE user_attribute (user_id INTEGER,label TEXT(25),data TEXT(500),PRIMARY KEY (user_id, label))');
+        $file = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'schema' . DIRECTORY_SEPARATOR . 'user.sql';
+        $queries = explode(";\n", file_get_contents($file));
+        foreach( $queries as $sql ) $db->query( $sql );
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     

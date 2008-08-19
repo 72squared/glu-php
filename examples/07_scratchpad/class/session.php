@@ -111,9 +111,9 @@ class Session extends Grok {
     public function initialize(){
         $db = $this->db();
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-        $db->query('DROP TABLE session');
-        $db->query('CREATE TABLE session (session_id INTEGER PRIMARY KEY, token TEXT(32) UNIQUE, created INTEGER, modified INTEGER, data TEXT)');
-        $db->query('CREATE INDEX session_modified ON session(modified)');
+        $file = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'schema' . DIRECTORY_SEPARATOR . 'session.sql';
+        $queries = explode(";\n", file_get_contents($file));
+        foreach( $queries as $sql ) $db->query( $sql );
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     

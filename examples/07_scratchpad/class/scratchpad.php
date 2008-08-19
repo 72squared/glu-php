@@ -7,8 +7,6 @@ class Scratchpad extends Grok {
     
     const filename = 'scratchpad.db';
     
-    private $checksum = '';
-    
     public function __construct( $data = NULL ){
         if( $data === NULL ) return;
          if( is_scalar($data) ){
@@ -26,7 +24,6 @@ class Scratchpad extends Grok {
         $this->loadDirectoryByID();
         $this->loadDirectoryByPath();
         $this->loadEntry();
-        $this->checksum = $this->checksum();
     }
     
     /*** PROTECTED FUNCTIONS BELOW ***/
@@ -46,6 +43,10 @@ class Scratchpad extends Grok {
                                     break;
                                     
             case 'entry_id':        $v = intval($v);
+                                    if( $v < 1 ) return NULL;
+                                    break;
+                                    
+            case 'entry_type':      $v = intval($v);
                                     if( $v < 1 ) return NULL;
                                     break;
                                     
@@ -105,7 +106,7 @@ class Scratchpad extends Grok {
     
     public function children(){
         $db = $this->db();
-        $st = $db->prepare("SELECT entry_id, path FROM directory WHERE parent = ?");
+        $st = $db->prepare("SELECT entry_id, path FROM directory WHERE parent = ? AND entry_type = 0");
         $st->execute(array($this->dir_id));
         $paths = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $paths[ $row['path'] ] = $row['entry_id'];
@@ -247,6 +248,7 @@ class Scratchpad extends Grok {
         $st->execute(array($this->path));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
+        if( $this->entry_type > 0 ) unset( $data['entry_id']);
         $this->loadData($data);
     }
     
@@ -258,12 +260,23 @@ class Scratchpad extends Grok {
         $st->execute(array($this->dir_id));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
+        if( $this->entry_type > 0 ) unset( $data['entry_id']);
         $this->loadData($data);
+    }
+    
+    public function comments(){
+        $db = $this->db();
+        $st = $db->prepare("SELECT entry_id FROM entry WHERE dir_id = ? AND entry_type = 1 ORDER BY entry_id DESC");
+        $st->execute(array($this->dir_id));
+        $ids = array();
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry_id'];
+        $st->closeCursor();
+        return $ids;
     }
     
     public function history(){
         $db = $this->db();
-        $st = $db->prepare("SELECT entry_id FROM entry WHERE dir_id = ? ORDER BY entry_id DESC");
+        $st = $db->prepare("SELECT entry_id FROM entry WHERE dir_id = ? AND entry_type = 0 ORDER BY entry_id DESC");
         $st->execute(array($this->dir_id));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry_id'];
@@ -273,7 +286,7 @@ class Scratchpad extends Grok {
     
     public function descendentsHistory(){
         $db = $this->db();
-        $st = $db->prepare("SELECT entry.entry_id FROM directory INNER JOIN entry ON directory.dir_id = entry.dir_id WHERE directory.path >= ? AND directory.path <= ? ORDER BY entry.entry_id DESC");
+        $st = $db->prepare("SELECT e.entry_id FROM directory d INNER JOIN entry e ON d.dir_id = e.dir_id AND e.entry_type = 0 WHERE d.path >= ? AND d.path <= ? ORDER BY e.entry_id DESC");
         $st->execute(array($this->path, $this->path . 'z'));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry.entry_id'];
@@ -283,17 +296,12 @@ class Scratchpad extends Grok {
     
     public function childrenHistory(){
         $db = $this->db();
-        $st = $db->prepare("SELECT entry.entry_id  FROM directory INNER JOIN entry ON directory.dir_id = entry.dir_id WHERE directory.parent ? ORDER BY entry.entry_id DESC");
+        $st = $db->prepare("SELECT e.entry_id FROM directory d INNER JOIN entry e ON d.dir_id = e.dir_id AND e.entry_type = 0 WHERE d.parent = ? ORDER BY e.entry_id DESC");
         $st->execute(array($this->dir_id));
         $ids = array();
-        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry.entry_id'];
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['e.entry_id'];
         $st->closeCursor();
         return $ids;
-    }
-    
-    public function checkAndStore(){
-        if( $this->checksum == $this->checksum() ) return;
-        $this->store();
     }
     
     public function store(){
@@ -301,19 +309,23 @@ class Scratchpad extends Grok {
         if( ! $this->dir_id ) $this->initializePaths();
         $params = array();
         $params['dir_id'] = $this->dir_id;
+        $params['entry_type'] = $this->entry_type = intval($this->entry_type);
         $params['author'] = $this->author;
         $params['created'] = $this->created = $this->now();
         $params['body'] = $this->body;
         $data = array();
         foreach($this as $k=>$v){
-            if( in_array($k, array('dir_id', 'path', 'parent', 'entry_id', 'author', 'created', 'body') ) ) continue;
+            if( in_array($k, array('dir_id', 'path', 'parent', 'entry_id', 'entry_type', 'author', 'created', 'body') ) ) continue;
             $data[$k] = $v;
         }
         $params['data'] = $this->encode($data);
         $db = $this->db();
-        $st = $db->prepare( "INSERT INTO entry (dir_id, author, created, body, data) VALUES (:dir_id, :author, :created, :body, :data)");
+        $st = $db->prepare( "INSERT INTO entry (dir_id, entry_type, author, created, body, data) VALUES (:dir_id, :entry_type, :author, :created, :body, :data)");
         $st->execute( $params );
         $this->entry_id = $db->lastInsertId();
+        // if this is not a typical entry, don't write to the directory.
+        if( $this->entry_type ) return;
+        
         $st = $db->prepare("UPDATE directory SET entry_id = :entry_id WHERE dir_id = :dir_id");
         $st->execute(array('entry_id'=>$this->entry_id, 'dir_id'=>$this->dir_id) );
         
@@ -340,32 +352,18 @@ class Scratchpad extends Grok {
             }
         }
         
-        
-        
-        
         $st = $db->prepare("INSERT INTO entry_keywords (entry_id, word_checksum, counter) VALUES (:entry_id, :word_checksum, :counter)");
         foreach( $word_counter as $word=>$counter ){
             $st->execute(array('entry_id'=>$this->entry_id, 'word_checksum'=>$this->crc($word), 'counter'=>$counter ));
         }
-        
-        $this->checksum = $this->checksum();
     }
     
     public function initialize(){
         $db = $this->db();
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-        $db->query('DROP TABLE entry');
-        $db->query('DROP TABLE directory');
-        $db->query('DROP TABLE keywords');
-        $db->query('DROP TABLE entry_keywords');
-        $db->query('CREATE TABLE entry ( entry_id  INTEGER PRIMARY KEY, dir_id INTEGER, author INTEGER, created INTEGER, body TEXT, data TEXT)');
-        $db->query('CREATE TABLE directory (dir_id INTEGER PRIMARY KEY, parent INTEGER, path TEXT(500) UNIQUE, entry_id INTEGER UNIQUE)');
-        $db->query('CREATE INDEX directory_entry_id ON directory(entry_id)');
-        $db->query('CREATE INDEX directory_parent ON directory(parent)');
-        $db->query('CREATE INDEX entry_dir_id ON entry(dir_id)');
-        $db->query('CREATE INDEX entry_author ON entry(author)');
-        $db->query('CREATE TABLE keywords (word_checksum INTEGER PRIMARY KEY,word TEXT(30))');
-        $db->query('CREATE TABLE entry_keywords (entry_id INTEGER, word_checksum INTEGER, counter INTEGER, PRIMARY KEY( entry_id, word_checksum ))');
+        $file = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'schema' . DIRECTORY_SEPARATOR . 'scratchpad.sql';
+        $queries = explode(";\n", file_get_contents($file));
+        foreach( $queries as $sql ) $db->query( $sql );
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     
@@ -429,12 +427,8 @@ class Scratchpad extends Grok {
         return self::$db = $db;
     }
     
-    protected function checksum(){
-        return md5(strval($this));
-    }
-    
-    protected function crc($word){
-        return crc32($word);
+    protected function crc($str){
+        return crc32($str);
     }
     
     protected function now(){

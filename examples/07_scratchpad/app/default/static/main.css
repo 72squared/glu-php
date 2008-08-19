@@ -132,6 +132,13 @@ fieldset.checks label {
     border: #666 solid 1px;
 }
 
+.scratchpad-comments {
+    padding:50px;
+    width: 50%;
+    font-size: 90%;
+
+}
+
 ul {
     list-style: none;
 }
