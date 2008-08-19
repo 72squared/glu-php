@@ -1,7 +1,7 @@
 <?php
 $this->dispatch( dirname(__FILE__) . '/load');
 $this->permission_lister = $this->Permission_Lister();
-if( ! is_array($this->request->roles ) || ! is_array($this->request->actions ) ) return;
+if( ! is_array($this->request->roles ) ) return;
 $actions = $this->instance( $this->request->actions );
 $roles = $this->instance( $this->request->roles );
 $l = $this->permission_lister;
@@ -12,7 +12,7 @@ foreach( $roles as $i=>$role ){
     $p = $l->{$role};
     if( ! $p ) $p = $l->{$role} = $this->Permission($role, array());
     $p->{$path} = $a;
-    $p->store();
     if( $p->count() < 1 ) unset( $l->{$role} );
+    $p->store();
 }
 // EOF

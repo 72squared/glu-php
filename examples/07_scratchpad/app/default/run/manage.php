@@ -1,6 +1,6 @@
 <?php
 $this->dispatch($this->DIR_ACTION . 'manage');
-$this->title = 'Manage';
+$this->title = 'Manage - ' . $this->pad->title;
 $this->dispatch( $this->DIR_APP . 'tpl/header');
 $this->dispatch($this->DIR_APP . 'tpl/breadcrumbs');
 $this->dispatch( $this->DIR_APP . 'tpl/nav');

@@ -258,30 +258,17 @@ class Grok extends Grok_Container {
     *                   on context.
     */
     public function dispatch( $__file ){
-        // resolve the path to the file
-        $__file = $this->resolve( $__file );
+       // make sure we are using the correct filepath delimiter here
+        if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
+        
+        // add a php extension if one can't be found.
+        if( substr($__file, -4) != '.php' ) $__file .= '.php';
         
         // blow up if we can't find the path to this file.
         if( ! file_exists( $__file ) )  throw $this->exception('invalid-dispatch: ' . $__file );
         
         // include the file and return the result.
         return include $__file;
-    }
-    
-   /**
-    * find the path to the file, and verify it exists.
-    * @param string     path to the include, minus the php file extension.
-    * @return string    return the resolved path to the file.
-    */
-    public function resolve( $__file ){
-        // make sure we are using the correct filepath delimiter here
-        if( '/' != DIRECTORY_SEPARATOR ) $__file = str_replace('/', DIRECTORY_SEPARATOR, $__file );
-        
-        // add a php extension if one can't be found.
-        if( substr($__file, -4) != '.php' ) $__file .= '.php';
-        
-        // return the file path.
-        return $__file;
     }
 }
 

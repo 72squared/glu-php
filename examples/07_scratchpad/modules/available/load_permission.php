@@ -29,3 +29,4 @@ $this->permission = $permission = $this->Permission( $role, $overrides );
 $action = $a->{$this->route };
 if( ! $action ) $action = 'read';
 $this->action = $action;
+$this->permission_map = $a;

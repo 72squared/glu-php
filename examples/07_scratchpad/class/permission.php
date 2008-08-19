@@ -1,7 +1,7 @@
 <?
 class Permission extends Grok {
 
-    private $role = '';
+    protected $role = '';
     
     const filename = 'permission.db';
     
@@ -11,6 +11,7 @@ class Permission extends Grok {
         $this->role = $this->normalizeRole( $role );
         if( is_array( $data ) ) {
             parent::__construct( $data );
+            $this->ksort();
             return;
         }
         if( strlen( $this->role ) < 1 ) return;
@@ -24,6 +25,7 @@ class Permission extends Grok {
         }
         $st->closeCursor();
         foreach( $paths as $path=>$actions ) $this->$path = $actions;
+        $this->ksort();
     }
     
     public function store(){
@@ -109,14 +111,16 @@ class Permission extends Grok {
     protected function __set( $k, $v ){
         $k = $this->normalizePath( $k );
         if( ! $k ) return;
-        unset( $this->$k );
         $actions = array();
         if( ! is_array($v) && ! $v instanceof iterator ) return array();
         foreach( $v as $a ){
             $a = $this->normalizeAction($a);
             $actions[] = $a;
         }
-        if( count( $actions ) < 1 ) return;
+        if( count( $actions ) < 1 ) {
+            $this->__unset( $this->normalizePath($k) );
+            return;
+        }
         return parent::__set( $this->normalizePath($k), $actions);
     }
     
