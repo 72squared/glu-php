@@ -15,7 +15,7 @@ array(
     'static_path',
     'load_session',
     'load_permission',
-    'run',
+    'route',
     'print_headers',
     'unset_data',
 );
