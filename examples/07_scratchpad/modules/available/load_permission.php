@@ -6,13 +6,14 @@ $a->changes = 'read';
 $a->children = 'read';
 $a->descendents = 'read';
 $a->display = 'read';
-$a->edit = 'edit';
+$a->edit = 'write';
 $a->history = 'read';
 $a->keywordsearch = 'read';
 $a->list = 'read';
 $a->manage = 'manage';
 $a->recent = 'read';
 $a->titlesearch = 'read';
+$a->addcomment = 'comment';
 
 $role = $user->role;
 if( ! $role ){

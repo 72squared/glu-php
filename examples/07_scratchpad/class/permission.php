@@ -44,9 +44,9 @@ class Permission extends Grok {
         return $this->role;
     }
     
-    public static function __list( ACL_Lister $lister ){
+    public static function __list( Permission_Lister $lister ){
         $db = self::db();
-        $st = $db->prepare('SELECT * FROM permission');
+        $st = $db->prepare('SELECT * FROM access');
         $st->execute();
         $roles = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ){
@@ -58,8 +58,8 @@ class Permission extends Grok {
             $roles[ $role ][ $path ][] = $action;
         }
         $st->closeCursor();
-        foreach( $roles as $roles =>$data ){
-            $lister->$area = new ACL( $role, $data );
+        foreach( $roles as $role =>$data ){
+            $lister->$role = new self( $role, $data );
         }
     }
     
@@ -110,9 +110,8 @@ class Permission extends Grok {
         $k = $this->normalizePath( $k );
         if( ! $k ) return;
         unset( $this->$k );
-        if( ! is_array( $v ) ) $v = array();
-        $v = array_values( $v );
         $actions = array();
+        if( ! is_array($v) && ! $v instanceof iterator ) return array();
         foreach( $v as $a ){
             $a = $this->normalizeAction($a);
             $actions[] = $a;

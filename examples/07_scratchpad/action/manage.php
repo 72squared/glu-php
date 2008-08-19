@@ -1,15 +1,18 @@
 <?php
-$this->dispatch( $this->DIR_ACTION . 'display');
-$this->acl = $acl = $this->ACL( $this->pad->area );
+$this->dispatch( dirname(__FILE__) . '/load');
+$this->permission_lister = $this->Permission_Lister();
 if( ! is_array($this->request->roles ) || ! is_array($this->request->actions ) ) return;
-foreach( $acl->keys() as $k ) unset($acl->$k);
 $actions = $this->instance( $this->request->actions );
 $roles = $this->instance( $this->request->roles );
-
+$l = $this->permission_lister;
+$path = $this->pad->path;
 foreach( $roles as $i=>$role ){
-    $a = $this->instance ($actions->$i )->keys();
-    if( ( $a ) < 1 ) continue;
-    $acl->$role = $a;
+    if( strlen( $role ) < 1 ) continue;
+    $a = $this->instance( $actions->$i )->keys();
+    $p = $l->{$role};
+    if( ! $p ) $p = $l->{$role} = $this->Permission($role, array());
+    $p->{$path} = $a;
+    $p->store();
+    if( $p->count() < 1 ) unset( $l->{$role} );
 }
-$acl->store();
 // EOF
