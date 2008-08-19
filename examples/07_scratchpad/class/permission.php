@@ -103,9 +103,8 @@ class Permission extends Grok {
         foreach( $this as $path=>$actions ){
             if( ! in_array($action, $actions ) ) continue;
             if( strpos( $check_path, $path ) !== FALSE) return TRUE;
-            $allow = FALSE;
         }
-        return $allow;
+        return FALSE;
     }
     
     protected function __set( $k, $v ){

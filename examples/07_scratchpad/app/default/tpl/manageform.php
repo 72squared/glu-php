@@ -1,5 +1,5 @@
 <?php
-$actions = array('read', 'write', 'comment');
+$actions = array('read', 'comment', 'write', 'manage');
 $i=0;
 $paths = array();
 foreach( $this->permission_lister as $role=>$p ){
@@ -22,11 +22,9 @@ $paths = array_keys( $paths );
 
 <?php foreach( $this->permission_lister as $role=>$p ): ?>
 <?php $i++; ?>
-<fieldset>
-<input type="text" name="roles[<?php echo $i; ?>]" value="<?php echo $role; ?>" />
-</fieldset>
-
+<input type="hidden" name="roles[<?php echo $i; ?>]" value="<?php echo $role; ?>" />
 <fieldset  class="checks">
+<h2><?php echo $role; ?></h2>
 <?php foreach( $actions as $action): ?>
 <input type="checkbox" name="actions[<?php echo $i; ?>][<?php echo $action; ?>]" value="1" <?php echo is_array( $p->{$this->path} ) && in_array($action, $p->{$this->path}) ? ' checked' : ''; ?>/><label><?php echo $action; ?></label>
 <?php endforeach; ?>
