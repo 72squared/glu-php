@@ -2,8 +2,6 @@
 
 class User extends Grok {
     
-    private $checksum;
-    
     protected static $db;
     
     const filename = 'user.db';
@@ -26,7 +24,6 @@ class User extends Grok {
         $this->loadByUserId();
         $this->loadByNickname();
         $this->loadByEmail();
-        $this->checksum = $this->checksum();
     }
     
     public function secretHash( $word ){
@@ -66,12 +63,6 @@ class User extends Grok {
         return parent::__set($k, $v);
     }
     
-    public function __destruct(){
-        if( ! $this->nickname || ! $this->email ) return;
-        if( $this->checksum == $this->checksum() ) return;
-        $this->store();
-    }
-    
     public function store(){
         if( ! $this->nickname ) throw new Exception('invalid-nickname');
         if( ! $this->passhash ) throw new Exception('invalid-passhash');
@@ -108,8 +99,6 @@ class User extends Grok {
             $db->rollback();
             throw $e;
         }
-        
-        $this->checksum = $this->checksum();
     }
     
     public function batch( User_Lister $iterator, $ids){
@@ -231,10 +220,6 @@ class User extends Grok {
     
     protected function secret(){
         return 'salty';
-    }
-    
-    protected function checksum(){
-        return md5(strval($this));
     }
     
     protected function db(){

@@ -1,5 +1,5 @@
 <?php
-$this->dispatch( dirname(__FILE__) . '/display');
+$this->dispatch( dirname(__FILE__) . '/load');
 $session = ( $this->session ) ? $this->session :  $this->Grok();
 $nonce =  $this->Nonce( $session->session_id .  $this->pad->entry_id );
 $this->nonce = $nonce->create();

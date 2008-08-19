@@ -134,11 +134,11 @@ class Grok_Container implements Iterator {
         }
     }
     
+   /**
+    * @see http://www.php.net/oop5.magic
+    */
     public function __toString(){
-        $out = get_class( $this ) . ' { ';
-        foreach( $this as $k=>$v) $out .= $k . ': ' . $v . ', ';
-        $out = trim($out, ', ');
-        return $out . " }";
+        return print_r( $this, TRUE );
     }
 }
  

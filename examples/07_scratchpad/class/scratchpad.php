@@ -70,8 +70,11 @@ class Scratchpad extends Grok {
     }
     
     protected function __get( $k ){
-        if( $k != 'title' ) return parent::__get($k);
-        $title = ucwords(trim(str_replace( array('/', '-', '_'), ' ', $this->path)));
+        return ( $k == 'title' ) ? self::pathToName( $this->path ) : parent::__get($k);
+    }
+    
+    public static function pathToName( $path ){
+         $title = ucwords(trim(str_replace( array('/', '-', '_'), ' ', $path)));
         if( ! $title ) $title = 'Home';
         return $title;
     }
@@ -81,8 +84,12 @@ class Scratchpad extends Grok {
         foreach( $this->extractPaths()  as $path ){
             $paths[ $path ] = NULL;
         }
-        if( $this->dir_id ){
+        if( $this->dir_id !== NULL ){
             $paths[ $this->path ] = $this->dir_id;
+        }
+        
+        if( $this->parent !== NULL ){
+            $paths[ substr($this->path, 0, strrpos($this->path, '/') ) ] = $this->parent;
         }
         
         $clauses = array_keys($paths, NULL);
@@ -380,14 +387,14 @@ class Scratchpad extends Grok {
         return $paths;
     }
     
-    protected function extractPaths(){
+    public function extractPaths(){
         $paths = array();
         foreach( explode('/', $this->path) as $dir ){
             $path .= '/' . $dir;
             $path = '/' . trim($path, '/');
-            $paths[] = $path;
+            $paths[$path] = 1;
         }
-        return $paths;
+        return array_keys($paths);
     }
     
     protected function loadData( $data ){

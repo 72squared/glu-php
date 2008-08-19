@@ -39,32 +39,6 @@ h1 {
 font-size: 182%;
 }
 
-.global-header {
-    background: #ccc;
-    color: #333;
-    border-bottom: #333 solid 8px;
-    padding: 10px;
-    margin:0pt;
-}
-
-.global-header a {
-color:#999;
-text-decoration: none;
-}
-
-.global-search{
-    float:right;
-    width: 250px;
-    padding: 0;
-    margin: 5px 0 0 0;
-}
-.global-header a:hover,
-.global-header a:active {
-border-bottom:1px dotted #666;
-color:#666;
-
-}
-
 h2 {
 font-size: 140%;
 }
@@ -126,10 +100,20 @@ fieldset button:hover{
  font-weight:bold;
 }
 
-form br {
-clear: left;
+fieldset.checks {
+    margin: 0 0 50px 0;
 }
 
+fieldset.checks input {
+    display: block;
+    clear: both;
+}
+
+fieldset.checks label {
+    text-align:left;
+    width: auto;
+    margin: 0 0 0 20px;
+}
 .register-form fieldset,
 .login-form fieldset
 {
@@ -139,20 +123,6 @@ clear: left;
 .login-form fieldset button 
 {
     margin: 0 0 0 130px;
-}
-
-.global-content img {
-  max-width:400px;
-  width: expression(this.width > 400 ? 400: true);
-}
-
-.global-content {
-    padding: 20px;
-    margin: 20px;
-}
-
-.global-footer {
-    padding: 20px;
 }
 
 .scratchpad-nav {
@@ -173,6 +143,46 @@ li:before {
 
 dl dt {
     font-weight: bold;
+}
+
+.global-header {
+    background: #ccc;
+    color: #333;
+    border-bottom: #333 solid 8px;
+    padding: 10px;
+    margin:0pt;
+}
+
+.global-header a {
+color:#999;
+text-decoration: none;
+}
+
+.global-search{
+    float:right;
+    width: 250px;
+    padding: 0;
+    margin: 5px 0 0 0;
+}
+.global-header a:hover,
+.global-header a:active {
+border-bottom:1px dotted #666;
+color:#666;
+
+}
+
+.global-content img {
+  max-width:400px;
+  width: expression(this.width > 400 ? 400: true);
+}
+
+.global-content {
+    padding: 5px 30px 5px 30px;
+    margin: 0;
+}
+
+.global-footer {
+    padding: 20px;
 }
 
 .global-content form {
@@ -237,4 +247,9 @@ ul.pagination li.first {
 ul.pagination li.last {
     border-left:1px solid #999;
     padding-left:2px;
+}
+
+.breadcrumbs {
+    font-size: x-small;
+    margin-left: -20px;
 }

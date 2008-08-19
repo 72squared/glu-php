@@ -7,6 +7,7 @@ $modules =
 array(
     'load_request',
     'load_server',
+    'acl_actions',
     'baseurl_modrewrite',
     'extract_path',
     'route_by_request',

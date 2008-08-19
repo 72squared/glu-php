@@ -7,14 +7,9 @@ $actions = $this->instance( $this->request->actions );
 $roles = $this->instance( $this->request->roles );
 
 foreach( $roles as $i=>$role ){
-    $a = array();
-    foreach( explode(',', $actions->$i) as $v ){
-        $v = trim($v);
-        if( $v ) $a[]=$v;
-    }
-    if( count( $a ) < 1 ) continue;
+    $a = $this->instance ($actions->$i )->keys();
+    if( ( $a ) < 1 ) continue;
     $acl->$role = $a;
 }
-
-
+$acl->store();
 // EOF
