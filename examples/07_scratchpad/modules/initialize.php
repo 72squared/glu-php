@@ -7,7 +7,6 @@ $modules =
 array(
     'load_request',
     'load_server',
-    'acl_actions',
     'baseurl_modrewrite',
     'extract_path',
     'route_by_request',
@@ -15,6 +14,7 @@ array(
     'load_default_dir_paths',
     'static_path',
     'load_session',
+    'load_permission',
     'run',
     'print_headers',
     'unset_data',

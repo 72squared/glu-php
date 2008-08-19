@@ -87,7 +87,90 @@ class Grok_Container implements Iterator {
     * @see http://www.php.net/manual/en/function.array-keys.php
     **/
     public function keys(){
-        return array_keys( $this->__data );
+        $args = func_get_args();
+        if( count($args) < 1 ) return array_keys( $this->__data);
+        $search = array_shift( $args );
+        $strict = array_shift( $args );
+        return array_keys( $this->__data, $search, $strict);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.array-push.php
+    **/
+    public function push($v){
+        return $this->{$this->max() + 1} = $v;
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.array-pop.php
+    **/
+    public function pop(){
+        return array_pop($this->__data);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.array-shift.php
+    **/
+    public function shift(){
+        return array_shift($this->__data);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.array-unshift.php
+    **/
+    public function unshift($v){
+        return $this->{$this->min() - 1} = $v;
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.asort.php
+    **/
+    public function sort($sort_flags = NULL){
+        return asort($this->__data, $sort_flags );
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.arsort.php
+    **/
+    public function rsort($sort_flags = NULL){
+        return arsort($this->__data, $sort_flags );
+    }
+   
+   /**
+    * @see http://www.php.net/manual/en/function.ksort.php
+    **/
+    public function ksort($sort_flags = NULL){
+        return ksort($this->__data, $sort_flags);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.ksort.php
+    **/
+    public function krsort($sort_flags = NULL){
+        return krsort($this->__data, $sort_flags);
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.max.php
+    **/
+    public function max(){
+        $keys = $this->keys();
+        return count( $keys ) > 0 ? max($keys): 0;
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.max.php
+    **/
+    public function min(){
+        $keys = $this->keys();
+        return count( $keys ) > 0 ? min($keys): 0;
+    }
+    
+   /**
+    * @see http://www.php.net/manual/en/function.array-values.php
+    **/
+    public function values(){
+        return array_values( $this->__data );
     }
     
    /**
