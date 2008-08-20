@@ -1,11 +1,11 @@
 <?php
-$this->dispatch($this->DIR_ROOT . 'action/addcomment');
-if( $this->comment->entry_id ) return $this->dispatch( $this->DIR_APP . 'run/showcomments');
+$this->dispatch($this->DIR_ACTION . 'addcomment');
+if( $this->comment->entry_id ) return $this->dispatch( $this->DIR_ROUTE . 'showcomments');
 
 $this->title = $this->pad->title . ' - AddComment';
-$this->dispatch($this->DIR_APP . 'tpl/header');
-$this->dispatch($this->DIR_APP . 'tpl/breadcrumbs');
-$this->dispatch($this->DIR_APP . 'tpl/nav');
-$this->dispatch($this->DIR_APP . 'tpl/addcommentform');
-$this->dispatch($this->DIR_APP . 'tpl/footer');
+$this->dispatch($this->DIR_TPL . 'header');
+$this->dispatch($this->DIR_TPL . 'breadcrumbs');
+$this->dispatch($this->DIR_TPL . 'nav');
+$this->dispatch($this->DIR_TPL . 'addcommentform');
+$this->dispatch($this->DIR_TPL . 'footer');
 // EOF

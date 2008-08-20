@@ -1,9 +1,9 @@
 <?php
-$this->dispatch($this->DIR_ROOT . 'action/edit');
+$this->dispatch($this->DIR_ACTION . 'edit');
 $this->title = $this->pad->title . ' - EDIT';
-$this->dispatch($this->DIR_APP . 'tpl/header');
-$this->dispatch($this->DIR_APP . 'tpl/breadcrumbs');
-$this->dispatch($this->DIR_APP . 'tpl/nav');
-$this->dispatch($this->DIR_APP . 'tpl/editform');
-$this->dispatch($this->DIR_APP . 'tpl/footer');
+$this->dispatch($this->DIR_TPL . 'header');
+$this->dispatch($this->DIR_TPL . 'breadcrumbs');
+$this->dispatch($this->DIR_TPL . 'nav');
+$this->dispatch($this->DIR_TPL . 'editform');
+$this->dispatch($this->DIR_TPL . 'footer');
 // EOF

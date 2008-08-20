@@ -1,9 +1,9 @@
 <?php
-$this->dispatch($this->DIR_ROOT . 'action/register');
-if( $this->user->user_id ) return $this->dispatch( $this->DIR_APP . 'run/display');
+$this->dispatch($this->DIR_ACTION . 'register');
+if( $this->user->user_id ) return $this->dispatch( $this->DIR_ROUTE . 'display');
 $this->title = 'Register';
-$this->dispatch($this->DIR_APP . 'tpl/header'); 
-$this->dispatch($this->DIR_APP . 'tpl/registerform');
-$this->dispatch($this->DIR_APP . 'tpl/footer');
+$this->dispatch($this->DIR_TPL . 'header'); 
+$this->dispatch($this->DIR_TPL . 'registerform');
+$this->dispatch($this->DIR_TPL . 'footer');
 
 // EOF

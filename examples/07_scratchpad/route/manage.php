@@ -1,10 +1,10 @@
 <?php
-$this->dispatch($this->DIR_ROOT . 'action/manage');
+$this->dispatch($this->DIR_ACTION . 'manage');
 $this->title = 'Manage - ' . $this->pad->title;
-$this->dispatch( $this->DIR_APP . 'tpl/header');
-$this->dispatch($this->DIR_APP . 'tpl/breadcrumbs');
-$this->dispatch( $this->DIR_APP . 'tpl/nav');
-$this->dispatch( $this->DIR_APP . 'tpl/manageform');
-$this->dispatch( $this->DIR_APP . 'tpl/footer');
+$this->dispatch( $this->DIR_TPL . 'header');
+$this->dispatch($this->DIR_TPL . 'breadcrumbs');
+$this->dispatch( $this->DIR_TPL . 'nav');
+$this->dispatch( $this->DIR_TPL . 'manageform');
+$this->dispatch( $this->DIR_TPL . 'footer');
 
 // EOF

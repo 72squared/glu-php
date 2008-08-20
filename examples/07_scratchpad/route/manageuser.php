@@ -1,6 +1,6 @@
 <?php
-$this->dispatch($this->DIR_ROOT . 'action/manageuser');
+$this->dispatch($this->DIR_ACTION . 'manageuser');
 $this->title = 'MANAGE USER';
-$this->dispatch($this->DIR_APP . 'tpl/header'); 
-$this->dispatch($this->DIR_APP . 'tpl/manageuser');
-$this->dispatch($this->DIR_APP . 'tpl/footer');
+$this->dispatch($this->DIR_TPL . 'header'); 
+$this->dispatch($this->DIR_TPL . 'manageuser');
+$this->dispatch($this->DIR_TPL . 'footer');
