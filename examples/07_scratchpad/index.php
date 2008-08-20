@@ -8,12 +8,12 @@ $grok->NEW = new Instantiator;
 try {
     $pattern = $dir . 'modules' . $sep . 'enabled' .$sep . '*.php';
     $files = glob($pattern);
-    if( ! is_array( $files ) ) throw $this->Exception('invalid-config');
+    if( ! is_array( $files ) ) throw $this->NEW->Exception('invalid-config');
     if( count( $files ) < 1 ) {
         $grok->dispatch( $dir . 'modules' . $sep . 'initialize');
         $files = glob($pattern);
         if( ! is_array( $files ) || count( $files ) < 1 ) {
-            throw $this->Exception('fail-initialize-modules');
+            throw $this->NEW->Exception('fail-initialize-modules');
         }
     }
     foreach( $files as $file ) {

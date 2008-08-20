@@ -1,8 +1,11 @@
 <?php
 
 ob_start();
+
+$this->dispatch( $this->DIR_ROOT . 'route/initialize');
+
 try {
-    $this->dispatch($this->DIR_ROOT . 'route/enabled/' . $this->route );
+    $this->dispatch( $this->DIR_ROOT . 'route/enabled/' . $this->route );
 } catch( Exception $e ){
     $this->exception = $e;
     $this->debug = ob_get_clean();

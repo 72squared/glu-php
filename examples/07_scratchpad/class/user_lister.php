@@ -14,7 +14,7 @@ class User_Lister extends Grok {
     }
     
     public function anonymous(){
-        return $this->NEW->User(array('user_id'=>0, 'nickname'=>'Anonymous', 'email'=>''));
+        return new User(array('user_id'=>0, 'nickname'=>'Anonymous', 'email'=>''));
     }
 }
 

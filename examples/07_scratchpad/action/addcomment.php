@@ -6,7 +6,7 @@ $session = ( $this->session ) ? $this->session :  $this->Grok();
 $nonce =  $this->NEW->Nonce( $session->session_id .  $this->comment->dir_id );
 $this->nonce = $nonce->create();
 if( ! isset($this->request->body) ) return;
-if( ! $nonce->validate( $this->request->nonce ) ) throw $this->Exception('invalid-nonce');
+if( ! $nonce->validate( $this->request->nonce ) ) throw $this->NEW->Exception('invalid-nonce');
 $this->comment->body = str_replace($this->baseurl, '', $this->NEW->Markdownify()->parseString($this->request->body));
 $this->comment->author = $session->user_id;
 $this->comment->store();
