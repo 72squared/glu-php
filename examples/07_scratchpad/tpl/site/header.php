@@ -14,4 +14,6 @@
 <h1 class="global-header">
 <a href="<?php echo $this->baseurl .'/'; ?>">GROK Scratchpad</a> :: <?php echo $this->title; ?>
 </h1>
+
+<?php $this->dispatch($this->DIR_TPL . 'scratchpad/nav'); ?>
 <div class="global-content">

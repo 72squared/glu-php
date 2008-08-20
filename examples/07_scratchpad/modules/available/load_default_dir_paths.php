@@ -5,3 +5,4 @@ $this->DIR_HTPASSWD = $this->DIR_ROOT . 'htpasswd' . DIRECTORY_SEPARATOR;
 $this->DIR_ROUTE = $this->DIR_ROOT . 'route' . DIRECTORY_SEPARATOR;
 $this->DIR_STATIC = $this->DIR_ROOT . 'static' . DIRECTORY_SEPARATOR;
 $this->DIR_TPL = $this->DIR_ROOT . 'tpl' . DIRECTORY_SEPARATOR;
+$this->DIR_VIEW = $this->DIR_ROOT . 'view' . DIRECTORY_SEPARATOR;

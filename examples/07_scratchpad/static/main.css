@@ -125,20 +125,6 @@ fieldset.checks label {
     margin: 0 0 0 130px;
 }
 
-.scratchpad-nav {
-    padding: 10px 30px 10px 10px;
-    margin: 10px;
-    float: right;
-    border: #666 solid 1px;
-}
-
-.scratchpad-comments {
-    padding:50px;
-    width: 50%;
-    font-size: 90%;
-
-}
-
 ul {
     list-style: none;
 }
@@ -196,13 +182,6 @@ color:#666;
    width: 80%;
 }
 
-.scratchpad-matches{
-    margin: 0pt 0pt 0pt 20px;
-    color: #C03;
-}
-
-
-
 ul.pagination {
     font-size: 93%;
     margin: 16px 0;
@@ -256,7 +235,26 @@ ul.pagination li.last {
     padding-left:2px;
 }
 
-.breadcrumbs {
+
+.scratchpad-matches{
+    margin: 0pt 0pt 0pt 20px;
+    color: #C03;
+}
+
+.scratchpad-nav {
+    padding: 10px 30px 10px 10px;
+    margin: 10px;
+    float: right;
+    border: #666 solid 1px;
+}
+
+.scratchpad-comments {
+    padding:50px;
+    width: 50%;
+    font-size: 90%;
+
+}
+.scratchpad-breadcrumbs {
     font-size: x-small;
-    margin-left: -20px;
+    margin-left:5px;
 }
