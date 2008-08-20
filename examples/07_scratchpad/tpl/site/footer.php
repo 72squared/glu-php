@@ -2,7 +2,7 @@
 
 </div>
 <div class="global-footer">
-<?php $this->dispatch(dirname(__FILE__) . '/userauthlinks'); ?>
+<?php $this->dispatch( $this->DIR_TPL . 'auth/userlinks'); ?>
 <?php if( $this->SCRIPT_START_TIME ): ?>
 <em>
 page generated in <?php echo  number_format( microtime(TRUE) - $this->SCRIPT_START_TIME, 5); ?> seconds
