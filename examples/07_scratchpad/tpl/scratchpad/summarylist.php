@@ -16,7 +16,7 @@ $body = $pad->body;
 if( ! $pad->entry_id ) $body = '#directory only';
 if( ! $pad->dir_id )  $body = '#Page does not exist yet';
 $pos = strlen( $body ) > 1000 ? strpos( $body, "\n", 1000) : FALSE;
-if( $pos ) $body = substr( $body, 0, $pos ) . ' ... [read more](' . $pad->path . ')';
+if( $pos ) $body = substr( $body, 0, $pos ) . ' ... [read more](' . $pad->path . '?route=display)';
 $author_id = $pad->author;
 $author = $authors->$author_id;
 ?>

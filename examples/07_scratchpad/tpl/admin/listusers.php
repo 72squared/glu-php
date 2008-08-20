@@ -5,7 +5,7 @@ if( ! $list instanceof Grok ) return;
 $lister = $list->iterator;
 $matches = $list->matches;
 if( ! $lister instanceof User_Lister ) return;
-$matches = ( $list->matches instanceof Grok ) ? $list->matches : $this->Grok();
+$matches = ( $list->matches instanceof Grok ) ? $list->matches : $this->NEW->Grok();
 
 $pagination = $this->instance();
 $pagination->url = $this->baseurl . '/?route=' . $this->route . '&page=#PAGE#';

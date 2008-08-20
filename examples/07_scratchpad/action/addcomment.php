@@ -2,7 +2,7 @@
 $this->dispatch( dirname(__FILE__) . '/load');
 $pad = $this->pad;
 $this->comment = $this->NEW->Scratchpad( array('dir_id'=>$pad->dir_id, 'path'=>$pad->path, 'entry_type'=>1) );
-$session = ( $this->session ) ? $this->session :  $this->Grok();
+$session = ( $this->session ) ? $this->session :  $this->NEW->Grok();
 $nonce =  $this->NEW->Nonce( $session->session_id .  $this->comment->dir_id );
 $this->nonce = $nonce->create();
 if( ! isset($this->request->body) ) return;

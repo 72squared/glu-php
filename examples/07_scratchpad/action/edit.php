@@ -1,6 +1,6 @@
 <?php
 $this->dispatch( dirname(__FILE__) . '/load');
-$session = ( $this->session ) ? $this->session :  $this->Grok();
+$session = ( $this->session ) ? $this->session :  $this->NEW->Grok();
 $nonce =  $this->NEW->Nonce( $session->session_id .  $this->pad->entry_id );
 $this->nonce = $nonce->create();
 if( ! isset($this->request->body) ) return;

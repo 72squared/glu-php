@@ -7,7 +7,7 @@ $authors = $list->authors;
 $matches = $list->matches;
 if( ! $lister instanceof Scratchpad_Lister ) return;
 if( ! $authors instanceof User_Lister ) return;
-$matches = ( $list->matches instanceof Grok ) ? $list->matches : $this->Grok();
+$matches = ( $list->matches instanceof Grok ) ? $list->matches : $this->NEW->Grok();
 
 $pagination = $this->instance();
 $pagination->url = $list->pagination_url;

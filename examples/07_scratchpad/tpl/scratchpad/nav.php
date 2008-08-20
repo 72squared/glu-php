@@ -18,15 +18,29 @@ $name = $this->pad->pathToName(substr($last, strrpos($last, '/')));
 </div>
 <?php
 $currenturl = $this->baseurl . $this->path;
+$map = array( 
+'display'=>'display',
+'edit'=>'edit',
+'addcomment'=>'add comment',
+'history'=>'history',
+'descendents'=>'descendents',
+'changes'=>'changes',
+'recent'=>'recent',
+'manage'=>'manage',
+);
 ?>
 <ul class="scratchpad-nav">
-<li><a href="<?php echo $currenturl; ?>">display</a></li>
-<li><a href="<?php echo $currenturl; ?>?route=edit">edit</a></li>
-<li><a href="<?php echo $currenturl; ?>?route=addcomment">add comment</a></li>
-<li><a href="<?php echo $currenturl; ?>?route=history">history</a></li>
-<li><a href="<?php echo $currenturl; ?>?route=descendents">related</a></li>
-<li><a href="<?php echo $currenturl; ?>?route=changes">changes</a></li>
-<li><a href="<?php echo $currenturl; ?>?route=recent">recent</a></li>
-<li><a href="<?php echo $currenturl; ?>?route=manage">manage</a></li>
+<?php 
+foreach( $map as $route=>$txt ): 
+if( $this->permission instanceof Permission) {
+    $action = $this->permission_map->{ $route };
+    if( ! $action ) $action = 'read';
+    if( ! $this->permission->verify( $action, $this->pad->path ) ) continue;
+}
+?>
+<li><a href="<?php echo $currenturl; ?>?route=<?php echo $route; ?>"><?php echo $txt;?></a></li>
+<?php endforeach; ?>
+<?php if( $this->permission instanceof Permission && $this->permission->verify('read', $this->pad->path )): ?>
 <li><a href="<?php echo ($this->path == '/' ? $this->baseurl . '/index.text' : $currenturl . '.text'); ?>" target="_blank">plain text</a></li>
+<?php endif; ?>
 </ul>
