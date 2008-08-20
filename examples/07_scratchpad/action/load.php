@@ -1,8 +1,8 @@
 <?php
 $path = $this->request->entry_id ? $this->request->entry_id : $this->path;
 if( ! $path ) throw new Exception('invalid-path');
-$this->pad = $this->ScratchPad( $path );
-$this->author =  $this->User( $this->pad->author );
+$this->pad = $this->NEW->ScratchPad( $path );
+$this->author =  $this->NEW->User( $this->pad->author );
 if( ! $this->permission instanceof Permission ) return;
 if( ! $this->action ) return;
 $result = $this->permission->verify( $this->action, $this->pad->path );

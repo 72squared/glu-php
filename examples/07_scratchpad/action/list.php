@@ -7,7 +7,8 @@ if( ! $list->page && $this->request->page ){
 }
 if( $list->page < 1 ) $list->page = 1;
 if( $list->per_page < 1 ) $list->per_page = 20;
-$list->iterator = $this->Scratchpad_Lister( array_slice($list->ids,  ( $list->page - 1 ) * $list->per_page, $list->per_page) );
+$ids = array_slice($list->ids,  ( $list->page - 1 ) * $list->per_page, $list->per_page);
+$list->iterator = $this->pad->batch($ids);
 $authors = array();
 foreach($list->iterator as $p ){
     if( ! $p->author ) continue;

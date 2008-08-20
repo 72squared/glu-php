@@ -25,7 +25,7 @@ if( $this->user->user_id == 1 ){
     $overrides = array('/'=>array('read','write','comment', 'manage'));
 }
 
-$this->permission = $permission = $this->Permission( $role, $overrides );
+$this->permission = $permission = $this->NEW->Permission( $role, $overrides );
 $action = $a->{$this->route };
 if( ! $action ) $action = 'read';
 $this->action = $action;

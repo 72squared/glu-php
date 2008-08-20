@@ -128,7 +128,7 @@ class Scratchpad extends Grok {
     }
     
     public function titleSearch( $term = '' ){
-        $words = $this->Keyword_Counter($term)->keys();
+        $words = $this->NEW->keyword_counter($term)->keys();
         if( count( $words ) < 1 ) return array();
         $clauses = array($this->path, $this->path . 'z');
         foreach( $words as $word ) $clauses[] = '%' . $word . '%';
@@ -159,7 +159,7 @@ class Scratchpad extends Grok {
     
     public function keywordSearch( $term = '' ){
         $search = array();
-        foreach( $this->Keyword_Counter($term)->keys() as $word ) $search[] = $word . '%';
+        foreach( $this->NEW->keyword_counter($term)->keys() as $word ) $search[] = $word . '%';
         if( count( $search ) < 1 ) return array();
         $sql = 'SELECT word_checksum FROM keywords WHERE ' . implode(' OR ', array_fill(0, count($search), 'word LIKE ?'));
         $db = $this->db();
@@ -194,7 +194,8 @@ class Scratchpad extends Grok {
         return $paths;
     }
     
-    public function batch(Scratchpad_Lister $iterator, $entry_ids){
+    public function batch($entry_ids){
+        $iterator = new Scratchpad_Lister;
         if( ! is_array($entry_ids) || count($entry_ids) < 1 ) return $iterator;
         $clean_ids = $entries = $dir_ids = array();
         foreach($entry_ids as $path=>$id ) {
@@ -329,7 +330,7 @@ class Scratchpad extends Grok {
         $st = $db->prepare("UPDATE directory SET entry_id = :entry_id WHERE dir_id = :dir_id");
         $st->execute(array('entry_id'=>$this->entry_id, 'dir_id'=>$this->dir_id) );
         
-        $word_counter = $this->Keyword_Counter( $this );
+        $word_counter = $this->NEW->keyword_counter( $this );
         
         $word_map = array();
         foreach( $word_counter->keys() as $word ){

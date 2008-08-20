@@ -21,7 +21,7 @@ $author_id = $pad->author;
 $author = $authors->$author_id;
 ?>
 <HR/>
-<?php echo $this->Markdown_Parser(array('relative_url_base'=>$this->baseurl))->transform($body); ?>
+<?php echo $this->NEW->markdown_parser(array('relative_url_base'=>$this->baseurl))->transform($body); ?>
 <?php if( $pad->entry_id ): ?>
 <em><?php echo $author->nickname . ' last modified on ' . date('Y/m/d H:i:s', $pad->created); ?></em>
 <?php endif; ?>

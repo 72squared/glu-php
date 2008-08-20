@@ -112,7 +112,7 @@ class User extends Grok {
         }
         if(( $ct = count($clean_ids ) ) < 1 ) return $iterator;
         $db = self::db();
-        $st = $db->prepare(sprintf("SELECT * FROM user WHERE user_id IN( %s )",  implode(', ', array_fill($ct, '?'))) );
+        $st = $db->prepare(sprintf("SELECT * FROM user WHERE user_id IN( %s )",  implode(', ', array_fill(0, $ct, '?'))) );
         $st->execute($clean_ids);
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
             $k = $row['user_id'];

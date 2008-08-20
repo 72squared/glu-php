@@ -10,7 +10,7 @@ foreach( $roles as $i=>$role ){
     if( strlen( $role ) < 1 ) continue;
     $a = $this->instance( $actions->$i )->keys();
     $p = $l->{$role};
-    if( ! $p ) $p = $l->{$role} = $this->Permission($role, array());
+    if( ! $p ) $p = $l->{$role} = $this->NEW->Permission($role, array());
     $p->{$path} = $a;
     if( $p->count() < 1 ) unset( $l->{$role} );
     $p->store();

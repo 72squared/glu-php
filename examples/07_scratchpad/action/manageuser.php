@@ -1,6 +1,6 @@
 <?php
 
-$this->manageuser = $user = $this->User($this->request->id);
+$this->manageuser = $user = $this->NEW->User($this->request->id);
 
 if( ! is_array( $this->request->attr ) ) return;
 
