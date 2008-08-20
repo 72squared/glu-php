@@ -1,5 +1,5 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'addcomment');
+$this->dispatch($this->DIR_ROOT . 'action/addcomment');
 if( $this->comment->entry_id ) return $this->dispatch( $this->DIR_APP . 'run/showcomments');
 
 $this->title = $this->pad->title . ' - AddComment';

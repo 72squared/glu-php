@@ -101,7 +101,8 @@ class User extends Grok {
         }
     }
     
-    public function batch( User_Lister $iterator, $ids){
+    public static function fetch($ids){
+        $iterator = new User_Lister;
         if( ! is_array($ids) || count($ids) < 1 ) return $iterator;
         $clean_ids = array();
         foreach($ids as $id ) {
@@ -109,16 +110,53 @@ class User extends Grok {
             if( $id < 1 ) continue;
             $clean_ids[] = $id;
         }
-        if( count($clean_ids ) < 1 ) return $iterator;
-        $db = $this->db();
-        $st = $db->query(sprintf("SELECT * FROM user WHERE user_id IN( %s )", implode(',', $clean_ids) ) );
+        if(( $ct = count($clean_ids ) ) < 1 ) return $iterator;
+        $db = self::db();
+        $st = $db->prepare(sprintf("SELECT * FROM user WHERE user_id IN( %s )",  implode(', ', array_fill($ct, '?'))) );
+        $st->execute($clean_ids);
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
             $k = $row['user_id'];
-            $iterator->$k = new User( $row );
+            $iterator->$k = new self( $row );
         }
         $st->closeCursor();
         return $iterator;
     }
+    
+    public static function listing($start = 0, $offset = 20){
+        $db = self::db();
+        $st = $db->query(sprintf("SELECT * FROM user LIMIT %d, %d", $start, $offset));
+        $iterator = new User_Lister;
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
+            $k = $row['user_id'];
+            $iterator->$k = new self( $row );
+        }
+        $st->closeCursor();
+        return $iterator;
+    }
+    
+    public static function listingCount(){
+        $db = self::db();
+        $st = $db->prepare("SELECT count(user_id) as ct FROM user");
+        $st->execute(array($start, $offset ));
+        $ids = array();
+        $ct = ( $row = $st->fetch(PDO::FETCH_ASSOC) ) ? $row['ct'] : 0;
+        $st->closeCursor();
+        return $ct;
+    }
+    
+    public static function search($name){
+        $db = self::db();
+        $st = $db->prepare("SELECT * FROM user WHERE nickname LIKE ?");
+        $st->execute(array($name ));
+        $iterator = new User_Lister;
+        while( $row = $st->fetch(PDO::FETCH_ASSOC) ) {
+            $k = $row['user_id'];
+            $iterator->$k = new self( $row );
+        }
+        $st->closeCursor();
+        return $iterator;
+    }
+    
     
     public function initialize(){
         $db = $this->db();

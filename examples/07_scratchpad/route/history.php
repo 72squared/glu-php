@@ -1,5 +1,5 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'history');
+$this->dispatch($this->DIR_ROOT . 'action/history');
 $this->title = 'History for [' . $this->pad->title . ']';
 $this->dispatch($this->DIR_APP . 'tpl/header');
 $this->dispatch($this->DIR_APP . 'tpl/breadcrumbs');

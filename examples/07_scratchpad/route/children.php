@@ -1,5 +1,5 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'children');
+$this->dispatch($this->DIR_ROOT . 'action/children');
 $this->title = 'children for ' . $this->pad->title;
 $this->dispatch($this->DIR_APP . 'tpl/header');
 $this->dispatch($this->DIR_APP . 'tpl/breadcrumbs');

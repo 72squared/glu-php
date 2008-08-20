@@ -1,5 +1,5 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'loginmail');
+$this->dispatch($this->DIR_ROOT . 'action/loginmail');
 if( $this->user->user_id ) return $this->dispatch( $this->DIR_APP . 'run/display');
 $this->title = 'Sign In via Mail';
 $this->dispatch($this->DIR_APP . 'tpl/header'); 

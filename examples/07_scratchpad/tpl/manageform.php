@@ -2,6 +2,7 @@
 $actions = array('read', 'comment', 'write', 'manage');
 $i=0;
 $paths = array();
+$this->permission_lister->ksort();
 foreach( $this->permission_lister as $role=>$p ){
     foreach( $p->keys() as $path ) $paths[$path] = 1;
 }
@@ -10,7 +11,7 @@ $paths = array_keys( $paths );
 ?>
 <dl>
 <?php if( count( $paths ) > 0 ): ?>
-<dt>Other Permission Areas</dt>
+<dt>Other Permission Paths</dt>
 <?php foreach($paths as $path ): ?>
 <dd><a href="<?php echo $this->baseurl . $path;?>?route=manage"><?php echo $this->pad->pathToName($path); ?></a></dd>
 <?php endforeach; ?>

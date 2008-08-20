@@ -1,5 +1,5 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'recent');
+$this->dispatch($this->DIR_ROOT . 'action/recent');
 $this->title = 'Blog-style listing for [' . $this->pad->title . ']';
 $this->dispatch($this->DIR_APP . 'tpl/header');
 $this->dispatch($this->DIR_APP . 'tpl/breadcrumbs');

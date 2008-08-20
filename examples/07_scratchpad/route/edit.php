@@ -1,5 +1,5 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'edit');
+$this->dispatch($this->DIR_ROOT . 'action/edit');
 $this->title = $this->pad->title . ' - EDIT';
 $this->dispatch($this->DIR_APP . 'tpl/header');
 $this->dispatch($this->DIR_APP . 'tpl/breadcrumbs');

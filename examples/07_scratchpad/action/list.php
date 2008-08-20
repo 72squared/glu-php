@@ -8,7 +8,12 @@ if( ! $list->page && $this->request->page ){
 if( $list->page < 1 ) $list->page = 1;
 if( $list->per_page < 1 ) $list->per_page = 20;
 $list->iterator = $this->Scratchpad_Lister( array_slice($list->ids,  ( $list->page - 1 ) * $list->per_page, $list->per_page) );
-$list->authors = $this->Scratchpad_Authors( $list->iterator );
+$authors = array();
+foreach($list->iterator as $p ){
+    if( ! $p->author ) continue;
+    $authors[ $p->author ] = 1;
+}
+$list->authors = User::fetch( array_keys($authors) );
 $list->count = count( $list->ids );
 $list->total_pages = 1;
 
