@@ -5,9 +5,6 @@ $enabled_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'enabled' . DIRECTORY_S
 
 $modules = 
 array(
-    'load_default_dir_paths',
-    'load_request',
-    'load_server',
     'baseurl_modrewrite',
     'extract_path',
     'route_by_request',

@@ -1,6 +1,14 @@
 <?php
 class App_Namespace extends Grok {
 
+    public function __construct( $data = NULL ){
+        parent::__construct( $data );
+        $this->NEW = new Instantiator;
+        $this->request = new Grok( $_REQUEST );
+        $this->server = new Grok( $_SERVER );
+        $this->dir = new Dir;
+    }
+
     protected function __set( $k, $v ){
         switch( $k ){
             case 'pad'          : if( ! $v instanceof Scratchpad ) return NULL;
@@ -33,7 +41,7 @@ class App_Namespace extends Grok {
             case 'headers' :    if( ! $v instanceof Grok ) return NULL;
                                 break;
                                 
-            case 'dir' :        if( ! $v instanceof Grok ) return NULL;
+            case 'dir' :        if( ! $v instanceof Dir ) return NULL;
                                 break;
                                 
             case 'list' :       if( ! $v instanceof Grok ) return NULL;

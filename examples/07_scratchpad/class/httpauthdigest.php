@@ -25,7 +25,7 @@ class HttpAuthDigest extends Grok {
         $response = $response[1];
         $opaque = $opaque[1];
         $uri = $uri[1];
-        $htpasswd = $this->NEW->Grok(array('realm'=>$this->realm));
+        $htpasswd = new Grok(array('realm'=>$this->realm));
         if( $this->htpasswd ) $htpasswd->dispatch( $this->htpasswd );
         if( ! isset( $htpasswd->$username  ) ) return FALSE;
         $password = $htpasswd->$username;

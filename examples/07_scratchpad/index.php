@@ -4,7 +4,7 @@ $sep = DIRECTORY_SEPARATOR;
 $dir = dirname(__FILE__) . $sep;
 include $dir . 'class' . $sep . '__autoload.php';
 $app = new App_Namespace(array('START_TIME'=>$start));
-$app->NEW = new Instantiator;
+ob_start();
 try {
     $pattern = $dir . 'modules' . $sep . 'enabled' .$sep . '*.php';
     $files = glob($pattern);
@@ -23,4 +23,5 @@ try {
 } catch( Exception $e ){
     print $e;
 }
+ob_end_flush();
 //EOF
