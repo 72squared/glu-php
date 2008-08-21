@@ -19,13 +19,12 @@ $name = $this->pad->pathToName(substr($last, strrpos($last, '/')));
 <?php
 $currenturl = $this->baseurl . $this->path;
 $map = array( 
-'display'=>'display',
+'display'=>'article',
 'edit'=>'edit',
+'comments'=>'discussion',
 'addcomment'=>'add comment',
 'history'=>'history',
-'descendents'=>'descendents',
-'changes'=>'changes',
-'recent'=>'recent',
+'descendents'=>'sub-topics',
 'manage'=>'manage',
 );
 ?>
@@ -41,6 +40,6 @@ if( $this->permission instanceof Permission) {
 <li><a href="<?php echo $currenturl; ?>?route=<?php echo $route; ?>" <?php if( $route == $this->route ) echo ' class="selected"'; ?>><?php echo $txt;?></a></li>
 <?php endforeach; ?>
 <?php if( $this->permission instanceof Permission && $this->permission->verify('read', $this->pad->path )): ?>
-<li><a href="<?php echo ($this->path == '/' ? $this->baseurl . '/index.text' : $currenturl . '.text'); ?>" target="_blank">plain text</a></li>
+<li><a href="<?php echo ($this->path == '/' ? $this->baseurl . '/index.text' : $currenturl . '.text'); ?>" target="_blank">view source</a></li>
 <?php endif; ?>
 </ul>
