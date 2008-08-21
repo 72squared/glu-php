@@ -98,7 +98,8 @@ class Grok_Container implements Iterator {
     * @see http://www.php.net/manual/en/function.array-push.php
     **/
     public function push($v){
-        return $this->{$this->max() + 1} = $v;
+        $keys = $this->keys();
+        return $this->{count( $keys ) > 0 ? max($keys) + 1 : 0} = $v;
     }
     
    /**
@@ -119,7 +120,8 @@ class Grok_Container implements Iterator {
     * @see http://www.php.net/manual/en/function.array-unshift.php
     **/
     public function unshift($v){
-        return $this->{$this->min() - 1} = $v;
+        $keys = $this->keys();
+        return $this->{count( $keys ) > 0 ? min($keys) -1 : 0} = $v;
     }
     
    /**
@@ -148,22 +150,6 @@ class Grok_Container implements Iterator {
     **/
     public function krsort($sort_flags = NULL){
         return krsort($this->__data, $sort_flags);
-    }
-    
-   /**
-    * @see http://www.php.net/manual/en/function.max.php
-    **/
-    public function max(){
-        $keys = $this->keys();
-        return count( $keys ) > 0 ? max($keys): 0;
-    }
-    
-   /**
-    * @see http://www.php.net/manual/en/function.max.php
-    **/
-    public function min(){
-        $keys = $this->keys();
-        return count( $keys ) > 0 ? min($keys): 0;
     }
     
    /**

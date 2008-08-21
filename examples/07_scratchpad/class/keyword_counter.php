@@ -1,7 +1,8 @@
 <?
 class Keyword_Counter extends Grok {
 
-    public function __construct( $data  = NULL ){
+    public function __construct( $data  = NULL, $options = NULL ){
+        $options = new Grok( $options );
         if( $data instanceof iterator ) {
             $str = '';
             foreach($data as $v ) $str .= ' ' . $v;
@@ -12,13 +13,13 @@ class Keyword_Counter extends Grok {
         $words = array();
         foreach( $data as $word ){
             if( strpos(self::$stopwords, $word . '|') !== FALSE ) continue;
-            $word = PorterStemmer::stem( $word );
+            if( ! $options->disable_stemmer ) $word = PorterStemmer::stem( $word );
             $len = strlen( $word );
             if( $len < 3 || $len > 30 ) continue;
             if( strpos(self::$stopwords, $word . '|') !== FALSE ) continue;
             if( ! isset( $words[ $word ] ) ) $words[ $word ] = 0;
             $words[$word]++;
-            if( $len < 6) continue;
+            if( $len < 6 || $options->disable_soundex ) continue;
             $word = soundex( $word );
             if( ! isset( $words[ $word ] ) ) $words[ $word ] = 0;
             $words[$word]++;
