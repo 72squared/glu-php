@@ -97,7 +97,7 @@ class Permission extends Grok {
     }
     
     public function verify( $action, $check_path = '/' ){
-        if( $check_path === NULL ) return FALSE;
+        if( $check_path == NULL ) return FALSE;
         $action = $this->normalizeAction( $action );
         $this->ksort();
         foreach( $this as $path=>$actions ){

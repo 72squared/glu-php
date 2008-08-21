@@ -85,8 +85,8 @@ class Scratchpad extends Grok {
         foreach( $this->extractPaths()  as $path ){
             $paths[ $path ] = NULL;
         }
-        if( $this->dir->id !== NULL ){
-            $paths[ $this->path ] = $this->dir->id;
+        if( $this->dir_id !== NULL ){
+            $paths[ $this->path ] = $this->dir_id;
         }
         
         if( $this->parent !== NULL ){
@@ -107,7 +107,7 @@ class Scratchpad extends Grok {
     public function children(){
         $db = $this->db();
         $st = $db->prepare("SELECT entry_id, path FROM directory WHERE parent = ? AND entry_type = 0");
-        $st->execute(array($this->dir->id));
+        $st->execute(array($this->dir_id));
         $paths = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $paths[ $row['path'] ] = $row['entry_id'];
         $st->closeCursor();
@@ -120,7 +120,7 @@ class Scratchpad extends Grok {
         $st->execute(array($this->path, $path . 'z'));
         $paths = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ){
-            if( $row['dir_id'] == $this->dir->id ) continue;
+            if( $row['dir_id'] == $this->dir_id ) continue;
             $paths[ $row['path'] ] = $row['entry_id'];
         }
         $st->closeCursor();
@@ -128,7 +128,8 @@ class Scratchpad extends Grok {
     }
     
     public function titleSearch( $term = '' ){
-        $words = $this->NEW->keyword_counter($term)->keys();
+        $counter = new Keyword_Counter( $term );
+        $words = $counter->keys();
         if( count( $words ) < 1 ) return array();
         $clauses = array($this->path, $this->path . 'z');
         foreach( $words as $word ) $clauses[] = '%' . $word . '%';
@@ -244,7 +245,7 @@ class Scratchpad extends Grok {
     
     public function loadDirectoryByPath(){
         if( ! isset( $this->path ) ) return;
-        if( isset( $this->dir->id ) && isset( $this->entry_id ) ) return;
+        if( isset( $this->dir_id ) && isset( $this->entry_id ) ) return;
         $db = $this->db();
         $st = $db->prepare("SELECT * FROM directory WHERE path = ?");
         $st->execute(array($this->path));
@@ -255,11 +256,11 @@ class Scratchpad extends Grok {
     }
     
     public function loadDirectoryByID(){
-        if( ! isset( $this->dir->id ) ) return;
+        if( ! isset( $this->dir_id ) ) return;
         if( isset( $this->path ) && isset( $this->entry_id ) ) return;
         $db = $this->db();
         $st = $db->prepare("SELECT * FROM directory WHERE dir_id = ?");
-        $st->execute(array($this->dir->id));
+        $st->execute(array($this->dir_id));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
         if( $this->entry_type > 0 ) unset( $data['entry_id']);
@@ -269,7 +270,7 @@ class Scratchpad extends Grok {
     public function comments(){
         $db = $this->db();
         $st = $db->prepare("SELECT entry_id FROM entry WHERE dir_id = ? AND entry_type = 1 ORDER BY entry_id DESC");
-        $st->execute(array($this->dir->id));
+        $st->execute(array($this->dir_id));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry_id'];
         $st->closeCursor();
@@ -279,7 +280,7 @@ class Scratchpad extends Grok {
     public function history(){
         $db = $this->db();
         $st = $db->prepare("SELECT entry_id FROM entry WHERE dir_id = ? AND entry_type = 0 ORDER BY entry_id DESC");
-        $st->execute(array($this->dir->id));
+        $st->execute(array($this->dir_id));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['entry_id'];
         $st->closeCursor();
@@ -299,7 +300,7 @@ class Scratchpad extends Grok {
     public function childrenHistory(){
         $db = $this->db();
         $st = $db->prepare("SELECT e.entry_id FROM directory d INNER JOIN entry e ON d.dir_id = e.dir_id AND e.entry_type = 0 WHERE d.parent = ? ORDER BY e.entry_id DESC");
-        $st->execute(array($this->dir->id));
+        $st->execute(array($this->dir_id));
         $ids = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC) ) $ids[] = $row['e.entry_id'];
         $st->closeCursor();
@@ -308,9 +309,9 @@ class Scratchpad extends Grok {
     
     public function store(){
         if( ! isset( $this->path ) ) return;
-        if( ! $this->dir->id ) $this->initializePaths();
+        if( ! $this->dir_id ) $this->initializePaths();
         $params = array();
-        $params['dir_id'] = $this->dir->id;
+        $params['dir_id'] = $this->dir_id;
         $params['entry_type'] = $this->entry_type = intval($this->entry_type);
         $params['author'] = $this->author;
         $params['created'] = $this->created = $this->now();
@@ -329,9 +330,9 @@ class Scratchpad extends Grok {
         if( $this->entry_type ) return;
         
         $st = $db->prepare("UPDATE directory SET entry_id = :entry_id WHERE dir_id = :dir_id");
-        $st->execute(array('entry_id'=>$this->entry_id, 'dir_id'=>$this->dir->id) );
+        $st->execute(array('entry_id'=>$this->entry_id, 'dir_id'=>$this->dir_id) );
         
-        $word_counter = $this->NEW->keyword_counter( $this );
+        $word_counter = new Keyword_Counter( $this );
         
         $word_map = array();
         foreach( $word_counter->keys() as $word ){
@@ -382,7 +383,7 @@ class Scratchpad extends Grok {
                 $dir_id = $paths[ $path ] = $db->lastInsertId();
             }
             $this->parent = $parent;
-            $parent = $this->dir->id = $dir_id;
+            $parent = $this->dir_id = $dir_id;
         }
         return $paths;
     }

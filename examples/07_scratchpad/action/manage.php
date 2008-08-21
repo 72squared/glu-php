@@ -1,6 +1,6 @@
 <?php
 $this->dispatch( $this->dir->ACTION . 'load');
-$this->permission_lister = $this->Permission_Lister();
+$this->permission_lister = $this->NEW->Permission_Lister();
 if( ! is_array($this->request->roles ) ) return;
 $actions = $this->instance( $this->request->actions );
 $roles = $this->instance( $this->request->roles );
