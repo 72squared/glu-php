@@ -1,5 +1,5 @@
 <?php
-$this->dispatch( dirname(__FILE__) . '/load');
+$this->dispatch( $this->dir->ACTION . 'load');
 $pad = $this->pad;
 $this->comment = $this->NEW->Scratchpad( array('dir_id'=>$pad->dir_id, 'path'=>$pad->path, 'entry_type'=>1) );
 $session = ( $this->session ) ? $this->session :  $this->NEW->Grok();

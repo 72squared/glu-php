@@ -159,7 +159,8 @@ class Scratchpad extends Grok {
     
     public function keywordSearch( $term = '' ){
         $search = array();
-        foreach( $this->NEW->keyword_counter($term)->keys() as $word ) $search[] = $word . '%';
+        $counter = new Keyword_Counter($term);
+        foreach( $counter->keys() as $word ) $search[] = $word . '%';
         if( count( $search ) < 1 ) return array();
         $sql = 'SELECT word_checksum FROM keywords WHERE ' . implode(' OR ', array_fill(0, count($search), 'word LIKE ?'));
         $db = $this->db();

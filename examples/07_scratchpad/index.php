@@ -3,7 +3,7 @@ $start = microtime(TRUE);
 $sep = DIRECTORY_SEPARATOR;
 $dir = dirname(__FILE__) . $sep;
 include $dir . 'class' . $sep . '__autoload.php';
-$app = new App_Namespace(array('SCRIPT_START_TIME'=>$start));
+$app = new App_Namespace(array('START_TIME'=>$start));
 $app->NEW = new Instantiator;
 try {
     $pattern = $dir . 'modules' . $sep . 'enabled' .$sep . '*.php';

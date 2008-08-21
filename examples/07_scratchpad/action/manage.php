@@ -1,5 +1,5 @@
 <?php
-$this->dispatch( dirname(__FILE__) . '/load');
+$this->dispatch( $this->dir->ACTION . 'load');
 $this->permission_lister = $this->Permission_Lister();
 if( ! is_array($this->request->roles ) ) return;
 $actions = $this->instance( $this->request->actions );
