@@ -5,14 +5,14 @@ $ext = substr($this->path, strrpos($this->path, '.') + 1);
 $extensions = array( 'gif', 'jpg', 'png', 'css','js', 'ico');
 if( in_array( $ext, $extensions ) ) $this->route = 'static';
 
-$file = $this->DIR_STATIC . $this->path;
+$file = $this->dir->STATIC . $this->path;
 if( ! file_exists( $file ) ) {
-    $this->dispatch($this->DIR_ROUTE . 'pagenotfound');
+    $this->dispatch($this->dir->ROUTE . 'pagenotfound');
     return FALSE;
 }
 
 $fp = @fopen($file, 'r');
-if( ! $fp ) return $this->dispatch($this->DIR_ROUTE . 'pagenotfound');
+if( ! $fp ) return $this->dispatch($this->dir->ROUTE . 'pagenotfound');
 $ext = substr($this->path, strrpos($this->path, '.') + 1);
 $extensions = 
 array(  'gif'=> 'image/gif',

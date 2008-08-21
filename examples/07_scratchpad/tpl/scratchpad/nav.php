@@ -38,7 +38,7 @@ if( $this->permission instanceof Permission) {
     if( ! $this->permission->verify( $action, $this->pad->path ) ) continue;
 }
 ?>
-<li><a href="<?php echo $currenturl; ?>?route=<?php echo $route; ?>"><?php echo $txt;?></a></li>
+<li><a href="<?php echo $currenturl; ?>?route=<?php echo $route; ?>" <?php if( $route == $this->route ) echo ' class="selected"'; ?>><?php echo $txt;?></a></li>
 <?php endforeach; ?>
 <?php if( $this->permission instanceof Permission && $this->permission->verify('read', $this->pad->path )): ?>
 <li><a href="<?php echo ($this->path == '/' ? $this->baseurl . '/index.text' : $currenturl . '.text'); ?>" target="_blank">plain text</a></li>

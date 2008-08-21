@@ -5,14 +5,9 @@
 </textarea>
 </fieldset>
 <fieldset>
-<label label-for"area">Area</label>
-<input name="area" id="area" value="<?php echo htmlentities($this->pad->area); ?>">
-</fieldset>
-
-<fieldset>
 <button type="submit">Save</button>
 </fieldset>
-<input type="hidden" name="route" value="edit" />
+<input type="hidden" name="route" value="<?php echo $this->route; ?>" />
 <input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>" />
 <input type="hidden" name="entry_id" value="<?php echo $this->pad->entry_id; ?>" />
 <div class="wmd-preview"></div>

@@ -1,4 +1,4 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'listusers');
-$this->dispatch($this->DIR_VIEW . 'listusers');
+$this->dispatch($this->dir->ACTION . 'listusers');
+$this->dispatch($this->dir->VIEW . 'listusers');
 

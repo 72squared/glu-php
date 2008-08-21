@@ -1,4 +1,4 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'descendents');
-$this->dispatch($this->DIR_VIEW . 'descendents');
+$this->dispatch($this->dir->ACTION . 'descendents');
+$this->dispatch($this->dir->VIEW . 'descendents');
 // EOF

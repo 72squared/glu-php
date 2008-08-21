@@ -1,2 +1,2 @@
 <?php
-$this->request = $this->instance($_REQUEST);
+$this->request = $this->NEW->Grok($_REQUEST);

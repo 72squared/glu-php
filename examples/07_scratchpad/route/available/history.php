@@ -1,4 +1,4 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'history');
-$this->dispatch($this->DIR_VIEW . 'history');
+$this->dispatch($this->dir->ACTION . 'history');
+$this->dispatch($this->dir->VIEW . 'history');
 // EOF

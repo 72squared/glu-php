@@ -1,6 +1,6 @@
 <?php
 $this->title = 'LIST USERS';
-$this->dispatch($this->DIR_TPL . 'site/header'); 
-$this->dispatch($this->DIR_TPL . 'admin/listusers');
-$this->dispatch($this->DIR_TPL . 'site/footer');
+$this->dispatch($this->dir->TPL . 'site/header'); 
+$this->dispatch($this->dir->TPL . 'admin/listusers');
+$this->dispatch($this->dir->TPL . 'site/footer');
 // EOF

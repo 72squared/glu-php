@@ -14,7 +14,7 @@ $pagination->url = $list->pagination_url;
 $pagination->current = $list->page;
 $pagination->max = $list->total_pages;
 $pagination->per = $list->per_page;
-$pagination->dispatch( $this->DIR_TPL . 'site/pagination');
+$pagination->dispatch( $this->dir->TPL . 'site/pagination');
 
 ?>
 <dl class="scratchpad-list <?php echo $this->class; ?>">

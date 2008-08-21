@@ -1,4 +1,4 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'manage');
-$this->dispatch($this->DIR_VIEW . 'permission');
+$this->dispatch($this->dir->ACTION . 'manage');
+$this->dispatch($this->dir->VIEW . 'permission');
 // EOF

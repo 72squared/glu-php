@@ -248,6 +248,11 @@ ul.pagination li.last {
     border: #666 solid 1px;
 }
 
+.scratchpad-nav a.selected {
+    font-weight:bold;
+    color:#333;
+}
+
 .scratchpad-comments {
     padding:50px;
     width: 50%;
@@ -257,4 +262,13 @@ ul.pagination li.last {
 .scratchpad-breadcrumbs {
     font-size: x-small;
     margin-left:5px;
+}
+
+.scratchpad-summary{
+    font-size: 90%;
+    border-top: #666 solid 2px;
+    border-bottom: #666 solid 2px;
+    padding: 20px;
+    margin: 10px 10px 50px 10px;
+    width: 80%;
 }

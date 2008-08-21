@@ -1,3 +1,3 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'manageuser');
-$this->dispatch($this->DIR_VIEW . 'manageuser');
+$this->dispatch($this->dir->ACTION . 'manageuser');
+$this->dispatch($this->dir->VIEW . 'manageuser');

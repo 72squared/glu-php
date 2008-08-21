@@ -20,9 +20,10 @@ if( $pos ) $body = substr( $body, 0, $pos ) . ' ... [read more](' . $pad->path .
 $author_id = $pad->author;
 $author = $authors->$author_id;
 ?>
-<HR/>
+<div class="scratchpad-summary">
 <?php echo $this->NEW->markdown_parser(array('relative_url_base'=>$this->baseurl))->transform($body); ?>
 <?php if( $pad->entry_id ): ?>
 <em><?php echo $author->nickname . ' last modified on ' . date('Y/m/d H:i:s', $pad->created); ?></em>
 <?php endif; ?>
+</div>
 <?php endforeach; ?>

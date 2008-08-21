@@ -8,7 +8,7 @@
 <fieldset>
 <button type="submit">Save</button>
 </fieldset>
-<input type="hidden" name="route" value="addcomment" />
+<input type="hidden" name="route" value="<?php echo $this->route; ?>" />
 <input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>" />
 <div class="wmd-preview"></div>
 </form>

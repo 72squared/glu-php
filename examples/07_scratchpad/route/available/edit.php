@@ -1,4 +1,4 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'edit');
-$this->dispatch($this->DIR_VIEW . 'edit');
+$this->dispatch($this->dir->ACTION . 'edit');
+$this->dispatch($this->dir->VIEW . 'edit');
 // EOF

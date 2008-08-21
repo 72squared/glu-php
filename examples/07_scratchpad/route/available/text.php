@@ -1,8 +1,8 @@
 <?
 try {
-    $this->dispatch($this->DIR_ACTION . 'display');
+    $this->dispatch($this->dir->ACTION . 'display');
 } catch( Exception $e ){
-    $this->dispatch( $this->DIR_ROUTE . 'pagenotfound');
+    $this->dispatch( $this->dir->ROUTE . 'pagenotfound');
     return;
 }
 header('Content-Type: text/plain');

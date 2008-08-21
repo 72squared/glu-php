@@ -1,4 +1,4 @@
 <?php
-$this->dispatch($this->DIR_ACTION . 'children');
-$this->dispatch($this->DIR_VIEW . 'children');
+$this->dispatch($this->dir->ACTION . 'children');
+$this->dispatch($this->dir->VIEW . 'children');
 // EOF
