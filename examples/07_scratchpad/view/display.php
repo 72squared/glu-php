@@ -1,6 +1,6 @@
 <?php
 if( $this->pad->image && $this->request->route !='display') {
-    $this->dispatch($this->dir->TPL . 'scratchpad/image');
+    $this->dispatch($this->dir->TPL . 'scratchpad/file');
     return;
 }
 

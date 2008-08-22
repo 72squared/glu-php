@@ -49,7 +49,7 @@ class Scratchpad extends Grok {
                                     break;
                                     
             case 'path':            $v = '/' . trim(strval($v), ' /-_');
-                                    if( ! preg_match('#^[\/][a-z0-9\/\_\-\.]+$#i', $v) ) return NULL;
+                                    if( ! preg_match('#^[\/][a-z0-9\/\_\-\.]?+$#i', $v) ) return NULL;
                                     break;
                                     
             case 'parent':          $v = intval($v);
