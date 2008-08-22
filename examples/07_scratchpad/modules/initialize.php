@@ -6,9 +6,6 @@ $enabled_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'enabled' . DIRECTORY_S
 $modules = 
 array(
     'baseurl_modrewrite',
-    'extract_path',
-    'route_by_request',
-    'route_text_path',
     'load_session',
     'load_permission',
     'route',

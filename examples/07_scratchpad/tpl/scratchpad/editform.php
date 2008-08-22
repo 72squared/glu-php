@@ -2,7 +2,7 @@
 $pos = strrpos($this->pad->path, '.');
 $ext = ( $pos ) ? substr($this->pad->path, $pos + 1 ) : '';
 if( in_array( $ext, array('jpg', 'png', 'gif') ) ){
-    return $this->dispatch($this->dir->TPL . 'scratchpad/addfileform');
+    return $this->dispatch($this->dir->TPL . 'scratchpad/addimageform');
 }
 
 $use_rte = ( $this->session && $this->session->use_rte ) ? TRUE : FALSE;
