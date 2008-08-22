@@ -1,1 +1,1 @@
-../index.php
+../bin/index.php

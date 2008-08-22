@@ -9,7 +9,6 @@ array(
     'extract_path',
     'route_by_request',
     'route_text_path',
-    'static_path',
     'load_session',
     'load_permission',
     'route',

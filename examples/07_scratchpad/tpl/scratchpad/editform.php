@@ -20,7 +20,7 @@ if( $use_rte ){
 </form>
 <?php if( ! $use_rte ): ?>
 <div class="wmd-preview scratchpad-display"></div>
-<script type="text/javascript" src="<?php echo $this->baseurl; ?>/wmd_options.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl; ?>/static/wmd_options.js"></script>
 <script type="text/javascript"  src="http://box1.wmd-editor.com/1/wmd.js"></script>
 
 <?php else: ?>

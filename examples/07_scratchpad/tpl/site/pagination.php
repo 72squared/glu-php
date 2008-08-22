@@ -12,7 +12,7 @@ if( $this->max < 2 ) return;
 <?php if( $this->max < 8 ): ?>
 
 
-<?php for( $i < 1; $i <= $this->max; $i++): ?>
+<?php for( $i = 1; $i <= $this->max; $i++): ?>
 <li><a href="<?php echo str_replace('#PAGE#', $i, $this->url); ?>"<?php if($i==$this->current) echo ' class="selected"'; ?>><?php echo $i; ?></a></li>
 <?php endfor; ?>
 

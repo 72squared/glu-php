@@ -11,7 +11,7 @@ if( $this->pad ){
 <title><?php echo  $this->title ?> :: GROK Scratchpad</title>
 <meta name="keywords" content="<?php echo $keywords; ?>" />
 <link rel="alternate" type="application/rss+xml" title="<?php echo $this->title; ?>" href="<?php echo $this->baseurl . $this->path;?>?route=xmlfeed" />
-<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/main.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/static/main.css" type="text/css" />
 <link href="<?php echo $this->baseurl; ?>/favicon.ico" rel="icon" type="image/x-icon" />
 </head>
 <body>

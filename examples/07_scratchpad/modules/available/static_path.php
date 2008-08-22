@@ -5,7 +5,7 @@ $ext = substr($this->path, strrpos($this->path, '.') + 1);
 $extensions = array( 'gif', 'jpg', 'png', 'css','js', 'ico');
 if( in_array( $ext, $extensions ) ) $this->route = 'static';
 
-$file = $this->dir->STATIC . $this->path;
+$file = $this->dir->ROOT . DIRECTORY_SEPARATOR .'webroot' . DIRECTORY_SEPARATOR . $this->path;
 if( ! file_exists( $file ) ) {
     $this->dispatch($this->dir->ROUTE . 'pagenotfound');
     return FALSE;

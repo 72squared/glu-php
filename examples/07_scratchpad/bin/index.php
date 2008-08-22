@@ -1,7 +1,7 @@
 <?php
 $start = microtime(TRUE);
 $sep = DIRECTORY_SEPARATOR;
-$dir = dirname(__FILE__) . $sep;
+$dir = dirname(dirname(__FILE__)) . $sep;
 include $dir . 'class' . $sep . '__autoload.php';
 $app = new App_Namespace(array('START_TIME'=>$start));
 ob_start();
