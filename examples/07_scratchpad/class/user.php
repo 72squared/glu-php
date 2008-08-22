@@ -21,6 +21,17 @@ class User extends Grok {
         } else {
             parent::__construct($data);
         }
+        try {
+            $this->load();
+        } catch( PDOException $e ){
+            $msg =  $e->getMessage();
+            if( strpos($e, 'no such table') === FALSE ) throw $e;
+            $this->initialize();
+            $this->load();
+        }
+    }
+    
+    protected function load(){
         $this->loadByUserId();
         $this->loadByNickname();
         $this->loadByEmail();
@@ -74,15 +85,23 @@ class User extends Grok {
         foreach(self::$columns as $k){
             $params[$k] = $this->$k;
         }
+        
         if( $this->user_id ) {
             $st = $db->prepare("INSERT OR REPLACE INTO user (user_id, nickname, passhash, email, created, modified) VALUES (:user_id, :nickname, :passhash, :email, :created, :modified)");
-            $st->execute($params);
         } else {
             unset( $params['user_id'] );
             $st = $db->prepare("INSERT INTO user (nickname, passhash, email, created, modified) VALUES (:nickname, :passhash, :email, :created, :modified)");
-            $st->execute( $params );
-            $this->user_id = $db->lastInsertId();
         }
+        
+        try {
+            $st->execute($params);
+        } catch( PDOException $e ){
+            if( strpos($e, 'no such table') === FALSE ) throw $e;
+            $this->initialize();
+            $st->execute($params);
+        }
+        
+        if( ! $this->user_id ) $this->user_id = $db->lastInsertId();
         
         if( ! $this->user_id ) throw Exception('invalid-user_id');
         try {

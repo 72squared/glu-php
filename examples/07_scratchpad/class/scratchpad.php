@@ -20,13 +20,23 @@ class Scratchpad extends Grok {
         } else {
             parent::__construct($data);
         }
+        
+        try {
+            $this->load();
+        } catch( PDOException $e ){
+            $msg =  $e->getMessage();
+            if( strpos($e, 'no such table') === FALSE ) throw $e;
+            $this->initialize();
+            $this->load();
+        }
+    }
+    
+    protected function load(){
         $this->loadEntry();
         $this->loadDirectoryByID();
         $this->loadDirectoryByPath();
         $this->loadEntry();
     }
-    
-    /*** PROTECTED FUNCTIONS BELOW ***/
     
     protected function __set( $k, $v ){
         switch( $k ){

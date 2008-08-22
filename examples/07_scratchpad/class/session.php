@@ -19,8 +19,17 @@ class Session extends Grok {
         } else {
             parent::__construct($data);
         }
-        $this->loadBySessionId();
-        $this->loadByToken();
+        try {
+            $this->loadBySessionId();
+            $this->loadByToken();
+        } catch( PDOException $e ){
+            $msg =  $e->getMessage();
+            if( strpos($e, 'no such table') === FALSE ) throw $e;
+            $this->initialize();
+            $this->loadBySessionId();
+            $this->loadByToken();
+        }
+        
         $this->checksum = $this->checksum();
     }
     

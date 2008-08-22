@@ -17,7 +17,15 @@ class Permission extends Grok {
         if( strlen( $this->role ) < 1 ) return;
         $db = $this->db();
         $st = $db->prepare("SELECT path, action FROM access WHERE role = ?");
-        $st->execute(array($role));
+        try {
+            $st->execute(array($role));
+        } catch( PDOException $e ){
+            $msg =  $e->getMessage();
+            if( strpos($e, 'no such table') === FALSE ) throw $e;
+            $this->initialize();
+            $st->execute(array($role));
+        }
+        
         $paths = array();
         while( $row = $st->fetch(PDO::FETCH_ASSOC)){
             if( ! isset( $paths[ $row['path'] ] ) )  $paths[ $row['path'] ]= array();
@@ -143,8 +151,9 @@ class Permission extends Grok {
     protected function initialize(){
         $db = $this->db();
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-        $db->query('DROP TABLE acl');
-        $db->query('CREATE TABLE acl (area TEXT(32),role TEXT(32),action TEXT(32),PRIMARY KEY (area, role, action))');
+        $file = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'schema' . DIRECTORY_SEPARATOR . 'permission.sql';
+        $queries = explode(";\n", file_get_contents($file));
+        foreach( $queries as $sql ) $db->query( $sql );
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     
