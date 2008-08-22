@@ -1,5 +1,6 @@
 <?php
-$body = $this->pad->body;
+
+$body = ( $this->pad->image ) ? '![' . $this->pad->title . '](' . $this->pad->path . '?modified=' . $this->pad->created .')' : $this->pad->body;
 if( ! $this->pad->entry_id ) $body = '#directory only';
 if( ! $this->pad->dir_id )  $body = '#Page does not exist yet';
 ?>

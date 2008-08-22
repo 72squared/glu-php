@@ -5,7 +5,11 @@ class Scratchpad extends Grok {
 
     protected static $db;
     
-    const filename = 'scratchpad.db';
+    
+    const ARTICLE = 0;
+    const COMMENT = 1;
+    const IMAGE = 2;
+
     
     public function __construct( $data = NULL ){
         if( $data === NULL ) return;
@@ -45,7 +49,7 @@ class Scratchpad extends Grok {
                                     break;
                                     
             case 'path':            $v = '/' . trim(strval($v), ' /-_');
-                                    if( ! preg_match('#^[\/]?[a-z0-9\/\_\-]+$#i', $v) ) return NULL;
+                                    if( ! preg_match('#^[\/][a-z0-9\/\_\-\.]+$#i', $v) ) return NULL;
                                     break;
                                     
             case 'parent':          $v = intval($v);
@@ -57,7 +61,7 @@ class Scratchpad extends Grok {
                                     break;
                                     
             case 'entry_type':      $v = intval($v);
-                                    if( $v < 1 ) return NULL;
+                                    if( $v < 0 ) return NULL;
                                     break;
                                     
             case 'author':          $v = intval($v);
@@ -261,7 +265,7 @@ class Scratchpad extends Grok {
         $st->execute(array($this->path));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
-        if( $this->entry_type > 0 ) unset( $data['entry_id']);
+        if( $this->entry_type > self::ARTICLE ) unset( $data['entry_id']);
         $this->loadData($data);
     }
     
@@ -273,7 +277,7 @@ class Scratchpad extends Grok {
         $st->execute(array($this->dir_id));
         if( ! $data = $st->fetch(PDO::FETCH_ASSOC) ) return;
         $st->closeCursor();
-        if( $this->entry_type > 0 ) unset( $data['entry_id']);
+        if( $this->entry_type > self::ARTICLE ) unset( $data['entry_id']);
         $this->loadData($data);
     }
     
@@ -342,7 +346,12 @@ class Scratchpad extends Grok {
         $st = $db->prepare("UPDATE directory SET entry_id = :entry_id WHERE dir_id = :dir_id");
         $st->execute(array('entry_id'=>$this->entry_id, 'dir_id'=>$this->dir_id) );
         
-        $word_counter = new Keyword_Counter( $this );
+        $search_string = $this->title;
+        foreach( $this as $k=>$v ){
+            if( $k=='body' && $this->image )continue;
+            $search_string .= ' ' . $v;
+        }
+        $word_counter = new Keyword_Counter( $search_string );
         
         $word_map = array();
         foreach( $word_counter->keys() as $word ){
@@ -434,7 +443,7 @@ class Scratchpad extends Grok {
     
     protected function db(){
         if( isset( self::$db ) ) return self::$db;
-        $path = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . self::filename;
+        $path = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'scratchpad.db';
         $db = new PDO('sqlite2:' . $path, NULL, NULL, array(PDO::ATTR_PERSISTENT=>TRUE));
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return self::$db = $db;

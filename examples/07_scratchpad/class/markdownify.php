@@ -845,7 +845,7 @@ class Markdownify {
             $this->unstack();
             if ($this->parent() != 'li' || preg_match('#^\s*(</li\s*>\s*<li\s*>\s*)?<(p|blockquote)\s*>#sU', $this->parser->html)) {
                 # dont make Markdown add unneeded paragraphs
-                $this->setLineBreaks(2);
+                $this->setLineBreaks(1);
             }
         }
     }

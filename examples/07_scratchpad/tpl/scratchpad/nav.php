@@ -35,6 +35,8 @@ if( $this->permission instanceof Permission) {
     $action = $this->permission_map->{ $route };
     if( ! $action ) $action = 'read';
     if( ! $this->permission->verify( $action, $this->pad->path ) ) continue;
+} elseif( $route == 'manage') {
+    continue;
 }
 ?>
 <li><a href="<?php echo $currenturl; ?>?route=<?php echo $route; ?>" <?php if( $route == $this->route ) echo ' class="selected"'; ?>><?php echo $txt;?></a></li>

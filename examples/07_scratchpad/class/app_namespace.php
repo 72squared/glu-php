@@ -5,6 +5,7 @@ class App_Namespace extends Grok {
         parent::__construct( $data );
         $this->NEW = new Instantiator;
         $this->request = new Grok( $_REQUEST );
+        foreach( $_FILES as $k=>$v ) $this->request->$k = $v;
         $this->server = new Grok( $_SERVER );
         $this->dir = new Dir;
     }

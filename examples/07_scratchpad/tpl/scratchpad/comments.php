@@ -6,6 +6,7 @@ $authors = $list->authors;
 $page = $list->page;
 $per_page = $list->per_page;
 if( ! $lister instanceof Scratchpad_Lister || ! $authors instanceof User_Lister) return;
+if( $lister->count() < 1 ) return;
 $parser = $this->NEW->markdown_parser(array('relative_url_base'=>$this->baseurl));
 ?>
 <h2>Comments</h2>
