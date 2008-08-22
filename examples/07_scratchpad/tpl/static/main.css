@@ -280,8 +280,6 @@ ul.pagination li.last {
     width: 50%;
     font-size: 90%;
     clear:both;
-
-
 }
 
 .scratchpad-comments .comment {
@@ -307,4 +305,10 @@ ul.pagination li.last {
     padding: 20px;
     margin: 10px 10px 50px 10px;
     width: 80%;
+}
+
+.scratchpad-author {
+    clear:both;
+    font-weight:bold;
+    font-style:italic;
 }
