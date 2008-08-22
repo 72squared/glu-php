@@ -1,5 +1,5 @@
 <h2>Sign in</h2>
-<form action="<?php echo $this->baseurl . $this->path;?>" method="POST" class="login-form" >
+<form action="<?php echo $this->selfurl . $this->path;?>" method="POST" class="login-form" >
 <fieldset>
 <label for="login">login</label>
 <input type="text" name="login" value="<?php echo $this->request->nickname; ?>"/>

@@ -1,5 +1,5 @@
 <h2>Sign in via email</h2>
-<form action="<?php echo $this->baseurl . $this->path;?>" method="POST" class="login-form" >
+<form action="<?php echo $this->selfurl . $this->path;?>" method="POST" class="login-form" >
 
 <fieldset>
 <label for="email">Email</label>

@@ -1,7 +1,7 @@
 <?php
 $exclude = array('user_id', 'passhash', 'created', 'modified');
 ?>
-<form method="POST" action="<?php echo $this->baseurl; ?>/?route=manageuser">
+<form method="POST" action="<?php echo $this->selfurl; ?>/?route=manageuser">
 <input type="hidden" name="id" value="<?php echo $this->manageuser->user_id; ?>"/>
 
 <?php foreach( $this->manageuser as $k=>$v): ?>

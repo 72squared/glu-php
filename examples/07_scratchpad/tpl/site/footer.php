@@ -1,4 +1,4 @@
-<?php $currenturl = $this->baseurl . $this->path; ?>
+<?php $currenturl = $this->selfurl . $this->path; ?>
 
 </div>
 <div class="global-footer">

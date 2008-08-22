@@ -29,7 +29,7 @@ $author = $authors->$author_id;
 ?>
 <dd>
 <span class="scratchpad-date"><?php echo date("M j, Y, g:i A", $pad->created) ?></span>
-<a href="<?php echo $this->baseurl .'/'. $pad->entry_id; ?>">[<?php echo $pad->title; ?>]</a>
+<a href="<?php echo $this->selfurl .'/'. $pad->entry_id; ?>">[<?php echo $pad->title; ?>]</a>
 <span class="scratchpad-author">by <?php echo $author->nickname; ?></span>
 <?php if( $matches->$k ): ?>
 <span class="scratchpad-matches"><span class="label">matches: </span><em><?php echo intval($matches->$k); ?></em></span>

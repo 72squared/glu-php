@@ -6,7 +6,7 @@ $last = array_pop($paths);
 while( $path = array_shift( $paths ) ):
 $name = $this->pad->pathToName(substr($path, strrpos($path, '/')));
 ?>
-<a href="<?php echo $this->baseurl . $path; ?>"><?php echo $name; ?></a> &gt; 
+<a href="<?php echo $this->selfurl . $path; ?>"><?php echo $name; ?></a> &gt; 
 <?php endwhile; ?>
 <?php
 if( $last) : 
@@ -17,7 +17,7 @@ $name = $this->pad->pathToName(substr($last, strrpos($last, '/')));
 
 </div>
 <?php
-$currenturl = $this->baseurl . $this->path;
+$currenturl = $this->selfurl . $this->path;
 $map = array( 
 'display'=>'article',
 'edit'=>'edit',
@@ -42,6 +42,6 @@ if( $this->permission instanceof Permission) {
 <li><a href="<?php echo $currenturl; ?>?route=<?php echo $route; ?>" <?php if( $route == $this->route ) echo ' class="selected"'; ?>><?php echo $txt;?></a></li>
 <?php endforeach; ?>
 <?php if( $this->permission instanceof Permission && $this->permission->verify('read', $this->pad->path )): ?>
-<li><a href="<?php echo ($this->path == '/' ? $this->baseurl . '/index.text' : $currenturl . '.text'); ?>" target="_blank">view source</a></li>
+<li><a href="<?php echo ($this->path == '/' ? $this->selfurl . '/index.text' : $currenturl . '.text'); ?>" target="_blank">view source</a></li>
 <?php endif; ?>
 </ul>

@@ -21,7 +21,7 @@ $author = $authors->$author_id;
 $item = $this->NEW->Grok();
 $item->server = $this->server;
 $item->request = $this->request;
-$item->baseurl = $this->baseurl;
+$item->baseurl = $this->selfurl;
 $item->pad = $pad;
 $item->author = $author;
 ?>

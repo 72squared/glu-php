@@ -22,7 +22,7 @@ if( $list->count > $list->per_page ){
     $list->total_pages = ceil( $list->count / $list->per_page );
 }
 
-$list->pagination_url = $this->baseurl . $this->path . '?route=' . $this->route . '&page=#PAGE#';
+$list->pagination_url = $this->selfurl . $this->path . '?route=' . $this->route . '&page=#PAGE#';
 $this->list = $list;
 
 // EOF

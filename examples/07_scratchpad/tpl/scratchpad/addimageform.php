@@ -1,7 +1,7 @@
 <?php 
 $this->pad->image = 1;
 ?>
-<form action="<?php echo $this->baseurl . $this->pad->path;?>" method="POST"  class="scratchpad-content" enctype="multipart/form-data">
+<form action="<?php echo $this->selfurl . $this->pad->path;?>" method="POST"  class="scratchpad-content" enctype="multipart/form-data">
 <fieldset>
 <input type="file" name="body" id="scratchpad_body">
 </fieldset>

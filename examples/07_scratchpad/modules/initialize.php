@@ -8,9 +8,6 @@ array(
     'baseurl_modrewrite',
     'load_session',
     'load_permission',
-    'route',
-    'print_headers',
-    'unset_data',
 );
 
 foreach( glob( $enabled_dir . '*.php') as $file ) {

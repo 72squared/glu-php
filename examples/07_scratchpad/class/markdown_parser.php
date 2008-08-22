@@ -242,8 +242,11 @@ class Markdown_Parser {
         
         # convert relative urls to be prepended with the base url.
         if( $this->relative_url_base) {
-            $text = preg_replace('#<a[\s]+href="([a-z0-9_\-\/\.]+)"#i', 
+            $text = preg_replace('#<a[\s]+href="([\w\d:\#@%/;$()~_?\+-=\\\.&]+)"#i', 
                                  '<a href="' . $this->relative_url_base . '${1}"', $text);
+                                 
+            $text = preg_replace('#<img[\s]+src="([\w\d:\#@%/;$()~_?\+-=\\\.&]+)"#i', 
+                                 '<img src="' . $this->relative_url_base . '${1}"', $text);
         }
         
         $this->teardown();

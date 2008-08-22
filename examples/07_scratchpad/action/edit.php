@@ -25,7 +25,7 @@ if( is_array( $this->request->body ) ){
     $this->pad->body = file_get_contents($imageinfo->tmp_name);
     $this->pad->image = $imageinfo->type;
 } else {
-    $this->pad->body = str_replace($this->baseurl, '', $this->NEW->Markdownify()->parseString($this->request->body));
+    $this->pad->body = str_replace($this->selfurl, '', $this->NEW->Markdownify()->parseString($this->request->body));
 }
 $this->pad->author = $session->user_id;
 $this->pad->store();

@@ -5,12 +5,25 @@ class App_Namespace extends Grok {
         parent::__construct( $data );
         $this->NEW = new Instantiator;
         $this->request = new Grok( $_REQUEST );
+        foreach( $_FILES as $k=>$v ) $this->request->$k = $v;
         $this->server = new Grok( $_SERVER );
-        $path = str_replace( $this->baseurl, '', $this->server->REQUEST_URI);
+        $this->selfurl = rtrim( substr( $this->server->SCRIPT_FILENAME, 
+                 strlen($this->server->DOCUMENT_ROOT)), ' /');
+        
+        $this->baseurl = rtrim( substr( dirname($this->server->SCRIPT_FILENAME) . '/', 
+                 strlen($this->server->DOCUMENT_ROOT)), ' /');
+        
+        $path = str_replace( $this->selfurl, '', $this->server->REQUEST_URI);
         if( ( $pos = strpos( $path, '?' ) ) !==FALSE) $path = substr( $path, 0, $pos );
         $this->path = $path;
-        foreach( $_FILES as $k=>$v ) $this->request->$k = $v;
+        
+        if( strpos($this->server->REQUEST_URI,  $this->selfurl) === FALSE ) $this->path = '/';
+        
+
+        
         $this->dir = new Dir;
+        
+        
         $this->route = (  $this->request->route ) ? $this->request->route :'display';
         if( substr($this->path,-5) != '.text' ) return;
         $this->path = substr($this->path, 0, -5);
@@ -63,6 +76,9 @@ class App_Namespace extends Grok {
                                 break;
             
             case 'baseurl' :    $v = preg_replace( '/[^a-z0-9\/\_\-\.]/i', '', strval( $v ) );
+                                break;
+                                
+            case 'selfurl' :    $v = preg_replace( '/[^a-z0-9\/\_\-\.]/i', '', strval( $v ) );
                                 break;
                                 
             case 'title' :      $v = preg_replace( '/[^a-z0-9_\-\. ]/i', '', strval( $v ) );

@@ -10,12 +10,12 @@ if( $this->pad ){
 <head>
 <title><?php echo  $this->title ?> :: GROK Scratchpad</title>
 <meta name="keywords" content="<?php echo $keywords; ?>" />
-<link rel="alternate" type="application/rss+xml" title="<?php echo $this->title; ?>" href="<?php echo $this->baseurl . $this->path;?>?route=xmlfeed" />
+<link rel="alternate" type="application/rss+xml" title="<?php echo $this->title; ?>" href="<?php echo $this->selfurl . $this->path;?>?route=xmlfeed" />
 <link rel="stylesheet" href="<?php echo $this->baseurl; ?>/static/main.css" type="text/css" />
 <link href="<?php echo $this->baseurl; ?>/favicon.ico" rel="icon" type="image/x-icon" />
 </head>
 <body>
-<form action="<?php echo $this->baseurl . '/'; ?>" method="POST" class="global-search" >
+<form action="<?php echo $this->selfurl . '/'; ?>" method="POST" class="global-search" >
 <input type="hidden" name="route" value="search"/>
 <fieldset>
 <input type="text" name="term" value="<?php echo $this->request->term; ?>"/>
@@ -23,7 +23,7 @@ if( $this->pad ){
 </fieldset>
 </form>
 <h1 class="global-header">
-<a href="<?php echo $this->baseurl .'/'; ?>">GROK Scratchpad</a> :: <?php echo $this->title; ?>
+<a href="<?php echo $this->selfurl .'/'; ?>">GROK Scratchpad</a> :: <?php echo $this->title; ?>
 </h1>
 
 <?php $this->dispatch($this->dir->TPL . 'scratchpad/nav'); ?>

@@ -15,18 +15,9 @@ $a->recent = 'read';
 $a->titlesearch = 'read';
 $a->addcomment = 'comment';
 
-$role = $user->role;
-if( ! $role ){
-    $role = ( $this->user->user_id ) ? 'user' : 'guest';
-}
-$overrides = NULL;
-
-if( $this->user->user_id == 1 ){
-    $overrides = array('/'=>array('read','write','comment', 'manage'));
-}
-
-$this->permission = $permission = $this->NEW->Permission( $role, $overrides );
 $action = $a->{$this->route };
 if( ! $action ) $action = 'read';
 $this->action = $action;
 $this->permission_map = $a;
+
+$this->permission = $permission = $this->NEW->Permission( $this->user );

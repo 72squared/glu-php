@@ -7,11 +7,12 @@ if( in_array( $ext, array('jpg', 'png', 'gif') ) ){
 
 $use_rte = ( $this->session && $this->session->use_rte ) ? TRUE : FALSE;
 $body = $this->pad->body;
+$body = $this->NEW->MarkdownCompletePath($this->selfurl)->add( $body );
 if( $use_rte ){
-    $body = $this->NEW->markdown_parser(array('relative_url_base'=>$this->baseurl))->transform($body); 
+    $body = $this->NEW->markdown_parser(array('relative_url_base'=>$this->selfurl))->transform($body); 
 }
 ?>
-<form action="<?php echo $this->baseurl . $this->pad->path;?>" method="POST"  class="scratchpad-content">
+<form action="<?php echo $this->selfurl . $this->pad->path;?>" method="POST"  class="scratchpad-content">
 <fieldset>
 <textarea name="body" id="scratchpad_body">
 <?php echo $body; ?>

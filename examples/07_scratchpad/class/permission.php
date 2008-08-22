@@ -8,6 +8,18 @@ class Permission extends Grok {
     private static $db;
     
     public function __construct( $role = NULL, $data = NULL){
+        if( $role instanceof User ){
+            $user = $role;
+            $role = $user->role;
+            if( ! $role ){
+                $role = ( $user->user_id ) ? 'user' : 'guest';
+            }
+            if( $user->user_id == 1 ){
+                $data = array('/'=>array('read','write','comment', 'manage'));
+            }
+        }
+    
+        
         $this->role = $this->normalizeRole( $role );
         if( is_array( $data ) ) {
             parent::__construct( $data );

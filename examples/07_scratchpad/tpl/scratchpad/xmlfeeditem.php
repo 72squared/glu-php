@@ -3,7 +3,7 @@ $pad = $this->pad;
 $author = $this->author;
 if( ! $pad instanceof Scratchpad ) return;
 if( ! $author instanceof User ) return;
-$baseurl = 'http://' . $this->server->SERVER_NAME . $this->baseurl;
+$baseurl = 'http://' . $this->server->SERVER_NAME . $this->selfurl;
 $body = $pad->body;
 if( ! $pad->entry_id ) $body = '#directory only';
 if( ! $pad->dir_id )  $body = '#Page does not exist yet';

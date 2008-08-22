@@ -4,7 +4,7 @@ if( ! $list instanceof Grok ) return;
 $lister = $list->iterator;
 $authors = $list->authors;
 if( ! $lister instanceof Scratchpad_Lister || ! $authors instanceof User_Lister) return;
-$parser = $this->NEW->markdown_parser(array('relative_url_base'=>$this->baseurl));
+$parser = $this->NEW->markdown_parser(array('relative_url_base'=>$this->selfurl));
 ?>
 
 

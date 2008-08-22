@@ -8,7 +8,7 @@ if( ! $lister instanceof User_Lister ) return;
 $matches = ( $list->matches instanceof Grok ) ? $list->matches : $this->NEW->Grok();
 
 $pagination = $this->instance();
-$pagination->url = $this->baseurl . '/?route=' . $this->route . '&page=#PAGE#';
+$pagination->url = $this->selfurl . '/?route=' . $this->route . '&page=#PAGE#';
 $pagination->current = $list->page;
 $pagination->max = $list->total_pages;
 $pagination->per = $list->per_page;
@@ -24,7 +24,7 @@ else:
 foreach($lister as $k=>$user ):
 ?>
 <dd>
-<a href="<?php echo $this->baseurl .'/?route=manageuser&id=' . $k; ?>" class="scratchpad-author"><?php echo $user->nickname; ?></a>
+<a href="<?php echo $this->selfurl .'/?route=manageuser&id=' . $k; ?>" class="scratchpad-author"><?php echo $user->nickname; ?></a>
 <?php if( $matches->$k ): ?>
 <span class="scratchpad-matches"><span class="label">matches: </span><em><?php echo intval($matches->$k); ?></em></span>
 <?php endif; ?>

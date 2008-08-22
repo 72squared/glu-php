@@ -13,12 +13,12 @@ $paths = array_keys( $paths );
 <?php if( count( $paths ) > 0 ): ?>
 <dt>Other Permission Paths</dt>
 <?php foreach($paths as $path ): ?>
-<dd><a href="<?php echo $this->baseurl . $path;?>?route=manage"><?php echo $this->pad->pathToName($path); ?></a></dd>
+<dd><a href="<?php echo $this->selfurl . $path;?>?route=manage"><?php echo $this->pad->pathToName($path); ?></a></dd>
 <?php endforeach; ?>
 </dl>
 <?php endif; ?>
 
-<form action="<?php echo $this->baseurl . $this->pad->path; ?>" method="POST" >
+<form action="<?php echo $this->selfurl . $this->pad->path; ?>" method="POST" >
 <input type="hidden" name="route" value="manage" />
 
 <?php foreach( $this->permission_lister as $role=>$p ): ?>
