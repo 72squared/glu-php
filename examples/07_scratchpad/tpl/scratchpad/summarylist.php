@@ -15,14 +15,14 @@ $body = $pad->body;
 if( ! $pad->entry_id ) $body = '#directory only';
 if( ! $pad->dir_id )  $body = '#Page does not exist yet';
 $pos = strlen( $body ) > 1000 ? strpos( $body, "\n", 1000) : FALSE;
-if( $pos ) $body = substr( $body, 0, $pos ) . ' ... [read more](' . $pad->path . '?route=display)';
+if( $pos ) $body = substr( $body, 0, $pos ) . ' ... ' . "\n" . ' > **[read more](' . $pad->path . '?route=display)**';
 $author_id = $pad->author;
 $author = $authors->$author_id;
 ?>
 <div class="scratchpad-summary">
 <?php echo $parser->transform($body); ?>
 <?php if( $pad->entry_id ): ?>
-<em><?php echo $author->nickname . ' last modified on ' . date('Y/m/d H:i:s', $pad->created); ?></em>
+<em class="author"><?php echo $author->nickname . ' last modified on ' . date('Y/m/d H:i:s', $pad->created); ?></em>
 <?php endif; ?>
 </div>
 <?php endforeach; ?>

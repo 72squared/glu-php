@@ -28,7 +28,7 @@ $author_id = $pad->author;
 $author = $authors->$author_id;
 ?>
 <dd>
-<span class="scratchpad-date"><?php echo date('Y-m-d H:i:s', $pad->created) ?></span>
+<span class="scratchpad-date"><?php echo date("M j, Y, g:i A", $pad->created) ?></span>
 <a href="<?php echo $this->baseurl .'/'. $pad->entry_id; ?>">[<?php echo $pad->title; ?>]</a>
 <span class="scratchpad-author">by <?php echo $author->nickname; ?></span>
 <?php if( $matches->$k ): ?>

@@ -253,12 +253,48 @@ ul.pagination li.last {
     color:#333;
 }
 
+
+.scratchpad-display {
+}
+
+.scratchpad-display img {
+    float:left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+}
+
+.scratchpad-summary img {
+    max-width:100px;
+    width: expression(this.width > 100 ? 100: true);
+    max-height:100px;
+    height: expression(this.height > 100 ? 100: true);
+    float:left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+}
+
 .scratchpad-comments {
     padding:50px;
     width: 50%;
     font-size: 90%;
+    clear:both;
+
 
 }
+
+.scratchpad-comments .comment {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+}
+
+.scratchpad-comments .comment .author {
+    display: block;
+    text-align:right;
+}
+
 .scratchpad-breadcrumbs {
     font-size: x-small;
     margin-left:5px;

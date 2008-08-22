@@ -19,7 +19,7 @@ if( $use_rte ){
 <input type="hidden" name="entry_id" value="<?php echo $this->pad->entry_id; ?>" />
 </form>
 <?php if( ! $use_rte ): ?>
-<div class="wmd-preview"></div>
+<div class="wmd-preview scratchpad-display"></div>
 <script type="text/javascript" src="<?php echo $this->baseurl; ?>/wmd_options.js"></script>
 <script type="text/javascript"  src="http://box1.wmd-editor.com/1/wmd.js"></script>
 
