@@ -66,7 +66,7 @@ class Grok_Container implements Iterator {
     * @see http://www.php.net/manual/en/language.oop5.iterations.php
     **/
     public function valid() {
-        return ($this->current() !== false);
+        return ($this->key() !== NULL);
     }
     
    /**

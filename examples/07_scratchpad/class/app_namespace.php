@@ -30,6 +30,50 @@ class App_Namespace extends Grok {
         if( $this->path == '/index' ) $this->path = '/';
         $this->route = 'text';
     }
+    
+    public function run(){
+        ob_start();
+        try {
+            $sep = DIRECTORY_SEPARATOR;
+            $pattern = $this->dir->ROOT . 'modules' . $sep . 'enabled' .$sep . '*.php';
+            $files = glob($pattern);
+            if( ! is_array( $files ) ) throw $this->NEW->Exception('invalid-config');
+            foreach( $files as $file ) {
+               if( $this->dispatch( $file ) === FALSE ) break;
+            }
+            ob_start();
+        
+            $this->dispatch( $this->dir->ROOT . 'route/initialize');
+            
+            try {
+                $this->dispatch( $this->dir->ROOT . 'route/enabled/' . $this->route );
+            } catch( Exception $e ){
+                $this->exception = $e;
+                $this->debug = ob_get_clean();
+                ob_start();
+                $this->dispatch($this->dir->ROOT . 'route/available/error');
+            }
+            
+            if( $this->headers ){
+                foreach( $this->headers as $k=>$v ) {
+                    if( is_numeric( $k ) ) {
+                        header($v);
+                    } else {
+                        header($k . ': ' . $v);
+                    }
+                }
+                unset( $this->headers );
+            }
+            
+            foreach( $this->keys() as $k ) unset( $this->$k );
+            
+            ob_end_flush();
+            
+        } catch( Exception $e ){
+            print $e;
+        }
+        ob_end_flush();
+    }
 
     protected function __set( $k, $v ){
         switch( $k ){
