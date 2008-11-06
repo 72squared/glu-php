@@ -9,7 +9,7 @@ class MarkdownCompletePath {
     
     public function add($text){
         //return $text;
-        $text = preg_replace('#(\[[\w\s]+\]:[\s])([\w\d:\#@%/;$()~_?\+-=\\\.&]+)#', 
+        $text = preg_replace('#(\[[\w\s]+\]:[\s])(/[\w\d:\#@%/;$()~_?\+-=\\\.&]+)#', 
                                  "$1" . $this->path . "$2", $text);
                                  
         $text = preg_replace('#(\[[\w\s]+\]?[\s]\()([\w\d:\#@%/;$()~_?\+-=\\\.&]+)(([\s]\"[\w]+\")?\))#', 
