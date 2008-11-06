@@ -4,8 +4,20 @@ class App_Namespace extends Grok {
     public function __construct( $data = NULL ){
         parent::__construct( $data );
         $this->NEW = new Instantiator;
+        if( get_magic_quotes_gpc() ){
+            foreach( $_REQUEST as $k=>$v){
+                if( is_scalar( $v ) ) $_REQUEST[ $k ] = stripslashes($v);
+            }
+            foreach( $_FILES as $k=>$v){
+                if( is_scalar( $v ) ) $_FILES[ $k ] = stripslashes($v);
+            }
+            foreach( $_SERVER as $k=>$v){
+                if( is_scalar( $v ) ) $_FILES[ $k ] = stripslashes($v);
+            }
+        }
         $this->request = new Grok( $_REQUEST );
         foreach( $_FILES as $k=>$v ) $this->request->$k = $v;
+        
         $this->server = new Grok( $_SERVER );
         $this->selfurl = rtrim( substr( $this->server->SCRIPT_FILENAME, 
                  strlen($this->server->DOCUMENT_ROOT)), ' /');
