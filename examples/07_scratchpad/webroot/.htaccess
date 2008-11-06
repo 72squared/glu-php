@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI}      !=/server-status
+RewriteCond %{REQUEST_URI}      !=/server-info
+RewriteCond %{REQUEST_METHOD}   !^OPTIONS$
+RewriteRule ^(.*)$ index.php/$1 [L]
