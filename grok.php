@@ -162,28 +162,28 @@ class Grok_Container implements Iterator {
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __set( $k, $v ){
+    public function __set( $k, $v ){
         return $this->__data[ $k ] = $v;
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __get( $k ){
+    public function __get( $k ){
         return isset( $this->__data[ $k ] ) ? $this->__data[ $k ] : NULL;
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __unset( $k ){
+    public function __unset( $k ){
         unset( $this->__data[ $k ] );
     }
     
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __isset( $k ){
+    public function __isset( $k ){
         return isset( $this->__data[ $k ] ) ? TRUE : FALSE;
     }
     
