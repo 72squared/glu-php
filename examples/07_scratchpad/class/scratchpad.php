@@ -1,6 +1,6 @@
 <?php
 
-class Scratchpad extends Grok {
+class Scratchpad extends GLU {
 
 
     protected static $db;
@@ -42,7 +42,7 @@ class Scratchpad extends Grok {
         $this->loadEntry();
     }
     
-    protected function __set( $k, $v ){
+    public function __set( $k, $v ){
         switch( $k ){
             case 'dir_id':          $v = intval($v);
                                     if( $v < 1 ) return NULL;
@@ -84,7 +84,7 @@ class Scratchpad extends Grok {
         return parent::__set($k, $v);
     }
     
-    protected function __get( $k ){
+    public function __get( $k ){
         return ( $k == 'title' ) ? self::pathToName( $this->path ) : parent::__get($k);
     }
     
@@ -148,7 +148,6 @@ class Scratchpad extends Grok {
         $clauses = array($this->path, $this->path . 'z');
         foreach( $words as $word ) $clauses[] = '%' . $word . '%';
         $sql = "SELECT entry_id, path FROM directory WHERE path >= ? AND path <= ? AND " . implode(' AND ', array_fill(0, count($words), 'path LIKE ?'));
-        var_dump( $sql );
         $db = $this->db();
         $st = $db->prepare($sql);
         $st->execute( $clauses );

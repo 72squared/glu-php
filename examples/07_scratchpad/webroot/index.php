@@ -1,1 +1,0 @@
-../bin/index.php

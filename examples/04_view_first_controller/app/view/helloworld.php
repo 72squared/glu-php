@@ -5,19 +5,16 @@ $data = $this->instance($this->request)->dispatch(dir::model . 'helloworld.php')
 // we know what we want the title to be.
 $title = 'Hello, World!';
 
-// render the header and pass our page title to the header layout
-$this->instance(array('title'=>$title))->dispatch(dir::layout . 'header.php');
+// assemble the content
+$content = array();
+if( ! $data->name_posted ) $content[dir::layout . 'hello_form.php'] = array('action'=>'helloworld', 'method'=>'post');
 
-
-// render our main content of the page, 
-// giving it a header and the greeting that came from our action.
-$this->instance( array('header'=>$title, 'body'=>$data->greeting))->dispatch(dir::layout . 'message.php');
-
-// render the form only if the model says we didn't get a name
-if( ! $data->name_posted )
-$this->instance( array('action'=>'helloworld', 'method'=>'post') )->dispatch(dir::layout . 'hello_form.php');
-
-// render the page footer.
-$this->instance(array('start'=>$this->start))->dispatch(dir::layout . 'footer.php'); 
+// render the page
+$this->instance( 
+    array(  'title'=>$title,
+            'message'=>array('header'=>$title, 'body'=>$data->greeting),
+            'content'=>$content,
+            'start'=>$this->start,
+        ) )->dispatch(dir::layout . 'site.php'); 
 
 // EOF

@@ -4,7 +4,7 @@
 // discard it all and start over.
 ob_start();
 
-// package up the request as a grok.
+// package up the request as a glu.
 $this->request = $this->instance($this->request);
 
 // now i want to gather all the request variables, and while i am at it, sanitize it all
@@ -20,7 +20,7 @@ $this->request->dispatch(dir::lib . 'sanitize.php');
 // Fatal Error in the script. 
 try {
     // render the page
-    $this->dispatch(dir::view . $this->view .'.php');
+    $this->dispatch(dir::view . $this->view .'.php', $verify = TRUE);
 
 // catch any exceptions
 } catch( Exception $e ){

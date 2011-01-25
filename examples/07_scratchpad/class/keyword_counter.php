@@ -1,8 +1,8 @@
 <?
-class Keyword_Counter extends Grok {
+class Keyword_Counter extends GLU {
 
     public function __construct( $data  = NULL, $options = NULL ){
-        $options = new Grok( $options );
+        $options = new GLU( $options );
         if( $data instanceof iterator ) {
             $str = '';
             foreach($data as $v ) $str .= ' ' . $v;

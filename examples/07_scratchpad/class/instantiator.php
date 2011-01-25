@@ -4,7 +4,7 @@ class Instantiator {
    /**
     * @see http://www.php.net/oop5.magic
     */
-    protected function __call( $class, $args ){
+    public function __call( $class, $args ){
         if( ! class_exists( $class ) ) throw new Exception('invalid-class');
         switch( count($args)){
             case 0  : return new $class();

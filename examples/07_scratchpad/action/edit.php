@@ -1,13 +1,13 @@
 <?php
 $this->dispatch( $this->dir->ACTION . 'load');
-$session = ( $this->session ) ? $this->session :  $this->NEW->Grok();
+$session = ( $this->session ) ? $this->session :  $this->NEW->GLU();
 $nonce =  $this->NEW->Nonce( $session->session_id .  $this->pad->entry_id );
 $this->nonce = $nonce->create();
 if( ! isset($this->request->body) ) return;
 if( ! $nonce->validate( $this->request->nonce ) ) throw $this->NEW->Exception('invalid-nonce');
 
 if( is_array( $this->request->body ) ){
-    $imageinfo = $this->NEW->Grok($this->request->body );
+    $imageinfo = $this->NEW->GLU($this->request->body );
     if( $imageinfo->error ) throw $this->NEW->Exception('upload-err: ' . $imageinfo->error);
     if( ! $imageinfo->size ) throw $this->NEW->Exception('no-file-uploaded');
     if( $imageinfo->size > 500000 ) throw $this->NEW->Exception('file-too-large');

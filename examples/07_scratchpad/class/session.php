@@ -1,6 +1,6 @@
 <?php
 
-class Session extends Grok {
+class Session extends GLU {
     
     private static $db;
     
@@ -35,7 +35,7 @@ class Session extends Grok {
     
     /*** PROTECTED FUNCTIONS BELOW ***/
     
-    protected function __set( $k, $v ){
+    public function __set( $k, $v ){
         switch( $k ){
             case 'session_id':         $v = intval($v);
                                     if( $v < 1 ) return NULL;

@@ -5,7 +5,7 @@
 $data = $this->instance();
 
 // assign a title
-$data->title = 'Welcome to Grok';
+$data->title = 'Welcome to GLU';
 
 // assign the message
 $data->message = 'This illustrates the basics';

@@ -17,7 +17,7 @@ try {
     $file = $cwd . '/action/' .  preg_replace("/[^a-z0-9]/", "", strtolower($this->line)) . '.php';
     
     // run the file.
-    if( $this->dispatch( $file  ) === FALSE ) return FALSE;
+    if( $this->dispatch( $file, $strict = TRUE ) === FALSE ) return FALSE;
     
 // oops! looks like we hit a problem.
 } catch( Exception $e ){

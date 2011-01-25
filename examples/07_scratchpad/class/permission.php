@@ -1,5 +1,5 @@
 <?
-class Permission extends Grok {
+class Permission extends GLU {
 
     protected $role = '';
     
@@ -127,7 +127,7 @@ class Permission extends Grok {
         return FALSE;
     }
     
-    protected function __set( $k, $v ){
+    public function __set( $k, $v ){
         $k = $this->normalizePath( $k );
         if( ! $k ) return;
         $actions = array();

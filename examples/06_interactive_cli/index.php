@@ -10,10 +10,10 @@ if( ! is_resource( STDIN ) ){
     die('<h1>Please run this from CLI.</h1><h2>Does not work in browser.</h2>');
 }
 
-// include grok
-include $cwd . 'grok.php';
+// include glu
+include $cwd . 'glu.php';
 
 // kick it off, reading from STDIN
-Grok::instance(array('STDIN'=>STDIN) )->dispatch($cwd . 'app/main.php');
+GLU::instance(array('STDIN'=>STDIN) )->dispatch($cwd . 'app/main.php');
 
 // EOF

@@ -1,38 +1,38 @@
-GROK
+GLU
 
 NAME
-    Grok - a lightweight application framework for PHP
+    GLU - a lightweight application framework for PHP
 
 SYNOPSIS
     Most applications can be summarized as some variation on: 
         
         INPUT -> PROCESS -> OUTPUT
         
-    Grok allows us to package up our arguments and pass them to a php include file and 
-    retrieve the output. Some sample code might more easily to explain.
+    GLU allows us to package up our arguments and pass them to a php include file and 
+    retrieve the output. Some sample code might more easily explain.
         
-        $input = new Grok;
+        $input = new GLU;
         $input->arg1 = 'test';
-        $output = $input->dispatch('/path/to/file.php');
+        $output = $input->dispatch('/path/to/file');
     
 DESCRIPTION
-    Grok at its most simple is a just a way to pass arguments in a reliable way to a php include.
+    GLU at its most simple is a just a way to pass arguments in a reliable way to a php include.
     The class is able to both act as a container and as a dispatcher. In this way, we can reduce
     an entire application down to this formula:
         INPUT -> PROCESS -> OUTPUT
-    Because one grok can call another grok, you can simplify complex tree of decisions into a well
+    Because one GLU can call another GLU, you can simplify complex tree of decisions into a well
     organized and reusable library of processing instructions.
     here is a simple example:
         
-        $output = Grok::instance()->dispatch('/path/to/file.php');
+        $output = GLU::instance()->dispatch('/path/to/file');
         
     This command would find a file and include it.
     Each include becomes the body of an anonymous function. 
     
-    Because grok is a container, i can assign stuff to a grok. These become arguments to the include. 
+    Because GLU is a container, i can assign stuff to a GLU. These become arguments to the include. 
     When I dispatch it, I can access the assigned variables using syntax like: $this->myvar.
         
-         Grok::instance(array('greeting'=>'hi'))->dispatch('test.php');
+         GLU::instance(array('greeting'=>'hi'))->dispatch('test');
          
     inside the test.php file, i can access the greeting variable by doing:
         
@@ -42,12 +42,12 @@ DESCRIPTION
     just like a function.
 
 DEPENDENCIES
-    Grok was built for php5 or greater. To use Grok, just include the single grok.php file at the
+    GLU was built for php5 or greater. To use GLU, just include the single glue.php file at the
     root of this directory. The file can be copied to any location and used as is. It needs no 
     customization. You don't need any other files. All the rest of the files in this project are 
-    either tests or examples. The entirety of grok is contained in one very tiny php file.
+    either tests or examples. The entirety of GLU is contained in one very tiny php file.
     
 AUTHOR
     John Loehrer <john@72squared.com>
     Send bug reports or comments to the above address.
-    For more information, see the Grok homepage at http://github.com/72squared/grok-php/wikis
+    

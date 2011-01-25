@@ -1,11 +1,11 @@
 <html>
 <head>
-<title><?php echo  $this->title ? $this->title : 'Welcome'; ?> :: Grok App</title>
+<title><?php echo  $this->title ? $this->title : 'Welcome'; ?> :: GLU App</title>
 <link rel="stylesheet" href="<?php echo $this->instance(array('route'=>'style'))->dispatch( dir::util . 'selfurl.php'); ?>" type="text/css" />
 </head>
 <body>
 <div id="header">
- <h1>GROK Front-End Controller MVC DEMO</h1>
+ <h1>GLU Front-End Controller MVC DEMO</h1>
  <div id="nav">
   <ul>
    <li><a href="<?php echo $this->instance(array('route'=>'index'))->dispatch( dir::util . 'selfurl.php'); ?>">Home</a></li>

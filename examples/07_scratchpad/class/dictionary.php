@@ -1,5 +1,5 @@
 <?
-class Dictionary extends Grok {
+class Dictionary extends GLU {
     protected static $db;
 
     
@@ -13,7 +13,7 @@ class Dictionary extends Grok {
         parent::__set($word, $id );
     }
     
-    protected function __set( $word, $id ){
+    public function __set( $word, $id ){
       
     }
     

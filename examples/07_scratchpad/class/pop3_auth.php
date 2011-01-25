@@ -1,5 +1,5 @@
 <?
-class Pop3_Auth extends Grok {
+class Pop3_Auth extends GLU {
     protected $debug = array();
     
     public function __construct( $host, $secure = FALSE ){

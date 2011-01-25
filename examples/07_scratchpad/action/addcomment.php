@@ -1,8 +1,7 @@
 <?php
 $this->dispatch( $this->dir->ACTION . 'load');
-$pad = $this->pad;
-$this->comment = $this->NEW->Scratchpad( array('dir_id'=>$pad->dir_id, 'path'=>$pad->path, 'entry_type'=>1) );
-$session = ( $this->session ) ? $this->session :  $this->NEW->Grok();
+$this->comment = $this->NEW->Scratchpad( array('dir_id'=>$this->pad->dir_id, 'path'=>$this->pad->path, 'entry_type'=>1) );
+$session = ( $this->session ) ? $this->session :  $this->NEW->GLU();
 $nonce =  $this->NEW->Nonce( $session->session_id .  $this->comment->dir_id );
 $this->nonce = $nonce->create();
 if( ! isset($this->request->body) ) return;

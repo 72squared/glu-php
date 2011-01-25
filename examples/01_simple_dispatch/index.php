@@ -4,11 +4,11 @@
 // find the current working dir.
 $cwd = dirname(__FILE__);
 
-// include the grok class
-include $cwd . DIRECTORY_SEPARATOR . 'grok.php';
+// include the glu class
+include $cwd . DIRECTORY_SEPARATOR . 'glu.php';
 
 // run main.
-Grok::instance()->dispatch( $cwd . '/lib/main.php');
+GLU::instance()->dispatch( $cwd . '/lib/main.php');
 
 // all done. 
 

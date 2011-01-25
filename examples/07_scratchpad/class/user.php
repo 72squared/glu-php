@@ -1,6 +1,6 @@
 <?php
 
-class User extends Grok {
+class User extends GLU {
     
     protected static $db;
     
@@ -43,7 +43,7 @@ class User extends Grok {
     
     /*** PROTECTED FUNCTIONS BELOW ***/
     
-    protected function __set( $k, $v ){
+    public function __set( $k, $v ){
         $v = trim(substr(strval($v), 0, 500));
         switch( $k ){
             case 'user_id':         if( ! $this->isUserId( $v ) ) return NULL;

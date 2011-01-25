@@ -3,5 +3,5 @@ CREATE TABLE directory (dir_id INTEGER PRIMARY KEY, parent INTEGER, path TEXT(50
 CREATE INDEX directory_entry_id ON directory(entry_id);
 CREATE INDEX directory_parent ON directory(parent);
 CREATE INDEX entry_dir_type ON entry(dir_id, entry_type);
-CREATE TABLE keywords (word_checksum INTEGER PRIMARY KEY,word TEXT(30));
-CREATE TABLE entry_keywords (entry_id INTEGER, word_checksum INTEGER, counter INTEGER, PRIMARY KEY( entry_id, word_checksum ));
+CREATE TABLE keywords (word_checksum BIGINT PRIMARY KEY,word TEXT(30));
+CREATE TABLE entry_keywords (entry_id INTEGER, word_checksum BIGINT, counter INTEGER, PRIMARY KEY( entry_id, word_checksum ));

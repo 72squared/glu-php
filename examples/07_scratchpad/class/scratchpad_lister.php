@@ -1,8 +1,8 @@
 <?php
 
-class Scratchpad_Lister extends Grok {
+class Scratchpad_Lister extends GLU {
     
-    protected function __set( $k, $v ){
+    public function __set( $k, $v ){
         if( ! $v instanceof Scratchpad ) return NULL;
         return parent::__set($k, $v);
     }

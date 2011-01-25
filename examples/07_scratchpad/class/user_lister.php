@@ -1,13 +1,13 @@
 <?php
 
-class User_Lister extends Grok {
+class User_Lister extends GLU {
     
-    protected function __set( $k, $v ){
+    public function __set( $k, $v ){
         if( ! $v instanceof User ) return NULL;
         return parent::__set($k, $v);
     }
     
-    protected function __get($k ){
+    public function __get($k ){
         $v = parent::__get( $k );
         if( $v instanceof User ) return $v;
         return $this->anonymous();

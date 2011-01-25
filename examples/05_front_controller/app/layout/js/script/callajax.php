@@ -1,7 +1,7 @@
 
-YAHOO.namespace('grok.app.callajax');
+YAHOO.namespace('glu.app.callajax');
 
-YAHOO.grok.app.callajax = function(settings){
+YAHOO.glu.app.callajax = function(settings){
 
 }
 

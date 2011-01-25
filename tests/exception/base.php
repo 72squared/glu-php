@@ -1,51 +1,14 @@
 <?php
-// include grok.
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'grok.php';
+$DIR = realpath( dirname(__FILE__) . '/../../' ). DIRECTORY_SEPARATOR;
+include_once $DIR . 'glu.php';
+include_once $DIR . 'tests/' . DIRECTORY_SEPARATOR . 'taptest.php';
 
-/**
-* Base class for testing the exception method of Grok.
-*/
-class Grok_Exception_Test extends Snap_UnitTestCase {
-   
-   /**
-    * the argument we pass to Grok::exception( $message );
-    * @type mixed
-    */
-    protected $message = NULL;
-    
-   /**
-    * the argument we pass to Grok::exception( $message, $code );
-    * @type mixed
-    */
-    protected $code = NULL;
-    
-   /**
-    * the return value of the export method.
-    * @type mixed
-    */
-    protected $result;
-    
-   /**
-    * The base setup method.
-    * Here, we instantiate a grok, then export before and after dispatch.
-    *
-    */
-    public function setup() {
-        $this->grok = Grok::instance();
-         if( $this->message === NULL ){
-            $this->result = Grok::instance()->exception();
-        } elseif( $this->code === NULL ){
-            $this->result = Grok::instance()->exception( $this->message );
-        } else {
-            $this->result = Grok::instance()->exception( $this->message, $this->code );
-        }
-    }
-    
-    public function teardown() {
-        unset( $this->message );
-        unset( $this->code );
-        unset( $this->result );
-    }
+$glu = $message = $code = $result = NULL;
+$glu = GLU::instance();
+ if( $message === NULL ){
+    $result = GLU::instance()->exception();
+} elseif( $code === NULL ){
+    $result = GLU::instance()->exception( $message );
+} else {
+    $result = GLU::instance()->exception( $message, $code );
 }
-
-// EOF

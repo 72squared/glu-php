@@ -2,7 +2,7 @@
 //find the current dir
 $cwd = dirname(__FILE__);
 
-// instantiate the grok
+// instantiate the glu
 $tpl = $this->instance();
 
 // set the page title

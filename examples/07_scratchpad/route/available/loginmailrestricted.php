@@ -7,6 +7,8 @@ if( $this->request->email && strpos($this->request->email, '@') === FALSE ) {
 }
 $this->dispatch($this->dir->ACTION . 'loginmail');
 if( $this->user->user_id ) return $this->dispatch( $this->dir->ROUTE . 'display');
-$this->dispatch( $this->dir->VIEW . 'loginmailrestricted');
-
+$this->title = 'Sign In via gmail';
+$this->dispatch($this->dir->VIEW . 'site/header'); 
+$this->dispatch($this->dir->VIEW . 'auth/loginmailrestrictedform');
+$this->dispatch($this->dir->VIEW . 'site/footer');
 // EOF

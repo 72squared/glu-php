@@ -1,6 +1,6 @@
 <?php
 
-class Link_Extractor extends Grok {
+class Link_Extractor extends GLU {
     
     
     

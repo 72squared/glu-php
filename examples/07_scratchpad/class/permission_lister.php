@@ -1,6 +1,6 @@
 <?php
 
-class Permission_Lister extends Grok {
+class Permission_Lister extends GLU {
     
     public function __construct(){
         Permission::__list($this);
