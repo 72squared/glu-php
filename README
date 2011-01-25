@@ -42,7 +42,7 @@ DESCRIPTION
     just like a function.
 
 DEPENDENCIES
-    GLU was built for php5 or greater. To use GLU, just include the single glue.php file at the
+    GLU was built for php5 or greater. To use GLU, just include the single glu.php file at the
     root of this directory. The file can be copied to any location and used as is. It needs no 
     customization. You don't need any other files. All the rest of the files in this project are 
     either tests or examples. The entirety of GLU is contained in one very tiny php file.
